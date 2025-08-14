@@ -1,0 +1,9 @@
+Sprint 1 (Backend)
+- Autenticação JWT com cookies HTTPOnly + CSRF (feito)
+- Modelo USUARIOS (feito)
+- Registro/Login/Logout (feito)
+- Healthcheck (feito)
+- Conexão MySQL com SQLAlchemy (feito)
+- docker-compose com MySQL (feito)
+- Próximos: Alembic, testes pytest, modelos: CONTAS_BANCARIAS, CARTOES_CREDITO, CATEGORIAS, TRANSACOES, GASTOS_FIXOS
+

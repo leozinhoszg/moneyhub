@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@reference "tailwindcss";
+
+@theme {
+  --color-primary: #003366;
+  --color-primary-light: #006699;
+  --color-primary-dark: #001a33;
+  --color-secondary: #00cc66;
+  --color-secondary-light: #66ff99;
+  --color-secondary-dark: #00994d;
+  --color-danger: #cc3300;
+  --color-warning: #ffcc00;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Variáveis de fonte via next/font */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-gray-50 text-gray-800 antialiased;
+  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Container padrão */
+.container-page {
+  @apply max-w-6xl mx-auto px-6 py-6;
+}
+
+/* Títulos */
+.title-1 {
+  @apply text-3xl font-bold;
+  color: var(--color-primary);
+  font-family: var(--font-heading), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.title-2 {
+  @apply text-2xl font-semibold;
+  color: var(--color-primary-dark);
+  font-family: var(--font-heading), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.title-3 {
+  @apply text-xl font-semibold;
+  color: var(--color-primary);
+  font-family: var(--font-heading), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Card */
+.card {
+  @apply bg-white rounded-xl border border-gray-200;
+  box-shadow: var(--shadow-card);
+}
+.card-body {
+  @apply p-6;
+}
+
+/* Inputs */
+.input {
+  @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2;
+}
+.input:focus {
+  outline-color: color-mix(in oklab, var(--color-primary) 30%, transparent);
+  border-color: var(--color-primary);
+}
+.select {
+  @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2;
+}
+.checkbox {
+  @apply h-4 w-4 rounded;
+}
+
+/* Botões */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed text-white;
+  background: var(--color-secondary);
+}
+.btn-primary:hover {
+  background: var(--color-secondary-dark);
+}
+.btn-primary:focus {
+  outline-color: color-mix(in oklab, var(--color-secondary) 30%, transparent);
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed text-white;
+  background: var(--color-primary);
+}
+.btn-secondary:hover {
+  background: var(--color-primary-light);
+}
+.btn-secondary:focus {
+  outline-color: color-mix(in oklab, var(--color-primary) 30%, transparent);
+}
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed text-white hover:opacity-90;
+  background: var(--color-danger);
+}
+
+/* Helpers */
+.muted {
+  @apply text-gray-700/80;
+}
