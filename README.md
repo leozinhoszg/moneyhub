@@ -24,7 +24,7 @@ O **MoneyHub** é uma aplicação completa de controle de finanças pessoais des
 - 🏷️ **Categorização** - Organização por categorias
 - 💸 **Despesas Fixas** - Controle de gastos recorrentes
 - 🔄 **Transações** - Registro de receitas e despesas
-- 📱 **Interface Responsiva** - Funciona em desktop e mobile
+- 📱 **Interface Responsiva** - Funciona em desktop (mobile em breve).
 
 ## 🏗️ Arquitetura
 
@@ -332,15 +332,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👥 Autores
 
 - **Leonardo Guimarães** - [leozinhoszg](https://github.com/leozinhoszg)
-
-## 🙏 Agradecimentos
-
-- Google OAuth para autenticação
-- FastAPI para o backend robusto
-- Next.js para o frontend moderno
-- Tailwind CSS para o design
-
----
 
 <div align="center">
   <p>Feito com ❤️ para ajudar no controle financeiro pessoal</p>
