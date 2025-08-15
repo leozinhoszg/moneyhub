@@ -1,4 +1,4 @@
-# 🔐 Configuração do Google OAuth - MoneyHub
+git # 🔐 Configuração do Google OAuth - MoneyHub
 
 ## ✅ Status: Configurado e Funcionando
 

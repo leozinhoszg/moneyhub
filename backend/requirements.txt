@@ -1,46 +1,39 @@
-# ⚠️ IMPORTANTE: Este arquivo foi otimizado para evitar problemas de instalação
-# 
-# Correções aplicadas para evitar erros relacionados ao Rust:
-# ✅ Removido uvicorn[standard] - usando apenas uvicorn básico
-# ✅ Downgrade do pydantic para 1.10.13 (versão estável sem Rust)
-# ✅ Removido pydantic-settings (não essencial)
-# ✅ Removido orjson (biblioteca que precisa de Rust)
-# ✅ Removido httpx duplicado
-# ✅ Ajustadas versões para compatibilidade total
-# 
 # FastAPI e dependências principais
-fastapi==0.95.2
-uvicorn==0.22.0
+fastapi==0.104.1
+uvicorn==0.24.0
 python-multipart==0.0.6
 
 # Banco de dados
-sqlalchemy==1.4.49
-alembic==1.11.1
-pymysql==1.0.3
-cryptography==39.0.2
+sqlalchemy==2.0.23
+alembic==1.12.1
+pymysql==1.1.0
+cryptography==41.0.7
 
 # Autenticação e segurança
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 authlib==1.2.1
-httpx==0.24.1
+httpx==0.25.2
 
 # Validação de dados (versão estável sem Rust)
 pydantic==1.10.13
 
 # Utilitários
 python-dotenv==1.0.0
-email-validator==2.0.0
+email-validator==2.1.0
 
 # CORS e middleware
-starlette==0.26.1
+starlette==0.27.0
 
 # Desenvolvimento e testes
-pytest==7.3.1
+pytest==7.4.3
 pytest-asyncio==0.21.1
 
 # Logging e monitoramento
-loguru==0.7.0
+loguru==0.7.2
 
 # Data e hora
 python-dateutil==2.8.2
+
+# Serialização
+orjson==3.9.10

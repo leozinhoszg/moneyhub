@@ -371,6 +371,7 @@ pip install uvicorn==0.24.0
 - Usar versões pré-compiladas quando disponíveis
 
 #### 7. **Teste de Compatibilidade**
+
 Para verificar se as dependências são compatíveis:
 
 ```bash
@@ -379,6 +380,7 @@ python test_requirements.py
 ```
 
 Este script testa:
+
 - ✅ Instalação de todas as dependências
 - ✅ Imports de todos os módulos
 - ✅ Compatibilidade entre versões
