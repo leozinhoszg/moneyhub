@@ -1,7 +1,8 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
-import { login, loginWithGoogle } from "@/app/api/auth";
+import React, { FormEvent, useState, useEffect } from "react";
+import { login, loginWithGoogle, checkAuthStatus } from "@/app/api/auth";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,16 +10,53 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  // Verificar se já está logado
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const status = await checkAuthStatus();
+        if (status.authenticated) {
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        // Usuário não está logado, continuar na página
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // Validações básicas
+    if (!email.trim()) {
+      setError("E-mail é obrigatório");
+      setLoading(false);
+      return;
+    }
+
+    if (!senha.trim()) {
+      setError("Senha é obrigatória");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await login({ email, senha });
-      window.location.href = "/dashboard";
+      const response = await login({
+        email: email.trim().toLowerCase(),
+        senha,
+      });
+
+      // Login bem-sucedido
+      console.log("Login realizado com sucesso:", response.user);
+      router.push("/dashboard");
     } catch (e: any) {
-      setError(e?.message ?? "Falha no login");
+      setError(e?.message ?? "Falha no login. Verifique suas credenciais.");
     } finally {
       setLoading(false);
     }
@@ -29,12 +67,15 @@ export default function LoginPage() {
     setError(null);
     try {
       await loginWithGoogle();
-      window.location.href = "/dashboard";
+      // O redirecionamento será feito automaticamente
     } catch (e: any) {
       setError(e?.message ?? "Falha no login com Google");
-    } finally {
       setGoogleLoading(false);
     }
+  };
+
+  const handleForgotPassword = () => {
+    router.push("/auth/forgot-password");
   };
 
   return (
@@ -113,6 +154,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-slate-50 focus:bg-white"
+                disabled={loading || googleLoading}
               />
             </div>
 
@@ -123,15 +165,60 @@ export default function LoginPage() {
               >
                 Senha
               </label>
-              <input
-                id="senha"
-                type="password"
-                placeholder="••••••••"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-slate-50 focus:bg-white"
-              />
+              <div className="relative">
+                <input
+                  id="senha"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 pr-12 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-slate-50 focus:bg-white"
+                  disabled={loading || googleLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  disabled={loading || googleLoading}
+                >
+                  {showPassword ? (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
 
             {error && (
@@ -151,12 +238,12 @@ export default function LoginPage() {
 
           {/* Links */}
           <div className="mt-6 text-center space-y-2">
-            <a
-              href="/auth/forgot-password"
+            <button
+              onClick={handleForgotPassword}
               className="text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
             >
               Esqueceu sua senha?
-            </a>
+            </button>
             <p className="text-sm text-slate-600">
               Não tem uma conta?{" "}
               <a
