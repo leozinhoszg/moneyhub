@@ -370,6 +370,19 @@ pip install uvicorn==0.24.0
 - Usar Docker para isolar o ambiente
 - Usar versões pré-compiladas quando disponíveis
 
+#### 7. **Teste de Compatibilidade**
+Para verificar se as dependências são compatíveis:
+
+```bash
+cd backend
+python test_requirements.py
+```
+
+Este script testa:
+- ✅ Instalação de todas as dependências
+- ✅ Imports de todos os módulos
+- ✅ Compatibilidade entre versões
+
 ## 📝 Contribuindo
 
 1. Faça um fork do projeto
