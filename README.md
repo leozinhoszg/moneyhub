@@ -250,15 +250,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 - **Leonardo Guimarães** - [leozinhoszg](https://github.com/leozinhoszg)
 
-## 🙏 Agradecimentos
-
-- Google OAuth para autenticação
-- FastAPI para o backend robusto
-- Next.js para o frontend moderno
-- Tailwind CSS para o design
-
----
-
 <div align="center">
   <p>Feito com ❤️ para ajudar no controle financeiro pessoal</p>
   <p>⭐ Se este projeto te ajudou, considere dar uma estrela!</p>
