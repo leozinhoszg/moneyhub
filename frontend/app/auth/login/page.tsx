@@ -1,7 +1,12 @@
 "use client";
 
 import React, { FormEvent, useState, useEffect } from "react";
-import { login, loginWithGoogle, checkAuthStatus } from "@/app/api/auth";
+import {
+  login,
+  loginWithGoogle,
+  checkAuthStatus,
+  register,
+} from "@/app/api/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Eye, EyeOff, Sun, Moon } from "lucide-react";
@@ -111,9 +116,16 @@ export default function LoginPage() {
     }
 
     try {
-      // Aqui você implementaria a chamada para registro
-      console.log("Registro realizado com sucesso:", { name, email, senha });
-      // Por enquanto, apenas simula o sucesso
+      // Chamada real para a API de registro
+      const response = await register({
+        nome: name.trim(),
+        email: email.trim().toLowerCase(),
+        senha: senha,
+        confirmar_senha: confirmPassword,
+      });
+
+      // Registro bem-sucedido
+      console.log("Registro realizado com sucesso:", response.user);
       router.push("/dashboard");
     } catch (e: any) {
       setError(e?.message ?? "Falha no registro. Tente novamente.");

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.core.config import get_settings
-from app.api.routes.auth import router as auth_router
+from app.api.routes.auth import router as auth_router, init_oauth
 from app.api.routes.users import router as users_router
 from app.api.routes.accounts import router as accounts_router
 from app.api.routes.cards import router as cards_router
@@ -39,7 +39,6 @@ app.add_middleware(
     secret_key=settings.session_secret_key or settings.jwt_secret_key,
     max_age=settings.access_token_expire_minutes * 60,  # Converter minutos para segundos
     same_site=settings.cookie_samesite,
-    secure=settings.cookie_secure,
 )
 
 
@@ -64,6 +63,9 @@ app.include_router(uploads_router, prefix="/api", tags=["uploads"])
 
 @app.on_event("startup")
 def on_startup():
+    # Inicializar OAuth
+    init_oauth()
+    
     # Cria as tabelas no banco caso não existam (MVP; depois usar Alembic)
     base.Base.metadata.create_all(bind=engine)
     start_scheduler()

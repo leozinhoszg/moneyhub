@@ -84,7 +84,8 @@ export async function login(data: {
 
 export async function loginWithGoogle(): Promise<void> {
   // Redireciona diretamente para a rota de autenticação Google
-  const googleAuthUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/google`;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+  const googleAuthUrl = `${apiBaseUrl}/api/auth/google`;
   window.location.href = googleAuthUrl;
 }
 

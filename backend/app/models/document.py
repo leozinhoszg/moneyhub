@@ -17,7 +17,7 @@ class Document(Base):
     __tablename__ = "DOCUMENTOS"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    usuario_id: Mapped[int] = mapped_column(ForeignKey("USUARIOS.id", ondelete="CASCADE"), index=True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="CASCADE"), index=True)
     transacao_id: Mapped[int | None] = mapped_column(ForeignKey("TRANSACOES.id", ondelete="SET NULL"), nullable=True)
     nome_arquivo: Mapped[str] = mapped_column(String(255), nullable=False)
     caminho_arquivo: Mapped[str] = mapped_column(String(255), nullable=False)

@@ -16,7 +16,7 @@ class Transaction(Base):
     __tablename__ = "TRANSACOES"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    usuario_id: Mapped[int] = mapped_column(ForeignKey("USUARIOS.id", ondelete="CASCADE"), index=True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="CASCADE"), index=True)
     categoria_id: Mapped[int] = mapped_column(ForeignKey("CATEGORIAS.id", ondelete="RESTRICT"), nullable=False, index=True)
     conta_bancaria_id: Mapped[int | None] = mapped_column(ForeignKey("CONTAS_BANCARIAS.id", ondelete="SET NULL"), nullable=True)
     cartao_credito_id: Mapped[int | None] = mapped_column(ForeignKey("CARTOES_CREDITO.id", ondelete="SET NULL"), nullable=True)

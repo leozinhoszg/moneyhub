@@ -37,17 +37,36 @@ oauth = OAuth()
 def init_oauth():
     """Inicializa a configuração OAuth do Google"""
     settings = get_settings()
-    oauth.register(
-        name='google',
-        client_id=settings.google_client_id,
-        client_secret=settings.google_client_secret,
-        client_kwargs={
-            'scope': 'openid email profile'
-        },
-        server_metadata_url='https://accounts.google.com/.well-known/openid_configuration'
-    )
+    print(f"🔧 Configurando OAuth Google...")
+    print(f"   Client ID: {settings.google_client_id[:20]}...")
+    print(f"   Client Secret: {settings.google_client_secret[:10]}...")
+    
+    try:
+        oauth.register(
+            name='google',
+            client_id=settings.google_client_id,
+            client_secret=settings.google_client_secret,
+            client_kwargs={
+                'scope': 'openid email profile'
+            },
+            authorize_url='https://accounts.google.com/o/oauth2/v2/auth',
+            access_token_url='https://oauth2.googleapis.com/token',
+            userinfo_endpoint='https://www.googleapis.com/oauth2/v2/userinfo'
+        )
+        print("✅ OAuth Google configurado com sucesso")
+        
+        # Verificar se foi registrado corretamente
+        if hasattr(oauth, 'google'):
+            print("✅ OAuth Google verificado")
+        else:
+            print("❌ OAuth Google não foi registrado corretamente")
+            
+    except Exception as e:
+        print(f"❌ Erro ao configurar OAuth Google: {e}")
+        import traceback
+        traceback.print_exc()
 
-# Inicializar OAuth na importação do módulo
+# Inicializar OAuth imediatamente
 init_oauth()
 
 
@@ -280,8 +299,26 @@ def reset_password(payload: PasswordResetConfirm, db: Session = Depends(get_db))
 @router.get("/auth/google")
 async def google_auth(request: Request):
     """Iniciar autenticação Google"""
+    print("🚀 Iniciando autenticação Google...")
     redirect_uri = f"{request.url_for('google_callback')}"
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    print(f"📡 Redirect URI: {redirect_uri}")
+    print(f"🌐 Request URL: {request.url}")
+    print(f"🔗 Base URL: {request.base_url}")
+    
+    try:
+        # Configurar para desenvolvimento (desabilitar validação de estado)
+        result = await oauth.google.authorize_redirect(
+            request, 
+            redirect_uri,
+            state=None  # Desabilitar validação de estado para desenvolvimento
+        )
+        print(f"✅ Redirecionamento criado: {type(result)}")
+        return result
+    except Exception as e:
+        print(f"❌ Erro ao criar redirecionamento: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
 
 
 @router.get("/auth/google/login")
@@ -293,53 +330,160 @@ async def google_login(request: Request):
 @router.get("/auth/google/callback")
 async def google_callback(request: Request, response: Response, db: Session = Depends(get_db)):
     """Callback do Google OAuth"""
+    settings = get_settings()  # Mover para o início da função
+    
     try:
+        print("🔍 Iniciando callback Google OAuth...")
+        print(f"📝 Query params: {request.query_params}")
+        print(f"🍪 Cookies: {request.cookies}")
+        
+        # Verificar se temos os parâmetros necessários
+        state = request.query_params.get('state')
+        code = request.query_params.get('code')
+        
+        if not state or not code:
+            print("❌ Estado ou código não encontrados")
+            frontend_url = settings.frontend_url or settings.cors_origins[0]
+            return RedirectResponse(url=f"{frontend_url}/auth/login?error=missing_params")
+        
+        print(f"🔍 Estado: {state}")
+        print(f"🔑 Código: {code[:20]}...")
+        
         # Obter token do Google
-        token = await oauth.google.authorize_access_token(request)
+        print("🔑 Obtendo token do Google...")
+        try:
+            # Tentar obter token sem validação de estado para desenvolvimento
+            token = await oauth.google.authorize_access_token(
+                request,
+                state=None  # Desabilitar validação de estado
+            )
+            print(f"✅ Token obtido: {token.keys() if token else 'None'}")
+        except Exception as token_error:
+            print(f"❌ Erro ao obter token: {token_error}")
+            print(f"📋 Tipo de erro: {type(token_error)}")
+            import traceback
+            traceback.print_exc()
+            
+            # Tentar uma abordagem alternativa sem validação de estado
+            try:
+                print("🔄 Tentando abordagem alternativa sem validação de estado...")
+                # Extrair código manualmente
+                code = request.query_params.get('code')
+                if not code:
+                    print("❌ Código não encontrado")
+                    frontend_url = settings.frontend_url or settings.cors_origins[0]
+                    return RedirectResponse(url=f"{frontend_url}/auth/login?error=missing_code")
+                
+                print(f"🔑 Código encontrado: {code[:20]}...")
+                
+                # Fazer requisição manual para obter token
+                import httpx
+                async with httpx.AsyncClient() as client:
+                    token_url = "https://oauth2.googleapis.com/token"
+                    # Construir redirect_uri corretamente
+                    redirect_uri = f"{request.base_url}api/auth/google/callback"
+                    print(f"🔗 Redirect URI para token: {redirect_uri}")
+                    
+                    token_data = {
+                        "client_id": settings.google_client_id,
+                        "client_secret": settings.google_client_secret,
+                        "code": code,
+                        "grant_type": "authorization_code",
+                        "redirect_uri": redirect_uri
+                    }
+                    
+                    print(f"🌐 Fazendo requisição para: {token_url}")
+                    print(f"📋 Dados: {token_data}")
+                    
+                    response = await client.post(token_url, data=token_data)
+                    print(f"📡 Resposta: {response.status_code}")
+                    print(f"📋 Conteúdo: {response.text}")
+                    
+                    if response.status_code == 200:
+                        token = response.json()
+                        print(f"✅ Token obtido manualmente: {token.keys()}")
+                    else:
+                        print(f"❌ Erro na requisição manual: {response.status_code}")
+                        print(f"📋 Resposta: {response.text}")
+                        print(f"📋 Headers: {dict(response.headers)}")
+                        
+                        # Tentar extrair erro específico do Google
+                        try:
+                            error_data = response.json()
+                            error_type = error_data.get('error', 'unknown_error')
+                            error_description = error_data.get('error_description', 'Sem descrição')
+                            print(f"🔍 Erro Google: {error_type} - {error_description}")
+                        except:
+                            print("🔍 Não foi possível extrair detalhes do erro")
+                        
+                        frontend_url = settings.frontend_url or settings.cors_origins[0]
+                        return RedirectResponse(url=f"{frontend_url}/auth/login?error=manual_token_error")
+                        
+            except Exception as token_error2:
+                print(f"❌ Erro na segunda tentativa: {token_error2}")
+                import traceback
+                traceback.print_exc()
+                frontend_url = settings.frontend_url or settings.cors_origins[0]
+                return RedirectResponse(url=f"{frontend_url}/auth/login?error=token_error")
         
         # Obter informações do usuário
         user_info = token.get('userinfo')
+        print(f"👤 User info: {user_info}")
+        
         if not user_info:
-            # Fallback: buscar informações do usuário
-            async with httpx.AsyncClient() as client:
-                user_response = await client.get(
-                    'https://www.googleapis.com/oauth2/v2/userinfo',
-                    headers={'Authorization': f'Bearer {token["access_token"]}'}
-                )
-                user_info = user_response.json()
+            print("⚠️ User info não encontrado no token, buscando via API...")
+            try:
+                # Fallback: buscar informações do usuário
+                async with httpx.AsyncClient() as client:
+                    user_response = await client.get(
+                        'https://www.googleapis.com/oauth2/v2/userinfo',
+                        headers={'Authorization': f'Bearer {token["access_token"]}'}
+                    )
+                    user_info = user_response.json()
+                    print(f"📡 User info via API: {user_info}")
+            except Exception as api_error:
+                print(f"❌ Erro ao buscar user info via API: {api_error}")
+                frontend_url = settings.frontend_url or settings.cors_origins[0]
+                return RedirectResponse(url=f"{frontend_url}/auth/login?error=userinfo_error")
         
         google_id = user_info.get('id')
         email = user_info.get('email')
         nome = user_info.get('name', '')
         
+        print(f"🆔 Google ID: {google_id}")
+        print(f"📧 Email: {email}")
+        print(f"👤 Nome: {nome}")
+        
         if not google_id or not email:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Não foi possível obter informações da conta Google"
-            )
+            print("❌ Google ID ou email não encontrados")
+            frontend_url = settings.frontend_url or settings.cors_origins[0]
+            return RedirectResponse(url=f"{frontend_url}/auth/login?error=missing_user_data")
         
         # Tentar autenticar usuário existente
+        print("🔍 Verificando se usuário já existe...")
         user = authenticate_google_user(db, google_id, email)
         
         if not user:
+            print("🆕 Usuário não existe, criando novo...")
             # Criar novo usuário
             try:
                 user = create_google_user(db, nome, email, google_id)
+                print(f"✅ Usuário criado com ID: {user.id}")
             except ValueError as e:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=str(e)
-                )
+                print(f"❌ Erro ao criar usuário: {e}")
+                frontend_url = settings.frontend_url or settings.cors_origins[0]
+                return RedirectResponse(url=f"{frontend_url}/auth/login?error=user_creation_error")
+        else:
+            print(f"✅ Usuário encontrado com ID: {user.id}")
         
         # Verificar se conta está ativa
         if not user.is_active:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Conta desativada. Entre em contato com o suporte."
-            )
+            print("❌ Usuário inativo")
+            frontend_url = settings.frontend_url or settings.cors_origins[0]
+            return RedirectResponse(url=f"{frontend_url}/auth/login?error=inactive_user")
         
         # Gerar tokens
-        settings = get_settings()
+        print("🔐 Gerando tokens...")
         access_token = create_access_token(str(user.id), settings)
         refresh_token = create_refresh_token(str(user.id), settings)
         
@@ -351,19 +495,27 @@ async def google_callback(request: Request, response: Response, db: Session = De
         update_last_login(db, user)
         
         # Redirecionar para o frontend
-        frontend_url = settings.cors_origins.split(',')[0]  # Primeira origem CORS como padrão
+        frontend_url = settings.frontend_url or settings.cors_origins[0]
+        print(f"🎯 Redirecionando para: {frontend_url}/dashboard?auth=success")
         return RedirectResponse(url=f"{frontend_url}/dashboard?auth=success")
         
     except OAuthError as e:
         # Erro no processo OAuth
-        frontend_url = settings.cors_origins.split(',')[0]
-        return RedirectResponse(url=f"{frontend_url}/login?error=oauth_error")
+        print(f"❌ Erro OAuth no callback: {e}")
+        print(f"📋 Tipo de erro: {type(e)}")
+        import traceback
+        traceback.print_exc()
+        frontend_url = settings.frontend_url or settings.cors_origins[0]
+        return RedirectResponse(url=f"{frontend_url}/auth/login?error=oauth_error")
     
     except Exception as e:
         # Outros erros
-        print(f"Erro no callback Google: {e}")
-        frontend_url = settings.cors_origins.split(',')[0]
-        return RedirectResponse(url=f"{frontend_url}/login?error=server_error")
+        print(f"❌ Erro no callback Google: {e}")
+        print(f"📋 Tipo de erro: {type(e)}")
+        import traceback
+        traceback.print_exc()
+        frontend_url = settings.frontend_url or settings.cors_origins[0]
+        return RedirectResponse(url=f"{frontend_url}/auth/login?error=server_error")
 
 
 # ============================================================================

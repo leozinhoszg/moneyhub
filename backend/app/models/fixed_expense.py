@@ -11,7 +11,7 @@ class FixedExpense(Base):
     __tablename__ = "GASTOS_FIXOS"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    usuario_id: Mapped[int] = mapped_column(ForeignKey("USUARIOS.id", ondelete="CASCADE"), index=True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="CASCADE"), index=True)
     descricao: Mapped[str] = mapped_column(String(255), nullable=False)
     valor: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
     categoria_id: Mapped[int] = mapped_column(ForeignKey("CATEGORIAS.id", ondelete="RESTRICT"), nullable=False)
