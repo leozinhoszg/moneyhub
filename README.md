@@ -68,8 +68,15 @@ cd backend
 python -m venv venv
 
 # Ative o ambiente virtual
-# Windows:
-venv\Scripts\activate
+# Windows (PowerShell - RECOMENDADO):
+venv\Scripts\Activate.ps1
+
+# Windows (Git Bash - ALTERNATIVA):
+source venv/Scripts/activate
+
+# Windows (CMD):
+venv\Scripts\activate.bat
+
 # Linux/Mac:
 source venv/bin/activate
 
@@ -79,6 +86,34 @@ pip install -r requirements.txt
 # Configure o arquivo .env
 cp env\ example .env
 ```
+
+#### ⚠️ Problemas com Git Bash no Windows?
+
+Se você estiver usando Git Bash e encontrar problemas com ambientes virtuais:
+
+1. **Use PowerShell** (recomendado):
+   ```powershell
+   cd backend
+   python -m venv venv
+   venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   ```
+
+2. **Ou use CMD**:
+   ```cmd
+   cd backend
+   python -m venv venv
+   venv\Scripts\activate.bat
+   pip install -r requirements.txt
+   ```
+
+3. **Se preferir Git Bash**, use:
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/Scripts/activate
+   pip install -r requirements.txt
+   ```
 
 #### Configuração do Banco de Dados
 
@@ -233,6 +268,54 @@ moneyhub/
 - **Validação de dados** com Pydantic
 - **CORS configurado** adequadamente
 - **Variáveis de ambiente** para credenciais
+
+## 🛠️ Solução de Problemas
+
+### Problemas Comuns no Windows
+
+#### 1. **Git Bash e Ambientes Virtuais**
+O Git Bash no Windows pode ter problemas com ambientes virtuais Python. **Soluções**:
+
+- **Use PowerShell** (mais confiável no Windows)
+- **Use CMD** como alternativa
+- **Se insistir no Git Bash**, use `source venv/Scripts/activate`
+
+#### 2. **Permissões de Execução**
+Se encontrar erro de permissão para executar scripts:
+
+```powershell
+# No PowerShell como Administrador
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+#### 3. **Python não encontrado**
+Se o comando `python` não funcionar:
+
+```bash
+# Tente usar py
+py -m venv venv
+
+# Ou python3
+python3 -m venv venv
+```
+
+#### 4. **Problemas com pip**
+Se o pip não funcionar após ativar o ambiente virtual:
+
+```bash
+# Reinstale o pip
+python -m ensurepip --upgrade
+
+# Ou use
+python -m pip install --upgrade pip
+```
+
+#### 5. **Problemas com MySQL**
+Se o MySQL não conectar:
+
+- Verifique se o serviço MySQL está rodando
+- Confirme a senha no arquivo `.env`
+- Teste a conexão: `mysql -u root -p`
 
 ## 📝 Contribuindo
 
