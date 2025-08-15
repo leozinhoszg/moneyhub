@@ -9,6 +9,10 @@ from urllib.parse import quote_plus
 from alembic import context
 from sqlalchemy import create_engine, pool
 
+# Importar pymysql diretamente para forçar seu uso
+import pymysql
+pymysql.install_as_MySQLdb()
+
 # (Opcional) Para futuras migrações autogeradas, podemos adicionar a raiz do backend ao PYTHONPATH
 # ROOT_DIR = Path(__file__).resolve().parents[1]
 # if str(ROOT_DIR) not in sys.path:
@@ -34,7 +38,8 @@ def get_url() -> str:
     password = os.getenv("DB_PASSWORD", "Jae66yrr@")
     host = os.getenv("DB_HOST", "127.0.0.1")
     name = os.getenv("DB_NAME", "moneyhub")
-    return f"mysql+pymysql://{user}:{quote_plus(password)}@{host}:3306/{name}?charset=utf8mb4"
+    # Usar mysql:// que será resolvido para pymysql através do install_as_MySQLdb()
+    return f"mysql://{user}:{quote_plus(password)}@{host}:3306/{name}?charset=utf8mb4"
 
 
 # Para executar migrações baseadas em scripts, não precisamos do metadata.
