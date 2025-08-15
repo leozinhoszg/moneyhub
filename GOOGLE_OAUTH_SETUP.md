@@ -60,6 +60,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ## 🔒 Geração de Chaves Seguras
 
 ### JWT Secrets
+
 ```bash
 # Gerar JWT Secret (64 caracteres)
 openssl rand -hex 32
@@ -69,6 +70,7 @@ openssl rand -hex 32
 ```
 
 ### Exemplo de chaves geradas:
+
 ```env
 JWT_SECRET=a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2
 JWT_REFRESH_SECRET=b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3
@@ -78,6 +80,7 @@ SESSION_SECRET_KEY=c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c
 ## 🚀 Como Executar
 
 ### 1. **Backend**
+
 ```bash
 cd backend
 cp env\ example .env
@@ -86,6 +89,7 @@ python -m uvicorn app.main:app --reload --port 8000
 ```
 
 ### 2. **Frontend**
+
 ```bash
 cd frontend
 cp env.example .env.local
