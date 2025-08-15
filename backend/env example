@@ -1,0 +1,27 @@
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=sua_senha_do_banco_aqui
+DB_NAME=moneyhub
+ENVIRONMENT=development
+DEBUG=true
+JWT_SECRET=sua_senha_aqui
+JWT_ALGORITHM=HS256
+JWT_EXPIRATION_MINUTES=60
+JWT_REFRESH_SECRET=sua_senha_aqui
+JWT_REFRESH_EXPIRATION_DAYS=7
+SECURITY_COOKIES_ENABLED=true
+REFRESH_FROM_COOKIE=true
+CSRF_ENFORCE=true
+COOKIE_SECURE=true
+COOKIE_SAMESITE=none
+COOKIE_DOMAIN=http://localhost:3000,http://127.0.0.1:3000
+CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+TRUSTED_HOSTS=localhost,127.0.0.1
+DEBUG_ROUTES_ENABLED=true
+
+# Configurações Google OAuth
+GOOGLE_CLIENT_ID=seu_id_aqui
+GOOGLE_CLIENT_SECRET=sua_senha_aqui
+SESSION_SECRET_KEY=sua_secret_key_aqui
+FRONTEND_URL=http://localhost:3000

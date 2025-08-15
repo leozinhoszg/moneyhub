@@ -29,6 +29,7 @@ O **MoneyHub** é uma aplicação completa de controle de finanças pessoais des
 ## 🏗️ Arquitetura
 
 ### Backend (FastAPI + Python)
+
 - **Framework**: FastAPI
 - **Banco de Dados**: MySQL
 - **ORM**: SQLAlchemy
@@ -36,6 +37,7 @@ O **MoneyHub** é uma aplicação completa de controle de finanças pessoais des
 - **Migrações**: Alembic
 
 ### Frontend (Next.js + TypeScript)
+
 - **Framework**: Next.js 13+
 - **Linguagem**: TypeScript
 - **Estilização**: Tailwind CSS
@@ -92,6 +94,7 @@ cp env\ example .env
 Se você estiver usando Git Bash e encontrar problemas com ambientes virtuais:
 
 1. **Use PowerShell** (recomendado):
+
    ```powershell
    cd backend
    python -m venv venv
@@ -100,6 +103,7 @@ Se você estiver usando Git Bash e encontrar problemas com ambientes virtuais:
    ```
 
 2. **Ou use CMD**:
+
    ```cmd
    cd backend
    python -m venv venv
@@ -118,11 +122,13 @@ Se você estiver usando Git Bash e encontrar problemas com ambientes virtuais:
 #### Configuração do Banco de Dados
 
 1. **Crie um banco MySQL**:
+
 ```sql
 CREATE DATABASE moneyhub;
 ```
 
 2. **Configure o arquivo `.env`**:
+
 ```env
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -132,6 +138,7 @@ DB_NAME=moneyhub
 ```
 
 3. **Execute as migrações**:
+
 ```bash
 alembic upgrade head
 ```
@@ -142,6 +149,7 @@ alembic upgrade head
 2. **Crie um projeto** ou use um existente
 3. **Habile a Google+ API**
 4. **Crie credenciais OAuth 2.0**:
+
    - Tipo: Web application
    - **Authorized JavaScript origins**:
      - `http://localhost:3000`
@@ -151,6 +159,7 @@ alembic upgrade head
      - `http://127.0.0.1:8000/api/auth/google/callback`
 
 5. **Configure as credenciais no `.env`**:
+
 ```env
 GOOGLE_CLIENT_ID=seu_client_id_aqui
 GOOGLE_CLIENT_SECRET=seu_client_secret_aqui
@@ -171,6 +180,7 @@ cp env.example .env.local
 ```
 
 Edite o arquivo `.env.local`:
+
 ```env
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
@@ -178,12 +188,14 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ### 5. Executando a Aplicação
 
 #### Backend
+
 ```bash
 cd backend
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
 #### Frontend
+
 ```bash
 cd frontend
 npm run dev
@@ -220,6 +232,7 @@ moneyhub/
 ## 🔧 Tecnologias Utilizadas
 
 ### Backend
+
 - **FastAPI** - Framework web moderno e rápido
 - **SQLAlchemy** - ORM para Python
 - **Alembic** - Migrações de banco de dados
@@ -229,6 +242,7 @@ moneyhub/
 - **MySQL** - Banco de dados relacional
 
 ### Frontend
+
 - **Next.js 13** - Framework React com App Router
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Framework CSS utilitário
@@ -238,24 +252,28 @@ moneyhub/
 ## 📊 Funcionalidades Detalhadas
 
 ### Dashboard
+
 - Visão geral das finanças
 - Gráficos de receitas vs despesas
 - Saldo atual das contas
 - Últimas transações
 
 ### Gestão de Transações
+
 - Adicionar receitas e despesas
 - Categorização automática
 - Filtros e busca
 - Exportação de dados
 
 ### Contas e Cartões
+
 - Múltiplas contas bancárias
 - Controle de cartões de crédito
 - Histórico de transações
 - Limites e alertas
 
 ### Relatórios
+
 - Relatórios mensais/anuais
 - Análise por categoria
 - Gráficos interativos
@@ -274,6 +292,7 @@ moneyhub/
 ### Problemas Comuns no Windows
 
 #### 1. **Git Bash e Ambientes Virtuais**
+
 O Git Bash no Windows pode ter problemas com ambientes virtuais Python. **Soluções**:
 
 - **Use PowerShell** (mais confiável no Windows)
@@ -281,6 +300,7 @@ O Git Bash no Windows pode ter problemas com ambientes virtuais Python. **Soluç
 - **Se insistir no Git Bash**, use `source venv/Scripts/activate`
 
 #### 2. **Permissões de Execução**
+
 Se encontrar erro de permissão para executar scripts:
 
 ```powershell
@@ -289,6 +309,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 #### 3. **Python não encontrado**
+
 Se o comando `python` não funcionar:
 
 ```bash
@@ -300,6 +321,7 @@ python3 -m venv venv
 ```
 
 #### 4. **Problemas com pip**
+
 Se o pip não funcionar após ativar o ambiente virtual:
 
 ```bash
@@ -311,6 +333,7 @@ python -m pip install --upgrade pip
 ```
 
 #### 5. **Problemas com MySQL**
+
 Se o MySQL não conectar:
 
 - Verifique se o serviço MySQL está rodando
@@ -318,9 +341,11 @@ Se o MySQL não conectar:
 - Teste a conexão: `mysql -u root -p`
 
 #### 6. **Problemas com Instalação de Dependências**
+
 Se encontrar erros ao instalar dependências Python:
 
 **Erro relacionado ao Rust:**
+
 ```bash
 # Erro: "error: can't find Rust compiler"
 # Solução: O requirements.txt já está otimizado para evitar isso
@@ -328,6 +353,7 @@ pip install -r requirements.txt
 ```
 
 **Se ainda houver problemas:**
+
 ```bash
 # Atualize o pip
 python -m pip install --upgrade pip
@@ -339,6 +365,7 @@ pip install uvicorn==0.24.0
 ```
 
 **Alternativas para versões mais recentes:**
+
 - Instalar Rust: https://rustup.rs/
 - Usar Docker para isolar o ambiente
 - Usar versões pré-compiladas quando disponíveis
