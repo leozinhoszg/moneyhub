@@ -27,9 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${heading.variable} ${body.variable}`}>
-      <body className="min-h-screen">
-        <div className="container-page">{children}</div>
-      </body>
+      <body className="min-h-screen">{children}</body>
     </html>
   );
 }

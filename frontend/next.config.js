@@ -5,6 +5,9 @@ const nextConfig = {
     // Permite build mesmo com types faltando em ambientes de dev container
     ignoreBuildErrors: true,
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;

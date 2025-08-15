@@ -76,3 +76,5 @@ async def oauth_status(settings = Depends(get_oauth_settings)):
         "frontend_url": settings.frontend_url,
         "session_secret_configured": bool(settings.session_secret_key)
     }
+
+

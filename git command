@@ -1,21 +1,5 @@
 cd "/c/Users/lguimaraes/Downloads/Nova pasta/moneyhub"
 git init
-git add .
-git commit -m "feat: primeiro commit"
-git branch -M main
-
-git remote add origin https://github.com/leozinhoszg/moneyhub
-
-git push -u origin main
-
-cd "/c/Users/lguimaraes/Downloads/Nova pasta/moneyhub"
-git branch -M main
-git remote add origin git@github.com:leozinhoszg/moneyhub.git  # ou HTTPS
-git push -u origin main
-
-
-cd "/c/Users/lguimaraes/Downloads/Nova pasta/moneyhub"
-
 git status                    # opcional, só para ver o que mudou
 git add .                     # adiciona tudo (novo/alterado)
 git commit -m "chore: atualiza X e Y"   # descreva a mudança
