@@ -317,6 +317,32 @@ Se o MySQL não conectar:
 - Confirme a senha no arquivo `.env`
 - Teste a conexão: `mysql -u root -p`
 
+#### 6. **Problemas com Instalação de Dependências**
+Se encontrar erros ao instalar dependências Python:
+
+**Erro relacionado ao Rust:**
+```bash
+# Erro: "error: can't find Rust compiler"
+# Solução: O requirements.txt já está otimizado para evitar isso
+pip install -r requirements.txt
+```
+
+**Se ainda houver problemas:**
+```bash
+# Atualize o pip
+python -m pip install --upgrade pip
+
+# Instale as dependências uma por vez
+pip install fastapi==0.104.1
+pip install uvicorn==0.24.0
+# ... continue com as outras
+```
+
+**Alternativas para versões mais recentes:**
+- Instalar Rust: https://rustup.rs/
+- Usar Docker para isolar o ambiente
+- Usar versões pré-compiladas quando disponíveis
+
 ## 📝 Contribuindo
 
 1. Faça um fork do projeto
