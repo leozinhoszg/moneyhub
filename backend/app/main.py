@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from app.core.config import get_settings
 from app.api.routes.auth import router as auth_router
@@ -30,6 +31,15 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# Middleware de sessão (necessário para OAuth)
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key=settings.session_secret_key or settings.jwt_secret_key,
+    max_age=settings.access_token_expire_minutes * 60,  # Converter minutos para segundos
+    same_site=settings.cookie_samesite,
+    secure=settings.cookie_secure,
 )
 
 

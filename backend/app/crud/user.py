@@ -35,3 +35,17 @@ def update_last_login(db: Session, user: User) -> None:
     db.commit()
 
 
+def create_google_user(db: Session, nome: str, email: str, google_id: str) -> User:
+    """Cria um usuário autenticado via Google OAuth"""
+    user = User(
+        nome=nome, 
+        email=email, 
+        google_id=google_id,
+        email_verificado=True  # Usuários do Google já têm email verificado
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+

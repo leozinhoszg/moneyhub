@@ -34,6 +34,56 @@ export async function login(data: { email: string; senha: string }) {
   return res.json();
 }
 
+export async function loginWithGoogle() {
+  // Redireciona para a rota de autenticação Google no backend
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/google`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Falha ao iniciar autenticação Google");
+  }
+
+  // Se a resposta for um redirecionamento, seguimos o link
+  const data = await res.json();
+  if (data.redirect_url) {
+    window.location.href = data.redirect_url;
+  } else {
+    throw new Error("URL de redirecionamento não encontrada");
+  }
+
+  return data;
+}
+
+export async function registerWithGoogle() {
+  // Redireciona para a rota de autenticação Google no backend
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/google`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Falha ao iniciar autenticação Google");
+  }
+
+  // Se a resposta for um redirecionamento, seguimos o link
+  const data = await res.json();
+  if (data.redirect_url) {
+    window.location.href = data.redirect_url;
+  } else {
+    throw new Error("URL de redirecionamento não encontrada");
+  }
+
+  return data;
+}
+
 export async function logout() {
   const csrf = getCookie("XSRF-TOKEN");
   const res = await fetch(
