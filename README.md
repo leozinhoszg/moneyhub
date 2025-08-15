@@ -24,7 +24,7 @@ O **MoneyHub** é uma aplicação completa de controle de finanças pessoais des
 - 🏷️ **Categorização** - Organização por categorias
 - 💸 **Despesas Fixas** - Controle de gastos recorrentes
 - 🔄 **Transações** - Registro de receitas e despesas
-- 📱 **Interface Responsiva** - Funciona em desktop e mobile
+- 📱 **Interface Responsiva** - Funciona em desktop (mobile em breve).
 
 ## 🏗️ Arquitetura
 
