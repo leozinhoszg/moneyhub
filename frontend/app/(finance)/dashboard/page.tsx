@@ -63,13 +63,13 @@ export default function DashboardPage() {
               fontFamily: "var(--font-primary, Montserrat, sans-serif)",
             }}
           >
-            Boa tarde, {summary ? 'Leonardo' : 'Usuário'}! 👋
+            {t('dashboard.goodAfternoon')}, {summary ? 'Leonardo' : t('dashboard.user')}! 👋
           </h1>
           <p className={`text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-600'}`}
              style={{
                fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
              }}>
-            Aqui está um resumo das suas finanças
+            {t('dashboard.financeSummary')}
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Receitas do mês
+                {t('dashboard.monthlyIncome')}
               </div>
               <div
                 className={`text-2xl sm:text-3xl font-bold ${
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Despesas do mês
+                {t('dashboard.monthlyExpenses')}
               </div>
               <div
                 className={`text-2xl sm:text-3xl font-bold ${
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                     Number(summary.saldo_mes) < 0 ? "Despesa" : "Receita"
                   }`}
                 >
-                  Ver detalhes
+                  {t('dashboard.viewDetails')}
                 </Link>
               </div>
               <div
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Saldo atual
+                {t('dashboard.currentBalance')}
               </div>
               <div
                 className={`text-2xl sm:text-3xl font-bold ${
@@ -222,7 +222,7 @@ export default function DashboardPage() {
               fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
             }}
           >
-            Carregando...
+            {t('dashboard.loading')}
           </div>
         )}
 
@@ -250,13 +250,13 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-primary, Montserrat, sans-serif)",
                 }}
               >
-                Minhas Contas
+                {t('dashboard.myAccounts')}
               </h3>
             </div>
             <span className={`text-sm ${
               isDark ? "text-slate-400" : "text-slate-500"
             }`}>
-              {byAccount.length} conta{byAccount.length !== 1 ? 's' : ''}
+              {byAccount.length} {byAccount.length === 1 ? t('dashboard.account') : t('dashboard.accounts')}
             </span>
           </div>
           <div className="space-y-4">
@@ -283,7 +283,7 @@ export default function DashboardPage() {
                     <span className={`text-xs ${
                       isDark ? "text-slate-400" : "text-slate-500"
                     }`}>
-                      Conta corrente
+                      {t('dashboard.checkingAccount')}
                     </span>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-primary, Montserrat, sans-serif)",
                 }}
               >
-                Despesas por Categoria
+                {t('dashboard.expensesByCategory')}
               </h3>
             </div>
             <Link
@@ -339,7 +339,7 @@ export default function DashboardPage() {
               }`}
               href={`/(finance)/transactions?tipo=Despesa`}
             >
-              Ver todas
+              {t('dashboard.viewAll')}
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -368,7 +368,7 @@ export default function DashboardPage() {
                       fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                     }}
                   >
-                    {c.categoria || "Outros"}
+                    {c.categoria || t('dashboard.others')}
                   </div>
                   <div
                     className={`text-lg font-bold ${
@@ -410,17 +410,17 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-primary, Montserrat, sans-serif)",
                 }}
               >
-                Fluxo Diário
+                {t('dashboard.dailyFlow')}
               </h3>
             </div>
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                <span className={isDark ? "text-slate-400" : "text-slate-600"}>Receitas</span>
+                <span className={isDark ? "text-slate-400" : "text-slate-600"}>{t('dashboard.income')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className={isDark ? "text-slate-400" : "text-slate-600"}>Despesas</span>
+                <span className={isDark ? "text-slate-400" : "text-slate-600"}>{t('dashboard.expenses')}</span>
               </div>
             </div>
           </div>

@@ -109,7 +109,7 @@ export default function LanguageSelector() {
 
       {isOpen && (
         <div
-          className={`absolute right-0 top-12 w-48 rounded-xl shadow-2xl border backdrop-blur-xl overflow-hidden transform transition-all duration-300 ease-out z-[9999] ${
+          className={`absolute right-0 top-full mt-4 w-48 rounded-xl shadow-2xl border backdrop-blur-xl overflow-hidden transform transition-all duration-300 ease-out z-[9999] ${
             isDark
               ? "bg-slate-800/95 border-slate-700/50"
               : "bg-white/95 border-slate-200/50"
