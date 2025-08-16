@@ -56,10 +56,22 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   // Função para carregar traduções
   const loadTranslations = async (lang: Language) => {
     try {
-      const response = await fetch(`/messages/${lang}.json`);
+      console.log(`Carregando traduções para: ${lang}`);
+      const url = `/messages/${lang}.json`;
+      console.log(`URL das traduções: ${url}`);
+      
+      const response = await fetch(url);
+      console.log(`Status da resposta: ${response.status}`);
+      
       if (response.ok) {
         const data = await response.json();
         translations[lang] = data;
+        console.log(`Traduções carregadas para ${lang}:`, Object.keys(data).length, "chaves");
+        console.log(`Exemplo de tradução:`, data.common?.dashboard);
+      } else {
+        console.error(`Erro ao carregar traduções para ${lang}:`, response.status, response.statusText);
+        const errorText = await response.text();
+        console.error(`Erro detalhado:`, errorText);
       }
     } catch (error) {
       console.error(`Erro ao carregar traduções para ${lang}:`, error);
@@ -70,45 +82,67 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const setLanguage = async (lang: Language) => {
     if (lang === language) return;
 
+    console.log(`Alterando idioma de ${language} para ${lang}`);
     setIsLoading(true);
 
-    // Carregar traduções se ainda não foram carregadas
-    if (!translations[lang] || Object.keys(translations[lang]).length === 0) {
-      await loadTranslations(lang);
+    try {
+      // Carregar traduções se ainda não foram carregadas
+      if (!translations[lang] || Object.keys(translations[lang]).length === 0) {
+        await loadTranslations(lang);
+      }
+
+      setLanguageState(lang);
+
+      // Salvar no cookie
+      Cookies.set("language", lang, { expires: 365, path: "/" });
+
+      // Atualizar o atributo lang do HTML
+      document.documentElement.lang = lang;
+
+      console.log(`Idioma alterado com sucesso para: ${lang}`);
+    } catch (error) {
+      console.error("Erro ao alterar idioma:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setLanguageState(lang);
-
-    // Salvar no cookie
-    Cookies.set("language", lang, { expires: 365, path: "/" });
-
-    // Atualizar o atributo lang do HTML
-    document.documentElement.lang = lang;
-
-    setIsLoading(false);
   };
 
   // Inicializar idioma
   useEffect(() => {
     const initializeLanguage = async () => {
-      // Tentar obter idioma do cookie
-      const savedLanguage = Cookies.get("language") as Language;
-      const browserLanguage = navigator.language.split("-")[0] as Language;
+      try {
+        console.log("Inicializando LanguageContext...");
+        
+        // Tentar obter idioma do cookie
+        const savedLanguage = Cookies.get("language") as Language;
+        const browserLanguage = navigator.language.split("-")[0] as Language;
 
-      let initialLanguage: Language = "pt"; // Padrão
+        console.log(`Idioma salvo no cookie: ${savedLanguage}`);
+        console.log(`Idioma do navegador: ${browserLanguage}`);
 
-      if (savedLanguage && ["pt", "en", "es", "it"].includes(savedLanguage)) {
-        initialLanguage = savedLanguage;
-      } else if (["pt", "en", "es", "it"].includes(browserLanguage)) {
-        initialLanguage = browserLanguage;
+        let initialLanguage: Language = "pt"; // Padrão
+
+        if (savedLanguage && ["pt", "en", "es", "it"].includes(savedLanguage)) {
+          initialLanguage = savedLanguage;
+          console.log(`Idioma carregado do cookie: ${savedLanguage}`);
+        } else if (["pt", "en", "es", "it"].includes(browserLanguage)) {
+          initialLanguage = browserLanguage;
+          console.log(`Idioma carregado do navegador: ${browserLanguage}`);
+        } else {
+          console.log(`Usando idioma padrão: ${initialLanguage}`);
+        }
+
+        // Carregar traduções iniciais
+        await loadTranslations(initialLanguage);
+
+        setLanguageState(initialLanguage);
+        document.documentElement.lang = initialLanguage;
+        console.log(`Idioma inicializado: ${initialLanguage}`);
+      } catch (error) {
+        console.error("Erro ao inicializar idioma:", error);
+      } finally {
+        setIsLoading(false);
       }
-
-      // Carregar traduções iniciais
-      await loadTranslations(initialLanguage);
-
-      setLanguageState(initialLanguage);
-      document.documentElement.lang = initialLanguage;
-      setIsLoading(false);
     };
 
     initializeLanguage();

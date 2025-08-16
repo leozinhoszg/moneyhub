@@ -47,46 +47,70 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="px-2 sm:px-4 lg:px-6 space-y-6 pt-8">
-      <div
-        className={`transition-all duration-1000 ${
-          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
-        <h2
-          className={`text-3xl font-bold mb-6 transition-colors duration-300 max-w-6xl mx-auto`}
-          style={{
-            fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-            color: isDark ? "#00cc66" : "#0f172a", // brand green on dark, slate-800 on light
-          }}
+    <div className="w-full min-h-screen">
+      {/* Mobile/Tablet: Full width with proper padding */}
+      {/* Desktop: Centered content with max width */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div
+          className={`transition-all duration-1000 w-full ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
-          {t("dashboard.title")}
-        </h2>
+        <div className="mb-8">
+          <h1
+            className={`text-2xl sm:text-3xl font-bold mb-2 transition-colors duration-300 ${isDark ? 'text-white' : 'text-slate-900'}`}
+            style={{
+              fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+            }}
+          >
+            Boa tarde, {summary ? 'Leonardo' : 'Usuário'}! 👋
+          </h1>
+          <p className={`text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-600'}`}
+             style={{
+               fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
+             }}>
+            Aqui está um resumo das suas finanças
+          </p>
+        </div>
 
         {summary ? (
-          <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-8 relative z-1 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
             <div
-              className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 ${
+              className={`rounded-xl shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                 isDark
-                  ? "bg-slate-800/80 border-slate-700/50"
-                  : "bg-white/90 border-slate-200/50"
+                  ? "bg-slate-800/90 border-slate-700/30"
+                  : "bg-white border-slate-200/50"
               } p-6`}
-              style={{ borderColor: "#00cc66", borderWidth: "1px" }}
             >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg ${
+                  isDark ? "bg-emerald-500/20" : "bg-emerald-50"
+                }`}>
+                  <svg className="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                  </svg>
+                </div>
+                <div className={`text-xs font-medium px-2 py-1 rounded-full ${
+                  isDark ? "bg-emerald-500/20 text-emerald-400" : "bg-emerald-100 text-emerald-700"
+                }`}>
+                  +12.5%
+                </div>
+              </div>
               <div
-                className={`text-sm font-medium mb-2 transition-colors duration-300 ${
+                className={`text-sm font-medium mb-1 ${
                   isDark ? "text-slate-400" : "text-slate-600"
                 }`}
                 style={{
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                {t("dashboard.monthlyIncome")}
+                Receitas do mês
               </div>
               <div
-                className="text-2xl font-bold"
+                className={`text-2xl sm:text-3xl font-bold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
                 style={{
-                  color: "#00cc66",
                   fontFamily: "var(--font-primary, Montserrat, sans-serif)",
                 }}
               >
@@ -95,27 +119,41 @@ export default function DashboardPage() {
             </div>
 
             <div
-              className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 ${
+              className={`rounded-xl shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                 isDark
-                  ? "bg-slate-800/80 border-slate-700/50"
-                  : "bg-white/90 border-slate-200/50"
+                  ? "bg-slate-800/90 border-slate-700/30"
+                  : "bg-white border-slate-200/50"
               } p-6`}
-              style={{ borderColor: "#00cc66", borderWidth: "1px" }}
             >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg ${
+                  isDark ? "bg-red-500/20" : "bg-red-50"
+                }`}>
+                  <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                  </svg>
+                </div>
+                <div className={`text-xs font-medium px-2 py-1 rounded-full ${
+                  isDark ? "bg-red-500/20 text-red-400" : "bg-red-100 text-red-700"
+                }`}>
+                  -8.2%
+                </div>
+              </div>
               <div
-                className={`text-sm font-medium mb-2 transition-colors duration-300 ${
+                className={`text-sm font-medium mb-1 ${
                   isDark ? "text-slate-400" : "text-slate-600"
                 }`}
                 style={{
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Despesa do mês
+                Despesas do mês
               </div>
               <div
-                className="text-2xl font-bold"
+                className={`text-2xl sm:text-3xl font-bold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
                 style={{
-                  color: "#ef4444",
                   fontFamily: "var(--font-primary, Montserrat, sans-serif)",
                 }}
               >
@@ -124,49 +162,60 @@ export default function DashboardPage() {
             </div>
 
             <div
-              className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 ${
+              className={`rounded-xl shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                 isDark
-                  ? "bg-slate-800/80 border-slate-700/50"
-                  : "bg-white/90 border-slate-200/50"
+                  ? "bg-slate-800/90 border-slate-700/30"
+                  : "bg-white border-slate-200/50"
               } p-6`}
-              style={{ borderColor: "#00cc66", borderWidth: "1px" }}
             >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg ${
+                  Number(summary.saldo_mes) >= 0 
+                    ? (isDark ? "bg-emerald-500/20" : "bg-emerald-50")
+                    : (isDark ? "bg-red-500/20" : "bg-red-50")
+                }`}>
+                  <svg className={`w-6 h-6 ${
+                    Number(summary.saldo_mes) >= 0 ? "text-emerald-500" : "text-red-500"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  </svg>
+                </div>
+                <Link
+                  className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-200 hover:scale-105 ${
+                    isDark ? "bg-slate-700 text-slate-300 hover:bg-slate-600" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  }`}
+                  href={`/(finance)/transactions?tipo=${
+                    Number(summary.saldo_mes) < 0 ? "Despesa" : "Receita"
+                  }`}
+                >
+                  Ver detalhes
+                </Link>
+              </div>
               <div
-                className={`text-sm font-medium mb-2 transition-colors duration-300 ${
+                className={`text-sm font-medium mb-1 ${
                   isDark ? "text-slate-400" : "text-slate-600"
                 }`}
                 style={{
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Saldo do mês
+                Saldo atual
               </div>
-              <div className="flex items-center gap-2">
-                <div
-                  className={`text-2xl font-bold transition-colors duration-300 ${
-                    isDark ? "text-white" : "text-slate-800"
-                  }`}
-                  style={{
-                    fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-                  }}
-                >
-                  R$ {Number(summary.saldo_mes).toFixed(2)}
-                </div>
-                <Link
-                  className="text-sm underline hover:no-underline transition-all duration-200"
-                  style={{ color: "#013a56" }}
-                  href={`/(finance)/transactions?tipo=${
-                    Number(summary.saldo_mes) < 0 ? "Despesa" : "Receita"
-                  }`}
-                >
-                  ver transações
-                </Link>
+              <div
+                className={`text-2xl sm:text-3xl font-bold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
+                style={{
+                  fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                }}
+              >
+                R$ {Number(summary.saldo_mes).toFixed(2)}
               </div>
             </div>
           </div>
         ) : (
           <div
-            className={`text-center py-8 transition-colors duration-300 max-w-6xl mx-auto ${
+            className={`text-center py-8 transition-colors duration-300 ${
               isDark ? "text-slate-400" : "text-slate-600"
             }`}
             style={{
@@ -178,104 +227,159 @@ export default function DashboardPage() {
         )}
 
         <div
-          className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 max-w-6xl mx-auto ${
+          className={`rounded-xl shadow-lg border transition-all duration-300 ${
             isDark
-              ? "bg-slate-800/80 border-slate-700/50"
-              : "bg-white/90 border-slate-200/50"
-          } p-6 mb-6`}
-          style={{ borderColor: "#00cc66", borderWidth: "1px" }}
+              ? "bg-slate-800/90 border-slate-700/30"
+              : "bg-white border-slate-200/50"
+          } p-6 mb-8`}
         >
-          <h3
-            className={`text-xl font-bold mb-4 transition-colors duration-300 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-            }}
-          >
-            Saldos por conta
-          </h3>
-          <ul className="space-y-3">
-            {byAccount.map((a) => (
-              <li key={a.id} className="flex justify-between items-center">
-                <span
-                  className={`font-medium transition-colors duration-300 ${
-                    isDark ? "text-slate-300" : "text-slate-700"
-                  }`}
-                  style={{
-                    fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
-                  }}
-                >
-                  {a.nome_banco}
-                </span>
-                <span
-                  className={`font-bold transition-colors duration-300 ${
-                    isDark ? "text-white" : "text-slate-800"
-                  }`}
-                  style={{
-                    fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-                  }}
-                >
-                  R$ {Number(a.saldo_atual).toFixed(2)}
-                </span>
-              </li>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg ${
+                isDark ? "bg-blue-500/20" : "bg-blue-50"
+              }`}>
+                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </div>
+              <h3
+                className={`text-lg font-semibold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
+                style={{
+                  fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                }}
+              >
+                Minhas Contas
+              </h3>
+            </div>
+            <span className={`text-sm ${
+              isDark ? "text-slate-400" : "text-slate-500"
+            }`}>
+              {byAccount.length} conta{byAccount.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="space-y-4">
+            {byAccount.map((a, index) => (
+              <div key={a.id} className={`flex items-center justify-between p-4 rounded-lg transition-all duration-200 hover:scale-[1.02] ${
+                isDark ? "bg-slate-700/30 hover:bg-slate-700/50" : "bg-slate-50 hover:bg-slate-100"
+              }`}>
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm`}
+                       style={{ backgroundColor: `hsl(${index * 137.5}, 70%, 50%)` }}>
+                    {a.nome_banco.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <span
+                      className={`font-medium block ${
+                        isDark ? "text-slate-200" : "text-slate-800"
+                      }`}
+                      style={{
+                        fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
+                      }}
+                    >
+                      {a.nome_banco}
+                    </span>
+                    <span className={`text-xs ${
+                      isDark ? "text-slate-400" : "text-slate-500"
+                    }`}>
+                      Conta corrente
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span
+                    className={`font-bold text-lg ${
+                      Number(a.saldo_atual) >= 0 
+                        ? "text-emerald-500" 
+                        : "text-red-500"
+                    }`}
+                    style={{
+                      fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                    }}
+                  >
+                    R$ {Number(a.saldo_atual).toFixed(2)}
+                  </span>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
         <div
-          className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 max-w-6xl mx-auto ${
+          className={`rounded-xl shadow-lg border transition-all duration-300 ${
             isDark
-              ? "bg-slate-800/80 border-slate-700/50"
-              : "bg-white/90 border-slate-200/50"
-          } p-6 mb-6`}
-          style={{ borderColor: "#00cc66", borderWidth: "1px" }}
+              ? "bg-slate-800/90 border-slate-700/30"
+              : "bg-white border-slate-200/50"
+          } p-6 mb-8`}
         >
-          <h3
-            className={`text-xl font-bold mb-4 transition-colors duration-300 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-            }}
-          >
-            Despesas por categoria (mês)
-          </h3>
-          <div className="flex items-end gap-3 min-h-[120px] overflow-x-auto">
-            {byCategory.map((c) => {
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg ${
+                isDark ? "bg-purple-500/20" : "bg-purple-50"
+              }`}>
+                <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3
+                className={`text-lg font-semibold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
+                style={{
+                  fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                }}
+              >
+                Despesas por Categoria
+              </h3>
+            </div>
+            <Link
+              className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-200 hover:scale-105 ${
+                isDark ? "bg-slate-700 text-slate-300 hover:bg-slate-600" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+              href={`/(finance)/transactions?tipo=Despesa`}
+            >
+              Ver todas
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {byCategory.slice(0, 8).map((c, index) => {
               const total = Number(c.total);
-              const height = Math.min(
-                100,
-                Math.round((total / (byCategory[0]?.total || 1)) * 100) || 0
-              );
+              const maxTotal = Math.max(...byCategory.map(cat => Number(cat.total)));
+              const percentage = maxTotal > 0 ? (total / maxTotal) * 100 : 0;
+              const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500', 'bg-indigo-500', 'bg-purple-500', 'bg-pink-500'];
               return (
-                <div key={c.categoria} className="text-center min-w-[60px]">
+                <div key={c.categoria} className={`p-4 rounded-lg transition-all duration-200 hover:scale-105 ${
+                  isDark ? "bg-slate-700/30 hover:bg-slate-700/50" : "bg-slate-50 hover:bg-slate-100"
+                }`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-3 h-3 rounded-full ${colors[index % colors.length]}`}></div>
+                    <span className={`text-xs font-medium ${
+                      isDark ? "text-slate-400" : "text-slate-500"
+                    }`}>
+                      {percentage.toFixed(0)}%
+                    </span>
+                  </div>
                   <div
-                    title={`R$ ${total.toFixed(2)}`}
-                    className="mx-auto w-6 rounded-t-md transition-all duration-300"
-                    style={{
-                      height: `${height}px`,
-                      background: "linear-gradient(to top, #ef4444, #f87171)",
-                    }}
-                  />
-                  <div
-                    className={`text-xs mt-2 transition-colors duration-300 ${
-                      isDark ? "text-slate-400" : "text-slate-600"
+                    className={`text-sm font-medium mb-1 ${
+                      isDark ? "text-slate-200" : "text-slate-800"
                     }`}
                     style={{
-                      fontFamily:
-                        "var(--font-secondary, Open Sans, sans-serif)",
+                      fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                     }}
                   >
-                    {c.categoria || "Sem categoria"}
+                    {c.categoria || "Outros"}
                   </div>
-                  <Link
-                    className="text-xs underline hover:no-underline transition-all duration-200"
-                    style={{ color: "#013a56" }}
-                    href={`/(finance)/transactions?tipo=Despesa`}
+                  <div
+                    className={`text-lg font-bold ${
+                      isDark ? "text-white" : "text-slate-900"
+                    }`}
+                    style={{
+                      fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                    }}
                   >
-                    ver
-                  </Link>
+                    R$ {total.toFixed(2)}
+                  </div>
                 </div>
               );
             })}
@@ -283,66 +387,87 @@ export default function DashboardPage() {
         </div>
 
         <div
-          className={`rounded-2xl shadow-xl border backdrop-blur-xl transition-all duration-300 relative z-1 max-w-6xl mx-auto ${
+          className={`rounded-xl shadow-lg border transition-all duration-300 ${
             isDark
-              ? "bg-slate-800/80 border-slate-700/50"
-              : "bg-white/90 border-slate-200/50"
+              ? "bg-slate-800/90 border-slate-700/30"
+              : "bg-white border-slate-200/50"
           } p-6`}
-          style={{ borderColor: "#00cc66", borderWidth: "0.25px" }}
         >
-          <h3
-            className={`text-xl font-bold mb-4 transition-colors duration-300 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-            }}
-          >
-            Fluxo diário (mês)
-          </h3>
-          <div
-            className="grid gap-[2px] overflow-x-auto"
-            style={{ gridTemplateColumns: "repeat(31, 1fr)" }}
-          >
-            {daily.map((d) => {
-              const rec = Number(d.receitas);
-              const des = Number(d.despesas);
-              const max = Math.max(rec, des, 1);
-              return (
-                <div key={d.data} className="flex flex-col items-center">
-                  <div className="flex items-end h-20 gap-[2px]">
-                    <div
-                      title={`Receitas R$ ${rec.toFixed(2)}`}
-                      className="w-[6px] rounded-t-sm"
-                      style={{
-                        height: Math.round((rec / max) * 80),
-                        background: "linear-gradient(to top, #00cc66, #10b981)",
-                      }}
-                    />
-                    <div
-                      title={`Despesas R$ ${des.toFixed(2)}`}
-                      className="w-[6px] rounded-t-sm"
-                      style={{
-                        height: Math.round((des / max) * 80),
-                        background: "linear-gradient(to top, #ef4444, #f87171)",
-                      }}
-                    />
-                  </div>
-                  <div
-                    className={`text-[10px] mt-1 transition-colors duration-300 ${
-                      isDark ? "text-slate-400" : "text-slate-600"
-                    }`}
-                    style={{
-                      fontFamily:
-                        "var(--font-secondary, Open Sans, sans-serif)",
-                    }}
-                  >
-                    {d.data.split("-")[2]}
-                  </div>
-                </div>
-              );
-            })}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg ${
+                isDark ? "bg-indigo-500/20" : "bg-indigo-50"
+              }`}>
+                <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3
+                className={`text-lg font-semibold ${
+                  isDark ? "text-white" : "text-slate-900"
+                }`}
+                style={{
+                  fontFamily: "var(--font-primary, Montserrat, sans-serif)",
+                }}
+              >
+                Fluxo Diário
+              </h3>
+            </div>
+            <div className="flex items-center gap-4 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                <span className={isDark ? "text-slate-400" : "text-slate-600"}>Receitas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <span className={isDark ? "text-slate-400" : "text-slate-600"}>Despesas</span>
+              </div>
+            </div>
           </div>
+          <div className="relative">
+            <div className="flex items-end justify-between gap-1 h-32 overflow-x-auto pb-4">
+              {daily.slice(0, 15).map((d, index) => {
+                const rec = Number(d.receitas);
+                const des = Number(d.despesas);
+                const maxValue = Math.max(...daily.map(day => Math.max(Number(day.receitas), Number(day.despesas))));
+                const recHeight = maxValue > 0 ? (rec / maxValue) * 100 : 0;
+                const desHeight = maxValue > 0 ? (des / maxValue) * 100 : 0;
+                return (
+                  <div key={d.data} className="flex flex-col items-center min-w-[20px] group">
+                    <div className="flex items-end gap-1 h-24 mb-2">
+                      <div
+                        title={`Receitas: R$ ${rec.toFixed(2)}`}
+                        className="w-2 bg-emerald-500 rounded-t-sm transition-all duration-200 group-hover:bg-emerald-400"
+                        style={{
+                          height: `${recHeight}%`,
+                          minHeight: rec > 0 ? '4px' : '0px'
+                        }}
+                      />
+                      <div
+                        title={`Despesas: R$ ${des.toFixed(2)}`}
+                        className="w-2 bg-red-500 rounded-t-sm transition-all duration-200 group-hover:bg-red-400"
+                        style={{
+                          height: `${desHeight}%`,
+                          minHeight: des > 0 ? '4px' : '0px'
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={`text-[10px] font-medium transition-colors duration-300 ${
+                        isDark ? "text-slate-400 group-hover:text-slate-300" : "text-slate-600 group-hover:text-slate-800"
+                      }`}
+                      style={{
+                        fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
+                      }}
+                    >
+                      {d.data.split("-")[2]}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>

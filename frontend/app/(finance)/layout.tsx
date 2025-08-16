@@ -3,7 +3,6 @@
 import { useRouter, usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MainLayout from "@/components/MainLayout";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 function FinanceLayoutContent({ children }: { children: React.ReactNode }) {
@@ -30,20 +29,20 @@ function FinanceLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <ThemeProvider>
-      <MainLayout>
-        {/* Navbar */}
-        <Navbar isActive={isActive} onLogout={logout} user={user} />
+    <MainLayout>
+      {/* Navbar */}
+      <Navbar isActive={isActive} onLogout={logout} user={user} />
 
-        {/* Main Content */}
-        <main
-          className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-8 -ml-[100px]"
-          style={{ fontFamily: "Open Sans, sans-serif" }}
-        >
-          {children}
-        </main>
-      </MainLayout>
-    </ThemeProvider>
+      {/* Main Content - Responsive layout with proper centering */}
+      <main
+        className="w-full min-h-screen relative z-0"
+        style={{ 
+          fontFamily: "Open Sans, sans-serif"
+        }}
+      >
+        {children}
+      </main>
+    </MainLayout>
   );
 }
 

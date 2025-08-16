@@ -24,15 +24,14 @@ apscheduler>=3.10.0,<3.11.0
 
 # Validação de dados (versão compatível com FastAPI e Python 3.13)
 pydantic>=2.10.0,<2.11.0
-pydantic-settings>=2.5.0,<2.6.0
+pydantic-settings >=2.6.1,<3.0.0
 
 # Utilitários
 python-dotenv>=1.0.0,<1.1.0
 email-validator>=2.2.0,<2.3.0
 
-# Email sending
-fastapi-mail>=1.4.1,<1.5.0
-aiosmtplib>=3.0.0,<3.1.0
+fastapi-mail==1.4.2
+aiosmtplib >=3.0.0,<3.1.0
 
 # Desenvolvimento e testes
 pytest>=8.3.0,<8.4.0

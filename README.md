@@ -191,7 +191,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
 ```bash
 cd backend
-python -m uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 5001
 ```
 
 #### Frontend
@@ -203,8 +203,8 @@ npm run dev
 
 ### 6. Acessando a Aplicação
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000
+- **Frontend**: http://localhost:5000
+- **Backend API**: http://localhost:5001
 - **Documentação da API**: http://localhost:8000/docs
 
 ## 📁 Estrutura do Projeto

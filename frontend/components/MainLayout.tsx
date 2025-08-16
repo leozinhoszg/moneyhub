@@ -11,14 +11,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div
-      className={`min-h-screen w-full relative overflow-hidden transition-colors duration-500 ${
-        isDark
-          ? "bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800"
-          : "bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100"
-      }`}
+      className={`min-h-screen w-full relative transition-colors duration-500 overflow-hidden`}
+      style={{ 
+        margin: 0, 
+        padding: 0,
+        background: isDark
+          ? "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
+          : "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)"
+      }}
     >
       {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Large gradient orbs */}
         <div
           className={`absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-emerald-500/20 to-green-400/10 rounded-full blur-xl transition-all duration-[4000ms] ${
@@ -57,22 +60,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
         />
       </div>
 
-      {/* Animated Green Glow Background */}
-      <div className="animated-bg">
-        <div className="floating-orb"></div>
-        <div className="floating-orb"></div>
-        <div className="floating-orb"></div>
-        <div className="pulsing-glow"></div>
-        <div className="pulsing-glow"></div>
-        <div className="wave-element"></div>
-        <div className="wave-element"></div>
-        <div className="sparkle"></div>
-        <div className="sparkle"></div>
-        <div className="sparkle"></div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-0 min-h-screen">{children}</div>
+      {/* Content - com z-index que não interfere com dropdowns */}
+      <div className="relative z-0 min-h-screen w-full">{children}</div>
 
       {/* Floating animation styles */}
       <style jsx>{`
