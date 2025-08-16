@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Summary = {
   receita_mes: string;
@@ -16,6 +17,7 @@ export default function DashboardPage() {
   const [byCategory, setByCategory] = useState<any[]>([]);
   const [daily, setDaily] = useState<any[]>([]);
   const { isDark, mounted } = useTheme();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -58,7 +60,7 @@ export default function DashboardPage() {
             color: isDark ? "#00cc66" : "#0f172a", // brand green on dark, slate-800 on light
           }}
         >
-          Dashboard
+          {t("dashboard.title")}
         </h2>
 
         {summary ? (
@@ -79,7 +81,7 @@ export default function DashboardPage() {
                   fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                 }}
               >
-                Receita do mês
+                {t("dashboard.monthlyIncome")}
               </div>
               <div
                 className="text-2xl font-bold"

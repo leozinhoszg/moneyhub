@@ -21,6 +21,7 @@
     "jspdf": "^3.0.1",
     "lucide-react": "^0.539.0",
     "next": "15.4.6",
+    "next-intl": "^4.3.4",
     "pdfmake": "^0.2.20",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

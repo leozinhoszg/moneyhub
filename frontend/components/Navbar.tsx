@@ -12,8 +12,10 @@ import {
   LogOut,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import LanguageSelector from "./LanguageSelector";
 
 interface User {
   id: number;
@@ -44,6 +46,7 @@ export default function Navbar({
   user,
 }: NavbarProps) {
   const { isDark, toggleTheme, mounted } = useTheme();
+  const { t } = useLanguage();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
@@ -146,7 +149,7 @@ export default function Navbar({
                 >
                   <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                 </svg>
-                Dashboard
+                {t("common.dashboard")}
               </Link>
               <Link
                 href="/accounts"
@@ -168,7 +171,7 @@ export default function Navbar({
                 >
                   <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
                 </svg>
-                Contas
+                {t("common.accounts")}
               </Link>
               <Link
                 href="/cards"
@@ -190,7 +193,7 @@ export default function Navbar({
                 >
                   <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
                 </svg>
-                Cartões
+                {t("common.cards")}
               </Link>
               <Link
                 href="/transactions"
@@ -216,7 +219,7 @@ export default function Navbar({
                     clipRule="evenodd"
                   />
                 </svg>
-                Transações
+                {t("common.transactions")}
               </Link>
               <Link
                 href="/categories"
@@ -238,7 +241,7 @@ export default function Navbar({
                 >
                   <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
                 </svg>
-                Categorias
+                {t("common.categories")}
               </Link>
               <Link
                 href="/fixed-expenses"
@@ -264,7 +267,7 @@ export default function Navbar({
                     clipRule="evenodd"
                   />
                 </svg>
-                Gastos Fixos
+                {t("common.fixedExpenses")}
               </Link>
               <Link
                 href="/reports"
@@ -286,7 +289,7 @@ export default function Navbar({
                 >
                   <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
                 </svg>
-                Relatórios
+                {t("common.reports")}
               </Link>
 
               {/* Theme Toggle */}
@@ -319,10 +322,8 @@ export default function Navbar({
 
           {/* Right side - User elements */}
           <div className="flex items-center space-x-4 ml-auto -mr-4 sm:-mr-6 lg:-mr-8 h-16">
-            {/* Language Toggle - Placeholder */}
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-xs font-medium text-gray-600">PT</span>
-            </div>
+            {/* Language Selector */}
+            <LanguageSelector />
 
             {/* User Dropdown */}
             <div className="relative" ref={dropdownRef}>
@@ -424,7 +425,7 @@ export default function Navbar({
                         onClick={() => setIsUserDropdownOpen(false)}
                       >
                         <Settings className="w-4 h-4 mr-3" />
-                        Perfil
+                        {t("common.profile")}
                       </Link>
 
                       <button
@@ -468,7 +469,7 @@ export default function Navbar({
                         }}
                       >
                         <LogOut className="w-4 h-4 mr-3" />
-                        Sair
+                        {t("common.logout")}
                       </button>
                     </div>
                   </div>,
