@@ -3,7 +3,7 @@
 <div align="center">
   <img src="frontend/public/logo_money_hub.png" alt="MoneyHub Logo" width="200"/>
   
-  [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+  [![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
   [![Next.js](https://img.shields.io/badge/Next.js-13+-black.svg)](https://nextjs.org/)
   [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
   [![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://www.mysql.com/)
@@ -48,7 +48,7 @@ O **MoneyHub** é uma aplicação completa de controle de finanças pessoais des
 
 ### Pré-requisitos
 
-- **Python 3.8+**
+- **Python 3.13** (versão recomendada)
 - **Node.js 18+**
 - **MySQL 8.0+**
 - **Git**

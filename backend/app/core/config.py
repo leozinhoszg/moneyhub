@@ -1,6 +1,6 @@
 from typing import List
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     )
     
     # URL de conexão construída a partir das variáveis individuais
+    @computed_field  # Mudança para Pydantic v2
     @property
     def database_url(self) -> str:
         # Faz o escape da senha para evitar problemas com caracteres especiais
@@ -80,8 +81,8 @@ class Settings(BaseSettings):
     )
     
     # Configurações CORS
-    cors_origins: str = Field(
-        default="http://localhost:3000,http://127.0.0.1:3000",
+    cors_origins: str | List[str] = Field(  # Sintaxe de union atualizada
+        default="http://localhost:5000,http://127.0.0.1:5000",
         description="Origens permitidas para CORS (separadas por vírgula)",
         validation_alias=AliasChoices("CORS_ORIGINS", "cors_origins"),
     )
@@ -97,8 +98,8 @@ class Settings(BaseSettings):
         description="Configuração SameSite dos cookies",
         validation_alias=AliasChoices("COOKIE_SAMESITE", "cookie_samesite"),
     )
-    cookie_domain: str = Field(
-        default="http://localhost:3000,http://127.0.0.1:3000",
+    cookie_domain: str | List[str] = Field(  # Sintaxe de union atualizada
+        default="http://localhost:5000,http://127.0.0.1:5000",
         description="Domínios permitidos para cookies (separados por vírgula)",
         validation_alias=AliasChoices("COOKIE_DOMAIN", "cookie_domain"),
     )
@@ -121,7 +122,7 @@ class Settings(BaseSettings):
     )
     
     # Configurações de Hosts
-    trusted_hosts: str = Field(
+    trusted_hosts: str | List[str] = Field(  # Sintaxe de union atualizada
         default="localhost,127.0.0.1",
         description="Hosts confiáveis (separados por vírgula)",
         validation_alias=AliasChoices("TRUSTED_HOSTS", "trusted_hosts"),
@@ -148,7 +149,7 @@ class Settings(BaseSettings):
     
     # URL do frontend para redirecionamentos
     frontend_url: str = Field(
-        default="http://localhost:3000",
+        default="http://localhost:5000",
         description="URL do frontend para redirecionamentos OAuth",
         validation_alias=AliasChoices("FRONTEND_URL", "frontend_url"),
     )
@@ -158,6 +159,43 @@ class Settings(BaseSettings):
         default="",
         description="Chave secreta para sessões OAuth",
         validation_alias=AliasChoices("SESSION_SECRET_KEY", "session_secret_key"),
+    )
+    
+    # Configurações de Email
+    smtp_host: str = Field(
+        default="smtp.gmail.com",
+        description="Host do servidor SMTP",
+        validation_alias=AliasChoices("SMTP_HOST", "smtp_host"),
+    )
+    smtp_port: int = Field(
+        default=587,
+        description="Porta do servidor SMTP",
+        validation_alias=AliasChoices("SMTP_PORT", "smtp_port"),
+    )
+    smtp_username: str = Field(
+        default="",
+        description="Usuário do servidor SMTP",
+        validation_alias=AliasChoices("SMTP_USERNAME", "smtp_username"),
+    )
+    smtp_password: str = Field(
+        default="",
+        description="Senha do servidor SMTP",
+        validation_alias=AliasChoices("SMTP_PASSWORD", "smtp_password"),
+    )
+    smtp_from_email: str = Field(
+        default="",
+        description="Email remetente",
+        validation_alias=AliasChoices("SMTP_FROM_EMAIL", "smtp_from_email"),
+    )
+    smtp_from_name: str = Field(
+        default="MoneyHub",
+        description="Nome do remetente",
+        validation_alias=AliasChoices("SMTP_FROM_NAME", "smtp_from_name"),
+    )
+    email_verification_expiry_minutes: int = Field(
+        default=15,
+        description="Tempo de expiração do código de verificação em minutos",
+        validation_alias=AliasChoices("EMAIL_VERIFICATION_EXPIRY_MINUTES", "email_verification_expiry_minutes"),
     )
 
     model_config = SettingsConfigDict(env_file=".env", env_ignore_empty=True, extra="ignore")
@@ -179,11 +217,12 @@ def get_settings() -> Settings:
     if _cached_settings is None:
         _cached_settings = Settings()
         # Normaliza CORS_ORIGINS quando passado como string via env
-        _cached_settings.cors_origins = Settings.parse_origins(_cached_settings.cors_origins)
+        if isinstance(_cached_settings.cors_origins, str):
+            _cached_settings.cors_origins = Settings.parse_origins(_cached_settings.cors_origins)
         # Normaliza COOKIE_DOMAIN quando passado como string via env
-        _cached_settings.cookie_domain = Settings.parse_origins(_cached_settings.cookie_domain)
+        if isinstance(_cached_settings.cookie_domain, str):
+            _cached_settings.cookie_domain = Settings.parse_origins(_cached_settings.cookie_domain)
         # Normaliza TRUSTED_HOSTS quando passado como string via env
-        _cached_settings.trusted_hosts = Settings.parse_origins(_cached_settings.trusted_hosts)
+        if isinstance(_cached_settings.trusted_hosts, str):
+            _cached_settings.trusted_hosts = Settings.parse_origins(_cached_settings.trusted_hosts)
     return _cached_settings
-
-

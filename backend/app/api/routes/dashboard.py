@@ -2,7 +2,7 @@ from datetime import date
 from decimal import Decimal
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import func, select
+from sqlalchemy import func, select, case
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
@@ -82,8 +82,8 @@ def daily_flow(current_user: User = Depends(get_current_user), db: Session = Dep
     stmt = (
         select(
             Transaction.data_transacao,
-            func.sum(func.case((Transaction.tipo == TipoTransacao.RECEITA, Transaction.valor), else_=0)).label("receitas"),
-            func.sum(func.case((Transaction.tipo == TipoTransacao.DESPESA, Transaction.valor), else_=0)).label("despesas"),
+            func.sum(case((Transaction.tipo == TipoTransacao.RECEITA, Transaction.valor), else_=0)).label("receitas"),
+            func.sum(case((Transaction.tipo == TipoTransacao.DESPESA, Transaction.valor), else_=0)).label("despesas"),
         )
         .where(
             (Transaction.usuario_id == current_user.id)

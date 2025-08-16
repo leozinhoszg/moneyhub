@@ -4,6 +4,10 @@ import { Montserrat, Open_Sans } from "next/font/google";
 export const metadata = {
   title: "MoneyHub",
   description: "MoneyHub - Controle de finanças pessoais",
+  icons: {
+    icon: "/logo_money_hub.ico",
+    apple: "/logo_money_hub.png",
+  },
 };
 
 const heading = Montserrat({

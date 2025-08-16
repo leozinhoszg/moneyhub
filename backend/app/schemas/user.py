@@ -7,7 +7,8 @@ import re
 
 class UserBase(BaseModel):
     """Schema base para usuário"""
-    nome: str = Field(min_length=1, max_length=120, description="Nome completo do usuário")
+    nome: str = Field(min_length=1, max_length=120, description="Nome do usuário")
+    sobrenome: str = Field(min_length=1, max_length=120, description="Sobrenome do usuário")
     email: EmailStr = Field(description="Email válido do usuário")
 
 
@@ -68,6 +69,7 @@ class UserPublic(BaseModel):
     """Schema público do usuário (sem dados sensíveis)"""
     id: int
     nome: str
+    sobrenome: str
     email: EmailStr
     provider: str = "email"
     is_verified: bool = False
@@ -87,6 +89,7 @@ class UserPublic(BaseModel):
 class UserUpdate(BaseModel):
     """Schema para atualização de dados do usuário"""
     nome: Optional[str] = Field(None, min_length=1, max_length=120)
+    sobrenome: Optional[str] = Field(None, min_length=1, max_length=120)
     email: Optional[EmailStr] = None
 
     @field_validator('nome')
@@ -98,6 +101,18 @@ class UserUpdate(BaseModel):
                 raise ValueError('Nome não pode estar vazio')
             if len(v.strip()) < 2:
                 raise ValueError('Nome deve ter pelo menos 2 caracteres')
+            return v.strip()
+        return v
+
+    @field_validator('sobrenome')
+    @classmethod
+    def validate_sobrenome(cls, v: Optional[str]) -> Optional[str]:
+        """Valida o sobrenome do usuário"""
+        if v is not None:
+            if not v.strip():
+                raise ValueError('Sobrenome não pode estar vazio')
+            if len(v.strip()) < 2:
+                raise ValueError('Sobrenome deve ter pelo menos 2 caracteres')
             return v.strip()
         return v
 
@@ -163,6 +178,7 @@ class UserProfile(BaseModel):
     """Schema completo do perfil do usuário com estatísticas"""
     id: int
     nome: str
+    sobrenome: str
     email: EmailStr
     provider: str
     is_verified: bool

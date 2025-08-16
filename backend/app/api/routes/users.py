@@ -89,7 +89,8 @@ def update_me(
         updated_user = update_user(
             db, 
             current_user, 
-            nome=user_update.nome, 
+            nome=user_update.nome,
+            sobrenome=user_update.sobrenome,
             email=user_update.email
         )
         

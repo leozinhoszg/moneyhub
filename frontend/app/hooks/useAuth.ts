@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { checkAuthStatus, getCurrentUser, logout } from "@/app/api/auth";
+import { checkAuthStatus, getCurrentUser, logout, logoutWithGoogleRevoke } from "@/app/api/auth";
 
 interface User {
   id: number;
@@ -59,11 +59,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      // Se o usuário tem Google, usar logout com revogação
+      if (user?.provider === "google" || user?.has_google) {
+        await logoutWithGoogleRevoke();
+      } else {
+        await logout();
+      }
       setUser(null);
       setAuthenticated(false);
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
+      // Em caso de erro, fazer logout normal
+      try {
+        await logout();
+      } catch (fallbackError) {
+        console.error("Erro no logout de fallback:", fallbackError);
+      }
       // Mesmo com erro, limpar o estado local
       setUser(null);
       setAuthenticated(false);

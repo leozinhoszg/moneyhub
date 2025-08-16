@@ -25,3 +25,12 @@ GOOGLE_CLIENT_ID=seu_id_aqui
 GOOGLE_CLIENT_SECRET=sua_senha_aqui
 SESSION_SECRET_KEY=sua_secret_key_aqui
 FRONTEND_URL=http://localhost:3000
+
+# Configurações de Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=seu_email@gmail.com
+SMTP_PASSWORD=sua_senha_de_app
+SMTP_FROM_EMAIL=seu_email@gmail.com
+SMTP_FROM_NAME=MoneyHub
+EMAIL_VERIFICATION_EXPIRY_MINUTES=15

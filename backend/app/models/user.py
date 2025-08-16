@@ -13,6 +13,7 @@ class User(Base):
     # Campos principais
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     nome: Mapped[str] = mapped_column(String(120), nullable=False)
+    sobrenome: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True, index=True)
     senha_hash: Mapped[str | None] = mapped_column(String(255), nullable=True)  # Pode ser null para usuários OAuth
     
@@ -39,6 +40,7 @@ class User(Base):
     # cartoes = relationship("CreditCard", back_populates="usuario")
     # categorias = relationship("Category", back_populates="usuario")
     # transacoes = relationship("Transaction", back_populates="usuario")
+    password_reset_tokens = relationship("PasswordResetToken", back_populates="user")
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}', provider='{self.provider}')>"

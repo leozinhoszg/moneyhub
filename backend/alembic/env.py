@@ -5,6 +5,7 @@ import sys
 import os
 from pathlib import Path
 from urllib.parse import quote_plus
+from dotenv import load_dotenv
 
 from alembic import context
 from sqlalchemy import create_engine, pool
@@ -28,18 +29,32 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+# Carregar variáveis de ambiente do arquivo .env na raiz do backend
+BACKEND_DIR = Path(__file__).resolve().parents[1]
+load_dotenv(dotenv_path=BACKEND_DIR / ".env", override=False)
+
 
 def get_url() -> str:
-    # Preferir DATABASE_URL via env; caso ausente, monta a URL com credenciais padrão
+    # 1) Tenta obter a URL do alembic.ini (com suporte a variáveis de ambiente)
+    url_ini = config.get_main_option("sqlalchemy.url")
+    if url_ini:
+        expanded = os.path.expandvars(url_ini)
+        if expanded:
+            return expanded
+
+    # 2) Tenta usar DATABASE_URL diretamente do ambiente
     url_env = os.getenv("DATABASE_URL")
     if url_env:
         return url_env
+
+    # 3) Monta a URL a partir de variáveis individuais
     user = os.getenv("DB_USER", "root")
-    password = os.getenv("DB_PASSWORD", "Jae66yrr@")
+    password = os.getenv("DB_PASSWORD", "Jae66yrr@")  # default corrigido (sem '@' extra)
     host = os.getenv("DB_HOST", "127.0.0.1")
+    port = os.getenv("DB_PORT", "3306")
     name = os.getenv("DB_NAME", "moneyhub")
-    # Usar mysql:// que será resolvido para pymysql através do install_as_MySQLdb()
-    return f"mysql://{user}:{quote_plus(password)}@{host}:3306/{name}?charset=utf8mb4"
+    # Usar mysql+pymysql explicitamente
+    return f"mysql+pymysql://{user}:{quote_plus(password)}@{host}:{port}/{name}"
 
 
 # Para executar migrações baseadas em scripts, não precisamos do metadata.

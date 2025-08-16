@@ -34,7 +34,7 @@ def get_user_by_google_id(db: Session, google_id: str) -> Optional[User]:
 # FUNÇÕES DE CRIAÇÃO DE USUÁRIO
 # ============================================================================
 
-def create_user(db: Session, nome: str, email: str, senha: str) -> User:
+def create_user(db: Session, nome: str, sobrenome: str, email: str, senha: str) -> User:
     """Criar usuário com email e senha"""
     # Verificar se email já existe
     existing_user = get_user_by_email(db, email)
@@ -43,6 +43,7 @@ def create_user(db: Session, nome: str, email: str, senha: str) -> User:
 
     user = User(
         nome=nome.strip(),
+        sobrenome=sobrenome.strip(),
         email=email.lower().strip(),
         senha_hash=get_password_hash(senha),
         provider="email",
@@ -57,7 +58,7 @@ def create_user(db: Session, nome: str, email: str, senha: str) -> User:
     return user
 
 
-def create_google_user(db: Session, nome: str, email: str, google_id: str) -> User:
+def create_google_user(db: Session, nome_completo: str, email: str, google_id: str) -> User:
     """Criar usuário autenticado via Google"""
     # Verificar se Google ID já existe
     existing_google_user = get_user_by_google_id(db, google_id)
@@ -70,9 +71,15 @@ def create_google_user(db: Session, nome: str, email: str, google_id: str) -> Us
         # Se usuário já existe com esse email, vincular conta Google
         return link_google_account(db, existing_email_user, google_id)
     
+    # Separar nome completo em nome e sobrenome
+    nome_parts = nome_completo.strip().split(' ', 1)
+    nome = nome_parts[0]
+    sobrenome = nome_parts[1] if len(nome_parts) > 1 else ""
+    
     # Criar novo usuário Google
     user = User(
-        nome=nome.strip(),
+        nome=nome,
+        sobrenome=sobrenome,
         email=email.lower().strip(),
         google_id=google_id,
         provider="google",
@@ -127,10 +134,13 @@ def authenticate_google_user(db: Session, google_id: str, email: str) -> Optiona
 # FUNÇÕES DE ATUALIZAÇÃO
 # ============================================================================
 
-def update_user(db: Session, user: User, nome: Optional[str] = None, email: Optional[str] = None) -> User:
+def update_user(db: Session, user: User, nome: Optional[str] = None, sobrenome: Optional[str] = None, email: Optional[str] = None) -> User:
     """Atualizar dados básicos do usuário"""
     if nome is not None:
         user.nome = nome.strip()
+    
+    if sobrenome is not None:
+        user.sobrenome = sobrenome.strip()
     
     if email is not None:
         email_clean = email.lower().strip()
