@@ -77,6 +77,7 @@ class UserPublic(BaseModel):
     data_cadastro: datetime
     ultimo_login: Optional[datetime] = None
     is_active: bool = True
+    foto_perfil: Optional[str] = None
     
     # Informações adicionais sobre métodos de autenticação
     has_password: Optional[bool] = None
@@ -186,6 +187,7 @@ class UserProfile(BaseModel):
     data_cadastro: datetime
     ultimo_login: Optional[datetime] = None
     is_active: bool
+    foto_perfil: Optional[str] = None
     
     # Informações sobre métodos de autenticação
     has_password: bool
@@ -228,3 +230,30 @@ class UserDeactivate(BaseModel):
         if not self.confirmacao:
             raise ValueError('É necessário confirmar a desativação da conta')
         return self
+
+
+class UserProfileImageResponse(BaseModel):
+    """Schema para resposta de upload de foto de perfil"""
+    foto_perfil: str = Field(description="URL da foto de perfil")
+    message: str = Field(description="Mensagem de sucesso")
+
+
+class UserProfileResponse(BaseModel):
+    """Schema para resposta completa do perfil"""
+    id: int
+    nome: str
+    sobrenome: str
+    email: EmailStr
+    provider: str
+    foto_perfil: Optional[str] = None
+    avatar_url: Optional[str] = None  # URL completa da foto ou avatar padrão
+    has_password: bool
+    has_google: bool
+    can_remove_google: bool
+    email_verificado: bool
+    is_verified: bool
+    data_cadastro: datetime
+    ultimo_login: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True

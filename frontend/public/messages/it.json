@@ -79,7 +79,9 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Benvenuto in MoneyHub",
+    "goodMorning": "Buongiorno",
     "goodAfternoon": "Buon pomeriggio",
+    "goodEvening": "Buonasera",
     "user": "Utente",
     "financeSummary": "Ecco un riassunto delle tue finanze",
     "totalBalance": "Saldo Totale",

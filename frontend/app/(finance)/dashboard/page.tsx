@@ -19,6 +19,18 @@ export default function DashboardPage() {
   const { isDark, mounted } = useTheme();
   const { t } = useTranslation();
 
+  // Função para obter saudação baseada no horário
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      return t('dashboard.goodMorning');
+    } else if (hour >= 12 && hour < 18) {
+      return t('dashboard.goodAfternoon');
+    } else {
+      return t('dashboard.goodEvening');
+    }
+  };
+
   useEffect(() => {
     const fetchSummary = async () => {
       const [s, a, c, d] = await Promise.all([
@@ -63,7 +75,7 @@ export default function DashboardPage() {
               fontFamily: "var(--font-primary, Montserrat, sans-serif)",
             }}
           >
-            {t('dashboard.goodAfternoon')}, {summary ? 'Leonardo' : t('dashboard.user')}! 👋
+            {getGreeting()}, {summary ? 'Leonardo' : t('dashboard.user')}! 👋
           </h1>
           <p className={`text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-600'}`}
              style={{

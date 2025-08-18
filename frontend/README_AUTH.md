@@ -154,13 +154,13 @@ const handleGoogleLogin = async () => {
 ### 3. Verificar Autenticação
 
 ```tsx
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 
 function MyComponent() {
-  const { user, authenticated, loading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
 
-  if (loading) return <div>Carregando...</div>;
-  if (!authenticated) return <div>Não autenticado</div>;
+  if (isLoading) return <div>Carregando...</div>;
+  if (!isAuthenticated) return <div>Não autenticado</div>;
 
   return <div>Bem-vindo, {user?.nome}!</div>;
 }

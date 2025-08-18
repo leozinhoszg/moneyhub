@@ -2,6 +2,7 @@ import "./globals.css";
 import { Montserrat, Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
   title: "MoneyHub",
@@ -35,7 +36,9 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${heading.variable} ${body.variable}`}>
       <body className="min-h-screen">
         <ThemeProvider>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

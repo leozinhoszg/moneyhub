@@ -57,10 +57,19 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const loadTranslations = async (lang: Language) => {
     try {
       console.log(`Carregando traduções para: ${lang}`);
-      const url = `/messages/${lang}.json`;
+      const timestamp = new Date().getTime();
+      const url = `/messages/${lang}.json?v=${timestamp}`;
       console.log(`URL das traduções: ${url}`);
       
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
       console.log(`Status da resposta: ${response.status}`);
       
       if (response.ok) {

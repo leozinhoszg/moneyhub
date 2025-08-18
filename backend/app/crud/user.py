@@ -58,7 +58,7 @@ def create_user(db: Session, nome: str, sobrenome: str, email: str, senha: str) 
     return user
 
 
-def create_google_user(db: Session, nome_completo: str, email: str, google_id: str) -> User:
+def create_google_user(db: Session, nome_completo: str, email: str, google_id: str, picture: Optional[str] = None) -> User:
     """Criar usuário autenticado via Google"""
     # Verificar se Google ID já existe
     existing_google_user = get_user_by_google_id(db, google_id)
@@ -69,7 +69,13 @@ def create_google_user(db: Session, nome_completo: str, email: str, google_id: s
     existing_email_user = get_user_by_email(db, email)
     if existing_email_user:
         # Se usuário já existe com esse email, vincular conta Google
-        return link_google_account(db, existing_email_user, google_id)
+        updated_user = link_google_account(db, existing_email_user, google_id)
+        # Atualizar foto do Google se fornecida
+        if picture:
+            updated_user.google_picture = picture
+            db.commit()
+            db.refresh(updated_user)
+        return updated_user
     
     # Separar nome completo em nome e sobrenome
     nome_parts = nome_completo.strip().split(' ', 1)
@@ -82,6 +88,7 @@ def create_google_user(db: Session, nome_completo: str, email: str, google_id: s
         sobrenome=sobrenome,
         email=email.lower().strip(),
         google_id=google_id,
+        google_picture=picture,  # Adicionar foto do Google
         provider="google",
         is_verified=True,  # Usuários do Google são automaticamente verificados
         email_verificado=True,  # Email do Google já é verificado
@@ -374,3 +381,27 @@ def get_recently_registered_users(db: Session, days: int = 30, limit: int = 100)
             User.is_active == True
         )
     ).order_by(User.data_cadastro.desc()).limit(limit).all()
+
+
+# ============================================================================
+# FUNÇÕES DE FOTO DE PERFIL
+# ============================================================================
+
+def update_user_profile_image(db: Session, user: User, image_path: Optional[str]) -> User:
+    """Atualizar foto de perfil do usuário"""
+    user.foto_perfil = image_path
+    user.updated_at = datetime.now(tz=timezone.utc)
+    
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+def update_google_picture(db: Session, user: User, picture_url: str) -> User:
+    """Atualizar foto do Google do usuário"""
+    user.google_picture = picture_url
+    user.updated_at = datetime.now(tz=timezone.utc)
+    
+    db.commit()
+    db.refresh(user)
+    return user

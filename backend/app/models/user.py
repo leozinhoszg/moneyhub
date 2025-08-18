@@ -30,6 +30,10 @@ class User(Base):
     google_id: Mapped[str | None] = mapped_column(String(255), nullable=True, unique=True, index=True)
     provider: Mapped[str] = mapped_column(String(20), nullable=False, default="email")  # "email", "google", "both"
     
+    # Campos de foto de perfil
+    foto_perfil: Mapped[str | None] = mapped_column(String(500), nullable=True)  # URL da foto de perfil
+    google_picture: Mapped[str | None] = mapped_column(String(500), nullable=True)  # URL da foto do Google
+    
     # Campos de status e verificação
     email_verificado: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -49,6 +53,11 @@ class User(Base):
     def has_password(self) -> bool:
         """Verifica se o usuário tem senha definida"""
         return self.senha_hash is not None
+
+    @property
+    def has_google(self) -> bool:
+        """Verifica se o usuário tem conta Google vinculada"""
+        return self.google_id is not None
 
     @property
     def can_remove_google(self) -> bool:

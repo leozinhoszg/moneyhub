@@ -1,1 +1,3 @@
-python -m uvicorn app.main:app --reload --port 8000
+source venv/Scripts/activate
+python -m uvicorn app.main:app --reload --port 5001
+

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MainLayout from "@/components/MainLayout";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
@@ -11,8 +12,14 @@ function FinanceLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/auth/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
+
+  // Show loading or return null while redirecting
   if (!isLoading && !isAuthenticated) {
-    router.push("/auth/login");
     return null;
   }
 
