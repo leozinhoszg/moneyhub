@@ -21,7 +21,7 @@ def upgrade() -> None:
     op.add_column('USUARIOS', sa.Column('email_verificado', sa.Boolean(), nullable=False, server_default='0'))
     
     # Tornar senha_hash nullable (para usuários OAuth)
-    op.alter_column('USUARIOS', 'senha_hash', nullable=True)
+    op.alter_column('USUARIOS', 'senha_hash', existing_type=sa.String(length=255), nullable=True)
     
     # Criar índice único para google_id se não existir
     try:
@@ -39,4 +39,4 @@ def downgrade() -> None:
     op.drop_column('USUARIOS', 'google_id')
     
     # Tornar senha_hash not null novamente
-    op.alter_column('USUARIOS', 'senha_hash', nullable=False)
+    op.alter_column('USUARIOS', 'senha_hash', existing_type=sa.String(length=255), nullable=False)

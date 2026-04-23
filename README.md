@@ -85,9 +85,14 @@ source venv/bin/activate
 # Instale as dependências
 pip install -r requirements.txt
 
-# Configure o arquivo .env
-cp env\ example .env
+# Copie o template de variáveis de ambiente
+# Windows (PowerShell):
+copy .env.example .env
+# Linux/Mac/Git Bash:
+cp .env.example .env
 ```
+
+Depois, edite `backend/.env` preenchendo os valores marcados com `sua_...` ou `gere_um_segredo_...`. Veja a seção [Configuração do Banco de Dados](#configuração-do-banco-de-dados) e [Configuração do Google OAuth](#3-configuração-do-google-oauth) abaixo.
 
 #### ⚠️ Problemas com Git Bash no Windows?
 
@@ -121,13 +126,19 @@ Se você estiver usando Git Bash e encontrar problemas com ambientes virtuais:
 
 #### Configuração do Banco de Dados
 
-1. **Crie um banco MySQL**:
+1. **Crie o banco MySQL vazio** (o Alembic criará as tabelas no próximo passo):
 
 ```sql
-CREATE DATABASE moneyhub;
+CREATE DATABASE moneyhub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-2. **Configure o arquivo `.env`**:
+Você pode executar via MySQL Workbench, DBeaver, ou linha de comando:
+
+```bash
+mysql -u root -p -e "CREATE DATABASE moneyhub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+2. **Ajuste as credenciais do banco em `backend/.env`** (já copiado de `.env.example`):
 
 ```env
 DB_HOST=127.0.0.1
@@ -137,11 +148,96 @@ DB_PASSWORD=sua_senha_aqui
 DB_NAME=moneyhub
 ```
 
-3. **Execute as migrações**:
+3. **Execute as migrações do Alembic** (cria todas as tabelas atualizadas):
 
 ```bash
+# A partir da pasta backend/, com a venv ativada
 alembic upgrade head
 ```
+
+Isso aplica todas as migrações em `backend/alembic/versions/` (de `0001_initial` até a mais recente), deixando o schema completo: usuários, contas, bancos, cartões, categorias, subcategorias, transações, despesas fixas, faturas, compartilhamentos, documentos, tokens de verificação e reset de senha.
+
+4. **(Opcional) Popule categorias e subcategorias padrão**:
+
+```bash
+# A partir da raiz do projeto
+mysql -u root -p moneyhub < categorias_padrao.sql
+mysql -u root -p moneyhub < subcategorias_padrao.sql
+```
+
+> ⚠️ **Não execute** `moneyhub_sql.sql`, `setup_banco_financas.sql` nem `adicionar_campo_cor_categorias.sql` em um banco novo — são scripts legados (dump e patches) que entram em conflito com as migrações do Alembic. A fonte de verdade do schema é o Alembic.
+
+#### 🔎 Como as tabelas são criadas e alimentadas
+
+Fluxo completo do banco vazio até o MoneyHub operacional:
+
+```
+Banco vazio (CREATE DATABASE moneyhub)
+    │
+    │  alembic upgrade head
+    ▼
+Banco com TODAS as tabelas (vazias)
+    │
+    │  (opcional) mysql < categorias_padrao.sql
+    │  (opcional) mysql < subcategorias_padrao.sql
+    ▼
+Banco com tabelas + categorias default
+    │
+    │  uvicorn sobe o backend
+    │  npm run dev sobe o frontend
+    │  Usuário se registra/loga
+    ▼
+MoneyHub operacional — os dados do usuário
+são inseridos pela própria aplicação
+```
+
+**O que cada etapa faz:**
+
+1. **`CREATE DATABASE moneyhub`** — cria um banco vazio, sem nenhuma tabela.
+2. **`alembic upgrade head`** — o Alembic lê o `backend/.env` para conectar ao MySQL, cria a tabela de controle `alembic_version` e aplica em ordem todas as migrações de `backend/alembic/versions/` (`0001_initial` até a mais recente). Ao final, **todas as tabelas do schema estão criadas e atualizadas** (usuários, contas, bancos, cartões, categorias, subcategorias, transações, despesas fixas, faturas, documentos, compartilhamentos, tokens de verificação e reset de senha).
+3. **Seeds SQL (opcional)** — populam apenas as tabelas `categorias` e `subcategorias` com valores padrão compartilhados (Alimentação, Transporte, Moradia etc.). Sem isso, o usuário começa com lista vazia e precisa criar as próprias categorias.
+4. **Registro/login do usuário** — a partir daí, **os dados das demais tabelas são inseridos pelo uso normal da aplicação**. Não existe seed de contas, cartões ou transações: cada usuário gera seus próprios registros ao interagir com o sistema (MoneyHub é multi-usuário, cada pessoa tem seu próprio conjunto de dados isolado).
+
+> 💡 Em resumo: o **Alembic cria a estrutura** (tabelas e colunas); a **aplicação alimenta os dados** (via ações do usuário); os **seeds SQL** são só um atalho opcional para categorias default.
+
+#### 🛠️ Comandos úteis do Alembic
+
+Todos os comandos abaixo devem ser executados a partir da pasta `backend/` com a venv ativada:
+
+```bash
+# Aplicar todas as migrações pendentes (caso de uso principal)
+alembic upgrade head
+
+# Ver qual versão está aplicada no banco atual
+alembic current
+
+# Ver a última migração disponível no código
+alembic heads
+
+# Listar todas as migrações em ordem
+alembic history
+
+# Aplicar só a próxima migração pendente (útil para debug)
+alembic upgrade +1
+
+# Reverter a última migração aplicada
+alembic downgrade -1
+
+# Reverter TUDO (volta ao banco vazio — cuidado!)
+alembic downgrade base
+```
+
+**Como saber se deu certo:**
+
+- `alembic current` e `alembic heads` retornando a **mesma versão** (ex.: `0013 (head)`) → banco 100% atualizado.
+- `alembic current` vazio → banco sem nenhuma migração aplicada (banco novo, rode `alembic upgrade head`).
+- `alembic current` com versão antiga → faltam migrações, rode `alembic upgrade head`.
+
+**Erros comuns:**
+
+- `Can't connect to MySQL server` → MySQL não está rodando ou credenciais no `.env` estão erradas.
+- `Unknown database 'moneyhub'` → você esqueceu de criar o banco vazio antes. Volte ao passo 1.
+- `Access denied for user 'root'` → `DB_PASSWORD` no `.env` não bate com a senha do seu MySQL.
 
 ### 3. Configuração do Google OAuth
 
@@ -158,13 +254,18 @@ alembic upgrade head
      - `http://localhost:8000/api/auth/google/callback`
      - `http://127.0.0.1:8000/api/auth/google/callback`
 
-5. **Configure as credenciais no `.env`**:
+5. **Configure as credenciais em `backend/.env`**:
 
 ```env
 GOOGLE_CLIENT_ID=seu_client_id_aqui
 GOOGLE_CLIENT_SECRET=seu_client_secret_aqui
 SESSION_SECRET_KEY=sua_session_secret_aqui
 ```
+
+> 💡 Gere segredos fortes para `JWT_SECRET`, `JWT_REFRESH_SECRET` e `SESSION_SECRET_KEY` com:
+> ```bash
+> python -c "import secrets; print(secrets.token_hex(32))"
+> ```
 
 ### 4. Configuração do Frontend
 
@@ -175,7 +276,10 @@ cd frontend
 # Instale as dependências
 npm install
 
-# Configure o arquivo .env.local
+# Copie o template de variáveis de ambiente
+# Windows (PowerShell):
+copy env.example .env.local
+# Linux/Mac/Git Bash:
 cp env.example .env.local
 ```
 
@@ -211,22 +315,26 @@ npm run dev
 
 ```
 moneyhub/
-├── backend/                 # API FastAPI
+├── backend/                       # API FastAPI
 │   ├── app/
-│   │   ├── api/            # Rotas da API
-│   │   ├── core/           # Configurações
-│   │   ├── crud/           # Operações do banco
-│   │   ├── models/         # Modelos SQLAlchemy
-│   │   ├── schemas/        # Schemas Pydantic
-│   │   └── services/       # Serviços
-│   ├── alembic/            # Migrações
-│   └── requirements.txt    # Dependências Python
-├── frontend/               # Aplicação Next.js
-│   ├── app/               # Páginas e componentes
-│   ├── components/        # Componentes React
-│   ├── hooks/            # Custom hooks
-│   └── public/           # Arquivos estáticos
-└── DOCS/                 # Documentação
+│   │   ├── api/                   # Rotas da API
+│   │   ├── core/                  # Configurações
+│   │   ├── crud/                  # Operações do banco
+│   │   ├── models/                # Modelos SQLAlchemy
+│   │   ├── schemas/               # Schemas Pydantic
+│   │   └── services/              # Serviços
+│   ├── alembic/versions/          # Migrações (fonte de verdade do schema)
+│   ├── .env.example               # Template de variáveis de ambiente
+│   └── requirements.txt           # Dependências Python
+├── frontend/                      # Aplicação Next.js
+│   ├── app/                       # Páginas e componentes
+│   ├── components/                # Componentes React
+│   ├── hooks/                     # Custom hooks
+│   ├── public/                    # Arquivos estáticos
+│   └── env.example                # Template de variáveis de ambiente
+├── categorias_padrao.sql          # Seed opcional: categorias padrão
+├── subcategorias_padrao.sql       # Seed opcional: subcategorias padrão
+└── DOCS/                          # Documentação
 ```
 
 ## 🔧 Tecnologias Utilizadas
