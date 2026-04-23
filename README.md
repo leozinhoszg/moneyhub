@@ -333,8 +333,7 @@ moneyhub/
 │   ├── public/                    # Arquivos estáticos
 │   └── env.example                # Template de variáveis de ambiente
 ├── categorias_padrao.sql          # Seed opcional: categorias padrão
-├── subcategorias_padrao.sql       # Seed opcional: subcategorias padrão
-└── DOCS/                          # Documentação
+└── subcategorias_padrao.sql       # Seed opcional: subcategorias padrão
 ```
 
 ## 🔧 Tecnologias Utilizadas
