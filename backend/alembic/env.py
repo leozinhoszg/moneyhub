@@ -42,12 +42,7 @@ def get_url() -> str:
         if expanded:
             return expanded
 
-    # 2) Tenta usar DATABASE_URL diretamente do ambiente
-    url_env = os.getenv("DATABASE_URL")
-    if url_env:
-        return url_env
-
-    # 3) Monta a URL a partir de variáveis individuais
+    # 2) Monta a URL a partir de variáveis individuais do .env
     user = os.getenv("DB_USER", "root")
     password = os.getenv("DB_PASSWORD", "Jae66yrr@")  # default corrigido (sem '@' extra)
     host = os.getenv("DB_HOST", "127.0.0.1")

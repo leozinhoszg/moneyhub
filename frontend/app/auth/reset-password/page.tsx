@@ -1,12 +1,12 @@
 "use client";
 
-import React, { FormEvent, useState, useEffect } from "react";
+import React, { FormEvent, useState, useEffect, Suspense } from "react";
 import { resetPassword } from "@/app/api/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Eye, EyeOff, Sun, Moon } from "lucide-react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,10 +16,10 @@ export default function ResetPasswordPage() {
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [success, setSuccess] = useState(false);
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
 
   // Animation state
   useEffect(() => {
@@ -66,7 +66,9 @@ export default function ResetPasswordPage() {
     // Validação adicional de força da senha
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
     if (!passwordRegex.test(newPassword)) {
-      setError("A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número");
+      setError(
+        "A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número"
+      );
       setLoading(false);
       return;
     }
@@ -90,25 +92,31 @@ export default function ResetPasswordPage() {
       }, 3000);
     } catch (e: any) {
       let errorMessage = "Erro ao redefinir senha. Tente novamente.";
-      
+
       if (e?.message) {
         const message = e.message.toLowerCase();
-        
-        if (message.includes("token inválido") || message.includes("token expirado")) {
-          errorMessage = "Token expirado ou inválido. Solicite um novo reset de senha.";
+
+        if (
+          message.includes("token inválido") ||
+          message.includes("token expirado")
+        ) {
+          errorMessage =
+            "Token expirado ou inválido. Solicite um novo reset de senha.";
         } else if (message.includes("senhas não coincidem")) {
           errorMessage = "As senhas não coincidem.";
         } else if (message.includes("senha não atende aos critérios")) {
           errorMessage = "A senha não atende aos critérios de segurança.";
         } else if (message.includes("erro de conexão")) {
-          errorMessage = "Erro de conexão. Verifique sua internet e tente novamente.";
+          errorMessage =
+            "Erro de conexão. Verifique sua internet e tente novamente.";
         } else if (message.includes("erro interno")) {
-          errorMessage = "Erro interno do servidor. Tente novamente em alguns instantes.";
+          errorMessage =
+            "Erro interno do servidor. Tente novamente em alguns instantes.";
         } else {
           errorMessage = e.message;
         }
       }
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -125,7 +133,9 @@ export default function ResetPasswordPage() {
     clearErrorOnInput();
   };
 
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setConfirmPassword(e.target.value);
     clearErrorOnInput();
   };
@@ -238,8 +248,7 @@ export default function ResetPasswordPage() {
                     isDark ? "text-slate-300" : "text-slate-600"
                   }`}
                   style={{
-                    fontFamily:
-                      "var(--font-secondary, Open Sans, sans-serif)",
+                    fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                   }}
                 >
                   Redefinir Senha
@@ -249,8 +258,7 @@ export default function ResetPasswordPage() {
                     isDark ? "text-slate-400" : "text-slate-500"
                   }`}
                   style={{
-                    fontFamily:
-                      "var(--font-secondary, Open Sans, sans-serif)",
+                    fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
                   }}
                 >
                   Digite sua nova senha abaixo
@@ -284,8 +292,13 @@ export default function ResetPasswordPage() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Senha redefinida com sucesso!</h3>
-                  <p className="text-sm">Você será redirecionado para a página de login em alguns segundos...</p>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Senha redefinida com sucesso!
+                  </h3>
+                  <p className="text-sm">
+                    Você será redirecionado para a página de login em alguns
+                    segundos...
+                  </p>
                 </div>
               ) : (
                 /* Reset Password Form */
@@ -375,7 +388,9 @@ export default function ResetPasswordPage() {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                         className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
                           isDark
                             ? "text-gray-400 hover:text-gray-200"
@@ -481,5 +496,47 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      <div className="w-full max-w-lg">
+        <div className="rounded-3xl shadow-2xl border backdrop-blur-xl p-8 bg-white/90 border-slate-200/50">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-48 h-48 mb-6 relative">
+              <Image
+                src="/logo_money_hub.png"
+                alt="MoneyHub Logo"
+                width={180}
+                height={180}
+                className="object-contain relative z-10 drop-shadow-xl"
+                priority
+              />
+            </div>
+            <h1 className="text-3xl font-bold mb-3">
+              <span style={{ color: "#013a56" }}>Money</span>
+              <span style={{ color: "#00cc66" }}>Hub</span>
+            </h1>
+            <p className="text-lg font-medium text-slate-600 mb-4">
+              Redefinir Senha
+            </p>
+            <div className="flex justify-center">
+              <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+            <p className="text-slate-600 mt-4">Carregando...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

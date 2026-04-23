@@ -341,6 +341,7 @@ async def google_callback(request: Request, response: Response, db: Session = De
         google_id = user_info.get('id')
         email = user_info.get('email')
         nome = user_info.get('name', '')
+        picture = user_info.get('picture')  # Capturar foto do Google
         
         if not google_id or not email:
             frontend_url = settings.frontend_url or settings.cors_origins[0]
@@ -352,10 +353,15 @@ async def google_callback(request: Request, response: Response, db: Session = De
         if not user:
             # Criar novo usuário
             try:
-                user = create_google_user(db, nome, email, google_id)
+                user = create_google_user(db, nome, email, google_id, picture)
             except ValueError as e:
                 frontend_url = settings.frontend_url or settings.cors_origins[0]
                 return RedirectResponse(url=f"{frontend_url}/auth/login?error=user_creation_error")
+        else:
+            # Atualizar foto do Google se usuário já existe
+            if picture and user.google_picture != picture:
+                from app.crud.user import update_google_picture
+                update_google_picture(db, user, picture)
         
         # Verificar se conta está ativa
         if not user.is_active:

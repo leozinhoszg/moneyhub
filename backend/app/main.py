@@ -1,19 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from datetime import datetime
+import platform
+import sys
 
 from app.core.config import get_settings
 from app.api.routes.auth import router as auth_router, init_oauth
 from app.api.routes.users import router as users_router
 from app.api.routes.accounts import router as accounts_router
+from app.api.routes.banks import router as banks_router
 from app.api.routes.cards import router as cards_router
 from app.api.routes.categories import router as categories_router
+from app.api.routes.subcategories import router as subcategories_router
 from app.api.routes.transactions import router as transactions_router
 from app.api.routes.dashboard import router as dashboard_router
 from app.api.routes.fixed_expenses import router as fixed_expenses_router
 from app.api.routes.shares import router as shares_router
 from app.api.routes.reports import router as reports_router
 from app.api.routes.uploads import router as uploads_router
+from app.api.routes.invoices import router as invoices_router
 from app.services.scheduler import start_scheduler, stop_scheduler
 from app.db.session import engine
 from app.db import base  # noqa: F401
@@ -21,7 +27,12 @@ from app.db import base  # noqa: F401
 
 settings = get_settings()
 
-app = FastAPI(title="MoneyHub - Backend")
+app = FastAPI(
+    title="MoneyHub - Backend",
+    openapi_url="/api/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 
 # CORS
@@ -43,23 +54,77 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root():
+    """Rota raiz da API MoneyHub"""
+    return {
+        "message": "🚀 MoneyHub Backend API está funcionando!",
+        "service": "MoneyHub - Sistema de Controle Financeiro Pessoal",
+        "version": "1.0.0",
+        "status": "online",
+        "timestamp": datetime.now().isoformat(),
+        "environment": settings.app_env,
+        "docs": "/docs",
+        "health": "/health",
+        "api_base": "/api",
+        "available_endpoints": [
+            "/api/auth - Autenticação e autorização",
+            "/api/users - Gerenciamento de usuários", 
+            "/api/accounts - Contas bancárias",
+            "/api/transactions - Transações financeiras",
+            "/api/categories - Categorias de gastos",
+            "/api/dashboard - Dashboard e relatórios",
+            "/api/reports - Relatórios detalhados"
+        ]
+    }
+
+
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    """Verificação de saúde da aplicação"""
+    try:
+        # Testa conexão com banco de dados
+        from app.db.session import engine
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+    
+    return {
+        "status": "healthy",
+        "service": "MoneyHub Backend",
+        "timestamp": datetime.now().isoformat(),
+        "environment": settings.app_env,
+        "python_version": sys.version,
+        "platform": platform.platform(),
+        "database": {
+            "status": db_status,
+            "host": settings.db_host,
+            "port": settings.db_port,
+            "name": settings.db_name
+        },
+        "cors_origins": settings.cors_origins,
+        "uptime": "running"
+    }
 
 
 # Routers
 app.include_router(auth_router, prefix="/api", tags=["auth"]) 
 app.include_router(users_router, prefix="/api", tags=["users"]) 
 app.include_router(accounts_router, prefix="/api", tags=["accounts"]) 
+app.include_router(banks_router, prefix="/api", tags=["banks"]) 
 app.include_router(cards_router, prefix="/api", tags=["cards"]) 
 app.include_router(categories_router, prefix="/api", tags=["categories"]) 
+app.include_router(subcategories_router, prefix="/api", tags=["subcategories"]) 
 app.include_router(transactions_router, prefix="/api", tags=["transactions"]) 
 app.include_router(dashboard_router, prefix="/api", tags=["dashboard"]) 
 app.include_router(fixed_expenses_router, prefix="/api", tags=["fixed_expenses"]) 
 app.include_router(shares_router, prefix="/api", tags=["shares"]) 
 app.include_router(reports_router, prefix="/api", tags=["reports"]) 
-app.include_router(uploads_router, prefix="/api", tags=["uploads"]) 
+app.include_router(uploads_router, prefix="/api", tags=["uploads"])
+app.include_router(invoices_router, prefix="/api", tags=["invoices"]) 
 
 
 @app.on_event("startup")

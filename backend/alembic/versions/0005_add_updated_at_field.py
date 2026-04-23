@@ -1,7 +1,7 @@
 """add updated_at field
 
 Revision ID: 0005
-Revises: 0004_add_provider_and_is_verified_fields
+Revises: 0004
 Create Date: 2025-01-27 11:00:00.000000
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '0005'
-down_revision = '0004_add_provider_and_is_verified_fields'
+down_revision = '0004'
 branch_labels = None
 depends_on = None
 

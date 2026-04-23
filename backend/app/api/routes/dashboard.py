@@ -6,10 +6,12 @@ from sqlalchemy import func, select, case
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
+from app.crud.invoice import get_current_invoices_summary
 from app.models.account import BankAccount
 from app.models.category import Category, TipoCategoria
 from app.models.transaction import TipoTransacao, Transaction
 from app.models.user import User
+from app.schemas.invoice import InvoiceSummary
 
 
 router = APIRouter()
@@ -102,5 +104,12 @@ def daily_flow(current_user: User = Depends(get_current_user), db: Session = Dep
         }
         for r in rows
     ]
+
+
+@router.get("/dashboard/credit-cards-summary", response_model=list[InvoiceSummary])
+def credit_cards_summary(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Resumo das faturas atuais de todos os cartoes do usuario."""
+    summaries = get_current_invoices_summary(db, current_user.id)
+    return [InvoiceSummary.model_validate(s) for s in summaries]
 
 

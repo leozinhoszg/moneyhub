@@ -17,10 +17,67 @@
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* Variáveis de fonte via next/font */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+}
+
+/* Reset CSS para eliminar bordas e margens problemáticas */
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Mobile optimization */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -378,4 +435,336 @@ body {
 main {
   position: relative;
   z-index: 1;
+}
+
+/* Responsividade e otimizações mobile */
+@media (max-width: 768px) {
+  .container-page {
+    @apply px-4 py-4;
+  }
+
+  .title-1 {
+    @apply text-2xl;
+  }
+
+  .title-2 {
+    @apply text-xl;
+  }
+
+  .title-3 {
+    @apply text-lg;
+  }
+
+  .card-body {
+    @apply p-4;
+  }
+
+  /* Otimizações para touch */
+  .btn {
+    @apply min-h-[44px] min-w-[44px];
+    touch-action: manipulation;
+  }
+
+  .input,
+  .select {
+    @apply min-h-[44px];
+    font-size: 16px; /* Previne zoom no iOS */
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container-page {
+    @apply px-6 py-5;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .container-page {
+    @apply py-2;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .floating-orb {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .floating-orb,
+  .pulsing-glow,
+  .wave-element,
+  .sparkle {
+    animation: none;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode improvements */
+@media (prefers-color-scheme: dark) {
+  body {
+    @apply bg-slate-900 text-slate-100;
+  }
+
+  .card {
+    @apply bg-slate-800 border-slate-700;
+  }
+
+  .input,
+  .select {
+    @apply bg-slate-800 border-slate-600 text-slate-100 placeholder-slate-400;
+  }
+}
+
+/* Safe area support for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-area-inset-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-area-inset-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+
+  .safe-area-inset-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 204, 102, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 204, 102, 0.5);
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Prevent zoom on form inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  /* Better touch targets */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improved tap highlighting */
+  a,
+  button {
+    -webkit-tap-highlight-color: rgba(0, 204, 102, 0.2);
+  }
+}
+
+/* Dashboard Card Manager Page Styles */
+.dashboard-card-manager-modal {
+  /* Ensure page appears above everything */
+  z-index: 9999 !important;
+  /* Prevent body scroll when active */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Ensure proper height handling */
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
+.dashboard-card-manager-modal .sortable-item {
+  /* Better touch targets for mobile */
+  min-height: 60px;
+  touch-action: manipulation;
+  cursor: grab;
+}
+
+.dashboard-card-manager-modal .sortable-item:active {
+  cursor: grabbing;
+}
+
+.dashboard-card-manager-modal .drag-handle {
+  /* Optimized touch area for drag handle */
+  min-width: 24px;
+  min-height: 24px;
+  touch-action: manipulation;
+  cursor: grab;
+}
+
+.dashboard-card-manager-modal .drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Mobile specific optimizations for the page */
+@media (max-width: 768px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 50px;
+    padding: 10px 14px;
+  }
+
+  .dashboard-card-manager-modal .drag-handle {
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  /* Better spacing on mobile */
+  .dashboard-card-manager-modal .space-y-2 > * + * {
+    margin-top: 8px;
+  }
+
+  /* Mobile scrollbar styling */
+  .dashboard-card-manager-modal .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .dashboard-card-manager-modal .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dashboard-card-manager-modal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(0, 204, 102, 0.3);
+    border-radius: 2px;
+  }
+
+  .dashboard-card-manager-modal
+    .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 204, 102, 0.5);
+  }
+
+  /* Toggle switch mobile optimizations */
+  .dashboard-card-manager-modal .sortable-item button {
+    /* Enhanced touch target for mobile */
+    min-width: 36px;
+    min-height: 20px;
+  }
+
+  /* Toggle switch active state with glow effect */
+  .dashboard-card-manager-modal .sortable-item button:active {
+    transform: scale(0.95);
+  }
+
+  /* Toggle switch knob enhanced shadow */
+  .dashboard-card-manager-modal .sortable-item button span {
+    /* Enhanced shadow for better visibility */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Responsive height adjustments */
+@media (max-height: 600px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 45px;
+    padding: 6px 10px;
+  }
+
+  .dashboard-card-manager-modal .space-y-2 > * + * {
+    margin-top: 4px;
+  }
+}
+
+@media (max-height: 500px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 40px;
+    padding: 4px 8px;
+  }
+
+  .dashboard-card-manager-modal .space-y-2 > * + * {
+    margin-top: 3px;
+  }
+}
+
+@media (max-height: 400px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 35px;
+    padding: 3px 6px;
+  }
+
+  .dashboard-card-manager-modal .space-y-2 > * + * {
+    margin-top: 2px;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 75px;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1025px) {
+  .dashboard-card-manager-modal .sortable-item {
+    min-height: 70px;
+  }
+
+  .dashboard-card-manager-modal .sortable-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Improve drag and drop visual feedback */
+.dashboard-card-manager-modal .sortable-item[data-sortable-drag="true"] {
+  opacity: 0.8;
+  transform: rotate(2deg) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 204, 102, 0.3);
+  z-index: 1000;
+}
+
+/* Print styles */
+@media print {
+  .floating-orb,
+  .pulsing-glow,
+  .wave-element,
+  .sparkle,
+  nav,
+  .mobile-menu,
+  .dashboard-card-manager-modal {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
 }

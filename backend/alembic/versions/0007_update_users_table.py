@@ -2,7 +2,7 @@
 """Update users table to match DDL
 
 Revision ID: 0007_update_users_table
-Revises: 0006_add_is_active
+Revises: 0006
 Create Date: 2025-08-15 00:00:00.000000
 
 """
@@ -11,8 +11,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = '0007_update_users_table'
-down_revision = '0006_add_is_active'  # Substitua pelo último revision ID
+revision = '0007'
+down_revision = '0006'  # Substitua pelo último revision ID
 branch_labels = None
 depends_on = None
 

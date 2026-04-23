@@ -14,6 +14,8 @@ def create_card(
     limite: Decimal,
     dia_fechamento_fatura: int,
     dia_vencimento_fatura: int,
+    ultimos_4_digitos: str | None = None,
+    cor: str | None = None,
 ) -> CreditCard:
     card = CreditCard(
         usuario_id=usuario_id,
@@ -22,6 +24,8 @@ def create_card(
         limite=limite,
         dia_fechamento_fatura=dia_fechamento_fatura,
         dia_vencimento_fatura=dia_vencimento_fatura,
+        ultimos_4_digitos=ultimos_4_digitos,
+        cor=cor,
     )
     db.add(card)
     db.commit()
@@ -46,6 +50,8 @@ def update_card(
     limite: Decimal | None = None,
     dia_fechamento_fatura: int | None = None,
     dia_vencimento_fatura: int | None = None,
+    ultimos_4_digitos: str | None = None,
+    cor: str | None = None,
 ) -> CreditCard:
     if nome_cartao is not None:
         card.nome_cartao = nome_cartao
@@ -57,6 +63,10 @@ def update_card(
         card.dia_fechamento_fatura = dia_fechamento_fatura
     if dia_vencimento_fatura is not None:
         card.dia_vencimento_fatura = dia_vencimento_fatura
+    if ultimos_4_digitos is not None:
+        card.ultimos_4_digitos = ultimos_4_digitos
+    if cor is not None:
+        card.cor = cor
     db.add(card)
     db.commit()
     db.refresh(card)

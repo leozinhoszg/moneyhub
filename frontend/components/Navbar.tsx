@@ -10,11 +10,12 @@ import {
   ChevronDown,
   Settings,
   LogOut,
+  Wallet,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 import LanguageSelector from "./LanguageSelector";
 
 interface User {
@@ -37,6 +38,9 @@ type NavbarProps = {
   onLogout: () => void | Promise<void>;
   notificationsCount?: number;
   user: User | null;
+  onNotificationClick?: () => void;
+  onToggleCardManager?: () => void;
+  showCardManagerButton?: boolean;
 };
 
 export default function Navbar({
@@ -44,16 +48,15 @@ export default function Navbar({
   onLogout,
   notificationsCount = 3,
   user,
+  onNotificationClick,
+  onToggleCardManager,
+  showCardManagerButton = false,
 }: NavbarProps) {
   const { isDark, toggleTheme, mounted } = useTheme();
   const { t } = useLanguage();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const router = useRouter();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -66,15 +69,58 @@ export default function Navbar({
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (isUserDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isUserDropdownOpen]);
+
+  // Handle profile navigation
+  const handleProfileClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Navegando para perfil...");
+    setIsUserDropdownOpen(false);
+    router.push("/profile");
+  };
+
+  // Handle logout
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      console.log("Navbar: Iniciando logout...");
+      setIsUserDropdownOpen(false);
+
+      // Tentar logout via API
+      await onLogout();
+      console.log("Navbar: Logout concluído com sucesso");
+    } catch (error) {
+      console.error("Navbar: Erro durante logout:", error);
+
+      // Forçar logout mesmo se houver erro
+      console.log("Navbar: Forçando logout local...");
+
+      // Limpar cookies manualmente
+      document.cookie =
+        "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+      // Redirecionar para login
+      router.push("/auth/login");
+    }
+  };
 
   return (
     <nav
-      className={`shadow-lg border-b backdrop-blur-xl transition-all duration-300 ${
+      className={`relative z-50 shadow-lg border-b backdrop-blur-xl transition-all duration-300 ${
         isDark
           ? "bg-slate-800/90 border-slate-700/50 text-white"
           : "bg-white/90 border-slate-200/50 text-gray-800"
@@ -306,6 +352,7 @@ export default function Navbar({
 
               {/* Notifications */}
               <button
+                onClick={() => onNotificationClick?.()}
                 className={`relative p-2 rounded-full transition-all duration-200 h-10 w-10 flex items-center justify-center ${
                   isDark
                     ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
@@ -317,6 +364,33 @@ export default function Navbar({
                   {notificationsCount}
                 </span>
               </button>
+
+              {/* Card Manager Button - Only show on dashboard */}
+              {showCardManagerButton && onToggleCardManager && (
+                <button
+                  onClick={onToggleCardManager}
+                  className={`p-2 rounded-full transition-all duration-200 h-10 w-10 flex items-center justify-center ${
+                    isDark
+                      ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
+                      : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
+                  }`}
+                  title="Gerenciar Cards do Dashboard"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
 
@@ -348,133 +422,117 @@ export default function Navbar({
               </button>
 
               {/* Dropdown Menu */}
-              {isUserDropdownOpen &&
-                isClient &&
-                createPortal(
+              {isUserDropdownOpen && (
+                <div
+                  className={`absolute right-0 top-full mt-4 w-72 rounded-2xl shadow-2xl border backdrop-blur-xl overflow-hidden transform transition-all duration-300 ease-out z-[9999] ${
+                    isDark
+                      ? "bg-slate-800/95 border-slate-700/50"
+                      : "bg-white/95 border-slate-200/50"
+                  }`}
+                  style={{
+                    boxShadow:
+                      "0 0 30px rgba(0, 204, 102, 0.3), 0 0 60px rgba(0, 204, 102, 0.1), 0 0 90px rgba(0, 204, 102, 0.05)",
+                    borderColor: "#00cc66",
+                    borderWidth: "1px",
+                    animationName: "dropdownSlide, glowPulse",
+                    animationDuration: "0.3s, 2s",
+                    animationTimingFunction: "ease-out, ease-in-out",
+                    animationFillMode: "forwards, both",
+                    animationDelay: "0s, 0.3s",
+                    animationIterationCount: "1, infinite",
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* User Info Section */}
                   <div
-                    className={`user-dropdown fixed right-0 top-20 w-72 rounded-2xl shadow-2xl border backdrop-blur-xl overflow-hidden transform transition-all duration-300 ease-out ${
-                      isDark
-                        ? "bg-slate-800/95 border-slate-700/50"
-                        : "bg-white/95 border-slate-200/50"
+                    className={`p-4 border-b ${
+                      isDark ? "border-slate-700/50" : "border-slate-200/50"
                     }`}
-                    style={{
-                      boxShadow:
-                        "0 0 30px rgba(0, 204, 102, 0.3), 0 0 60px rgba(0, 204, 102, 0.1), 0 0 90px rgba(0, 204, 102, 0.05)",
-                      borderColor: "#00cc66",
-                      borderWidth: "1px",
-                      animationName: "dropdownSlide, glowPulse",
-                      animationDuration: "0.3s, 2s",
-                      animationTimingFunction: "ease-out, ease-in-out",
-                      animationFillMode: "forwards, both",
-                      animationDelay: "0s, 0.3s",
-                      animationIterationCount: "1, infinite",
-                    }}
                   >
-                    {/* User Info Section */}
-                    <div
-                      className={`p-4 border-b ${
-                        isDark ? "border-slate-700/50" : "border-slate-200/50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
-                          <User className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h3
-                            className={`font-semibold text-sm ${
-                              isDark ? "text-white" : "text-gray-900"
-                            }`}
-                            style={{
-                              fontFamily:
-                                "var(--font-primary, Montserrat, sans-serif)",
-                            }}
-                          >
-                            {user
-                              ? `${user.nome} ${user.sobrenome}`
-                              : "Usuário"}
-                          </h3>
-                          <p
-                            className={`text-xs ${
-                              isDark ? "text-slate-400" : "text-gray-600"
-                            }`}
-                            style={{
-                              fontFamily:
-                                "var(--font-secondary, Open Sans, sans-serif)",
-                            }}
-                          >
-                            {user?.email || "email@exemplo.com"}
-                          </p>
-                        </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+                        <User className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3
+                          className={`font-semibold text-sm ${
+                            isDark ? "text-white" : "text-gray-900"
+                          }`}
+                          style={{
+                            fontFamily:
+                              "var(--font-primary, Montserrat, sans-serif)",
+                          }}
+                        >
+                          {user ? `${user.nome} ${user.sobrenome}` : "Usuário"}
+                        </h3>
+                        <p
+                          className={`text-xs ${
+                            isDark ? "text-slate-400" : "text-gray-600"
+                          }`}
+                          style={{
+                            fontFamily:
+                              "var(--font-secondary, Open Sans, sans-serif)",
+                          }}
+                        >
+                          {user?.email || "email@exemplo.com"}
+                        </p>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Menu Items */}
-                    <div className="py-2">
-                      <Link
-                        href="/profile"
-                        className={`flex items-center px-4 py-3 text-sm transition-all duration-200 ${
-                          isDark
-                            ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                            : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
-                        }`}
-                        style={{
-                          fontFamily:
-                            "var(--font-secondary, Open Sans, sans-serif)",
-                        }}
-                        onClick={() => setIsUserDropdownOpen(false)}
-                      >
-                        <Settings className="w-4 h-4 mr-3" />
-                        {t("common.profile")}
-                      </Link>
+                  {/* Menu Items */}
+                  <div className="py-2">
+                    <button
+                      onClick={handleProfileClick}
+                      className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
+                        isDark
+                          ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
+                          : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
+                      }`}
+                      style={{
+                        fontFamily:
+                          "var(--font-secondary, Open Sans, sans-serif)",
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-3" />
+                      {t("common.profile")}
+                    </button>
 
-                      <button
-                        onClick={async () => {
-                          try {
-                            console.log("Navbar: Iniciando logout...");
-                            setIsUserDropdownOpen(false);
+                    <Link
+                      href="/budget"
+                      onClick={() => setIsUserDropdownOpen(false)}
+                      className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
+                        isDark
+                          ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
+                          : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
+                      }`}
+                      style={{
+                        fontFamily:
+                          "var(--font-secondary, Open Sans, sans-serif)",
+                      }}
+                    >
+                      <Wallet className="w-4 h-4 mr-3" />
+                      {t("common.budget") || "Orçamento"}
+                    </Link>
 
-                            // Tentar logout via API
-                            await onLogout();
-                            console.log("Navbar: Logout concluído com sucesso");
-                          } catch (error) {
-                            console.error(
-                              "Navbar: Erro durante logout:",
-                              error
-                            );
-
-                            // Forçar logout mesmo se houver erro
-                            console.log("Navbar: Forçando logout local...");
-
-                            // Limpar cookies manualmente
-                            document.cookie =
-                              "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                            document.cookie =
-                              "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                            document.cookie =
-                              "XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-                            // Redirecionar para login
-                            window.location.href = "/auth/login";
-                          }
-                        }}
-                        className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
-                          isDark
-                            ? "text-slate-300 hover:text-red-400 hover:bg-red-900/20"
-                            : "text-gray-700 hover:text-red-600 hover:bg-red-50"
-                        }`}
-                        style={{
-                          fontFamily:
-                            "var(--font-secondary, Open Sans, sans-serif)",
-                        }}
-                      >
-                        <LogOut className="w-4 h-4 mr-3" />
-                        {t("common.logout")}
-                      </button>
-                    </div>
-                  </div>,
-                  document.body
-                )}
+                    <button
+                      onClick={handleLogout}
+                      className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
+                        isDark
+                          ? "text-slate-300 hover:text-red-400 hover:bg-red-900/20"
+                          : "text-gray-700 hover:text-red-600 hover:bg-red-50"
+                      }`}
+                      style={{
+                        fontFamily:
+                          "var(--font-secondary, Open Sans, sans-serif)",
+                      }}
+                    >
+                      <LogOut className="w-4 h-4 mr-3" />
+                      {t("common.logout")}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

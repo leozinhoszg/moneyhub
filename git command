@@ -4,3 +4,5 @@ git status                    # opcional, só para ver o que mudou
 git add .                     # adiciona tudo (novo/alterado)
 git commit -m "chore: atualiza X e Y"   # descreva a mudança
 git push                      # graças ao -u, não precisa repetir origin main
+
+git remote add origin https://github.com/usuario/repositorio.git

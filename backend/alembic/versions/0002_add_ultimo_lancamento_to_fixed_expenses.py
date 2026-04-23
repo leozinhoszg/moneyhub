@@ -1,7 +1,7 @@
 """add ultimo_lancamento to GASTOS_FIXOS
 
 Revision ID: 0002_add_ultimo_lancamento
-Revises: 0001_initial
+Revises: 0001
 Create Date: 2025-08-14 01:00:00.000000
 
 """
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0002_add_ultimo_lancamento'
-down_revision = '0001_initial'
+revision = '0002'
+down_revision = '0001'
 branch_labels = None
 depends_on = None
 

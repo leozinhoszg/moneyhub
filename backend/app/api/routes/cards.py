@@ -27,6 +27,8 @@ def create_my_card(payload: CardCreate, current_user: User = Depends(get_current
         limite=Decimal(payload.limite),
         dia_fechamento_fatura=payload.dia_fechamento_fatura,
         dia_vencimento_fatura=payload.dia_vencimento_fatura,
+        ultimos_4_digitos=payload.ultimos_4_digitos,
+        cor=payload.cor,
     )
     return CardPublic.model_validate(card)
 
@@ -44,6 +46,8 @@ def update_my_card(card_id: int, payload: CardUpdate, current_user: User = Depen
         limite=Decimal(payload.limite) if payload.limite is not None else None,
         dia_fechamento_fatura=payload.dia_fechamento_fatura,
         dia_vencimento_fatura=payload.dia_vencimento_fatura,
+        ultimos_4_digitos=payload.ultimos_4_digitos,
+        cor=payload.cor,
     )
     return CardPublic.model_validate(card)
 

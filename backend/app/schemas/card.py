@@ -9,6 +9,8 @@ class CardBase(BaseModel):
     limite: Decimal = Field(ge=0)
     dia_fechamento_fatura: int = Field(ge=1, le=28)
     dia_vencimento_fatura: int = Field(ge=1, le=31)
+    ultimos_4_digitos: str | None = Field(default=None, min_length=4, max_length=4)
+    cor: str | None = Field(default=None, max_length=7)
 
 
 class CardCreate(CardBase):
@@ -21,6 +23,8 @@ class CardUpdate(BaseModel):
     limite: Decimal | None = None
     dia_fechamento_fatura: int | None = None
     dia_vencimento_fatura: int | None = None
+    ultimos_4_digitos: str | None = None
+    cor: str | None = None
 
 
 class CardPublic(BaseModel):
@@ -30,6 +34,8 @@ class CardPublic(BaseModel):
     limite: Decimal
     dia_fechamento_fatura: int
     dia_vencimento_fatura: int
+    ultimos_4_digitos: str | None
+    cor: str | None
 
     class Config:
         from_attributes = True

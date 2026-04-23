@@ -38,11 +38,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Keep the document root in sync with the theme
+  useEffect(() => {
+    try {
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.toggle("dark", isDark);
+      }
+    } catch (_) {
+      // ignore DOM access errors
+    }
+  }, [isDark]);
+
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
     // Save to localStorage
-    localStorage.setItem("moneyhub-theme", newTheme ? "dark" : "light");
+    try {
+      localStorage.setItem("moneyhub-theme", newTheme ? "dark" : "light");
+    } catch (_) {
+      // ignore access errors
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -13,16 +13,16 @@ export default function ProtectedRoute({
   children,
   redirectTo = "/auth/login",
 }: ProtectedRouteProps) {
-  const { authenticated, loading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !authenticated) {
+    if (!isLoading && !isAuthenticated) {
       router.push(redirectTo);
     }
-  }, [authenticated, loading, router, redirectTo]);
+  }, [isAuthenticated, isLoading, router, redirectTo]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
@@ -41,7 +41,7 @@ export default function ProtectedRoute({
     );
   }
 
-  if (!authenticated) {
+  if (!isAuthenticated) {
     return null; // Será redirecionado pelo useEffect
   }
 

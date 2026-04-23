@@ -1,5 +1,5 @@
 # app/api/routes/users.py
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Request
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -12,7 +12,9 @@ from app.schemas.user import (
     UserSetPassword,
     UserProfile,
     UserAccountSecurity,
-    UserDeactivate
+    UserDeactivate,
+    UserProfileImageResponse,
+    UserProfileResponse
 )
 from app.crud.user import (
     update_user, 
@@ -23,9 +25,11 @@ from app.crud.user import (
     link_google_account,
     unlink_google_account,
     deactivate_user,
-    resend_verification_email
+    resend_verification_email,
+    update_user_profile_image
 )
 from app.core.security import verify_password
+from app.utils.file_upload import save_profile_image, delete_profile_image, get_profile_image_url, get_default_avatar_url
 
 router = APIRouter()
 
@@ -318,6 +322,101 @@ def deactivate_account(
     
     deactivate_user(db, current_user)
     return {"message": "Conta desativada com sucesso"}
+
+
+# ============================================================================
+# ROTAS DE PERFIL E UPLOAD DE FOTO
+# ============================================================================
+
+@router.get("/users/profile-complete", response_model=UserProfileResponse)
+def get_complete_profile(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Obter perfil completo do usuário com URL da foto"""
+    base_url = str(request.base_url)
+    
+    profile_data = UserProfileResponse.model_validate(current_user)
+    profile_data.has_password = current_user.has_password
+    profile_data.has_google = current_user.google_id is not None
+    profile_data.can_remove_google = current_user.can_remove_google
+    
+    # Determinar URL do avatar
+    if current_user.foto_perfil:
+        profile_data.avatar_url = get_profile_image_url(current_user.foto_perfil, base_url)
+    elif current_user.google_picture:
+        profile_data.avatar_url = current_user.google_picture
+    else:
+        full_name = f"{current_user.nome} {current_user.sobrenome}"
+        profile_data.avatar_url = get_default_avatar_url(full_name, base_url)
+    
+    return profile_data
+
+
+@router.post("/users/upload-profile-image", response_model=UserProfileImageResponse)
+async def upload_profile_image(
+    request: Request,
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Upload de foto de perfil"""
+    try:
+        # Deletar foto anterior se existir
+        if current_user.foto_perfil:
+            await delete_profile_image(current_user.foto_perfil)
+        
+        # Salvar nova foto
+        image_path = await save_profile_image(file, current_user.id)
+        
+        # Atualizar usuário no banco
+        updated_user = update_user_profile_image(db, current_user, image_path)
+        
+        # Gerar URL completa
+        base_url = str(request.base_url)
+        image_url = get_profile_image_url(image_path, base_url)
+        
+        return UserProfileImageResponse(
+            foto_perfil=image_url,
+            message="Foto de perfil atualizada com sucesso"
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno do servidor: {str(e)}"
+        )
+
+
+@router.delete("/users/profile-image", response_model=dict)
+async def delete_profile_image_route(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Remover foto de perfil"""
+    if not current_user.foto_perfil:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Usuário não possui foto de perfil"
+        )
+    
+    try:
+        # Deletar arquivo
+        await delete_profile_image(current_user.foto_perfil)
+        
+        # Atualizar usuário no banco
+        update_user_profile_image(db, current_user, None)
+        
+        return {"message": "Foto de perfil removida com sucesso"}
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao remover foto de perfil: {str(e)}"
+        )
 
 
 # ============================================================================

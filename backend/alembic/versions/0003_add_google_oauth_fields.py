@@ -1,7 +1,7 @@
 """add google oauth fields to users
 
 Revision ID: 0003
-Revises: 0002_add_ultimo_lancamento_to_fixed_expenses
+Revises: 0002_to_fixed_expenses
 Create Date: 2025-01-15 10:00:00.000000
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '0003'
-down_revision = '0002_add_ultimo_lancamento'
+down_revision = '0002'
 branch_labels = None
 depends_on = None
 

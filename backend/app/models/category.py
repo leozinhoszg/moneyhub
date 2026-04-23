@@ -16,6 +16,7 @@ class Category(Base):
     usuario_id: Mapped[int | None] = mapped_column(ForeignKey("usuarios.id", ondelete="CASCADE"), index=True, nullable=True)
     nome: Mapped[str] = mapped_column(String(120), nullable=False)
     tipo: Mapped[str] = mapped_column(SAEnum(TipoCategoria.RECEITA, TipoCategoria.DESPESA, name="tipo_categoria"), nullable=False)
+    cor: Mapped[str | None] = mapped_column(String(7), nullable=True)
     icone: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     usuario = relationship("User", backref="categorias")

@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Sun, Moon, CheckCircle, XCircle, Loader2 } from "lucide-react";
 
-export default function AuthCallbackPage() {
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+function AuthCallbackContent() {
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading"
+  );
   const [message, setMessage] = useState("");
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -37,10 +39,13 @@ export default function AuthCallbackPage() {
     if (error) {
       setStatus("error");
       setMessage(decodeURIComponent(error));
-      
+
       if (isPopup) {
         // Comunicar erro para a janela pai
-        window.opener.postMessage({ type: 'AUTH_ERROR', error: decodeURIComponent(error) }, targetOrigin);
+        window.opener.postMessage(
+          { type: "AUTH_ERROR", error: decodeURIComponent(error) },
+          targetOrigin
+        );
         // Fechar popup após um breve delay
         setTimeout(() => {
           window.close();
@@ -54,10 +59,10 @@ export default function AuthCallbackPage() {
     } else if (success) {
       setStatus("success");
       setMessage("Login realizado com sucesso! Fechando janela...");
-      
+
       if (isPopup) {
         // Comunicar sucesso para a janela pai
-        window.opener.postMessage({ type: 'AUTH_SUCCESS' }, targetOrigin);
+        window.opener.postMessage({ type: "AUTH_SUCCESS" }, targetOrigin);
         // Fechar popup após um breve delay
         setTimeout(() => {
           window.close();
@@ -114,7 +119,9 @@ export default function AuthCallbackPage() {
             mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
           }`}
           style={{
-            animation: mounted ? "float 8s ease-in-out infinite reverse" : "none",
+            animation: mounted
+              ? "float 8s ease-in-out infinite reverse"
+              : "none",
           }}
         />
         <div
@@ -135,9 +142,7 @@ export default function AuthCallbackPage() {
               ? "bg-slate-800/80 border-slate-700/50"
               : "bg-white/90 border-slate-200/50"
           } ${
-            mounted
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           {/* Logo Section */}
@@ -168,7 +173,9 @@ export default function AuthCallbackPage() {
             {status === "loading" && (
               <div
                 className={`transition-all duration-1000 delay-500 ${
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  mounted
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 <div className="flex justify-center mb-4">
@@ -203,7 +210,9 @@ export default function AuthCallbackPage() {
             {status === "success" && (
               <div
                 className={`transition-all duration-1000 delay-500 ${
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  mounted
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 <div className="flex justify-center mb-4">
@@ -237,7 +246,9 @@ export default function AuthCallbackPage() {
                 <div className="mt-4">
                   <div className="inline-flex items-center text-sm text-emerald-600">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mr-2"></div>
-                    {window.opener ? "Fechando janela..." : "Redirecionando para o dashboard..."}
+                    {window.opener
+                      ? "Fechando janela..."
+                      : "Redirecionando para o dashboard..."}
                   </div>
                 </div>
               </div>
@@ -246,7 +257,9 @@ export default function AuthCallbackPage() {
             {status === "error" && (
               <div
                 className={`transition-all duration-1000 delay-500 ${
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  mounted
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 <div className="flex justify-center mb-4">
@@ -280,7 +293,9 @@ export default function AuthCallbackPage() {
                 <div className="mt-4">
                   <div className="inline-flex items-center text-sm text-red-600">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></div>
-                    {window.opener ? "Fechando janela..." : "Redirecionando para o login..."}
+                    {window.opener
+                      ? "Fechando janela..."
+                      : "Redirecionando para o login..."}
                   </div>
                 </div>
               </div>
@@ -303,11 +318,48 @@ export default function AuthCallbackPage() {
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(120deg); }
-          66% { transform: translate(-20px, 20px) rotate(240deg); }
+          0%,
+          100% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          33% {
+            transform: translate(30px, -30px) rotate(120deg);
+          }
+          66% {
+            transform: translate(-20px, 20px) rotate(240deg);
+          }
         }
       `}</style>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      <div className="w-full max-w-md">
+        <div className="rounded-3xl shadow-2xl border backdrop-blur-xl p-8 bg-white/90 border-slate-200/50">
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
+            </div>
+            <h2 className="text-xl font-semibold mb-3 text-slate-700">
+              Carregando...
+            </h2>
+            <p className="text-slate-600">
+              Aguarde enquanto processamos sua autenticação...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <AuthCallbackContent />
+    </Suspense>
   );
 }

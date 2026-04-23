@@ -16,6 +16,8 @@ class CreditCard(Base):
     limite: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, default=Decimal("0.00"))
     dia_fechamento_fatura: Mapped[int] = mapped_column(nullable=False)
     dia_vencimento_fatura: Mapped[int] = mapped_column(nullable=False)
+    ultimos_4_digitos: Mapped[str | None] = mapped_column(String(4), nullable=True)
+    cor: Mapped[str | None] = mapped_column(String(7), nullable=True)
     data_criacao: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     usuario = relationship("User", backref="cartoes")
