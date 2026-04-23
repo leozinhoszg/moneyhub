@@ -165,8 +165,6 @@ mysql -u root -p moneyhub < categorias_padrao.sql
 mysql -u root -p moneyhub < subcategorias_padrao.sql
 ```
 
-> ⚠️ **Não execute** `moneyhub_sql.sql`, `setup_banco_financas.sql` nem `adicionar_campo_cor_categorias.sql` em um banco novo — são scripts legados (dump e patches) que entram em conflito com as migrações do Alembic. A fonte de verdade do schema é o Alembic.
-
 #### 🔎 Como as tabelas são criadas e alimentadas
 
 Fluxo completo do banco vazio até o MoneyHub operacional:
