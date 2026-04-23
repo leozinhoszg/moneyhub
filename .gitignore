@@ -64,4 +64,7 @@ backend/alembic/versions/*.pyc
 # ===== Uploads / Artifacts =====
 uploads/
 
+# ===== Markdown (ignorar tudo exceto o README da raiz) =====
+*.md
+!/README.md
 
