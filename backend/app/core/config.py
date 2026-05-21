@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("DB_USER", "db_user"),
     )
     db_password: str = Field(
-        default="Jae66yrr@",
+        default="",
         description="Senha do banco de dados",
         validation_alias=AliasChoices("DB_PASSWORD", "db_password"),
     )

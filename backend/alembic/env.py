@@ -44,7 +44,7 @@ def get_url() -> str:
 
     # 2) Monta a URL a partir de variáveis individuais do .env
     user = os.getenv("DB_USER", "root")
-    password = os.getenv("DB_PASSWORD", "Jae66yrr@")  # default corrigido (sem '@' extra)
+    password = os.getenv("DB_PASSWORD", "")
     host = os.getenv("DB_HOST", "127.0.0.1")
     port = os.getenv("DB_PORT", "3306")
     name = os.getenv("DB_NAME", "moneyhub")

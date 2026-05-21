@@ -16,9 +16,9 @@ load_dotenv()
 # Configurações SMTP
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp-relay.brevo.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USERNAME = os.getenv("SMTP_USERNAME", "94d5b7001@smtp-brevo.com")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "vgkXq1tRY9ay645O")
-SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", "noreply@moneyhub.com")  # Email válido para Brevo
+SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", "noreply@moneyhub.com")
 SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "MoneyHub")
 
 def test_smtp_connection():
@@ -120,7 +120,10 @@ if __name__ == "__main__":
         print("\n" + "=" * 50)
         
         # Enviar email de teste
-        test_email = "leozinhoszg@gmail.com"
+        test_email = os.getenv("SMTP_TEST_RECIPIENT", "")
+        if not test_email:
+            print("\n⚠️  Defina SMTP_TEST_RECIPIENT no ambiente para enviar email de teste.")
+            return
         if send_test_email(test_email):
             print(f"\n🎉 Teste completo! Verifique a caixa de entrada de {test_email}")
         else:
