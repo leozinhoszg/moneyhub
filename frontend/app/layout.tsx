@@ -1,5 +1,11 @@
 import "./globals.css";
-import { Montserrat, Open_Sans } from "next/font/google";
+import {
+  Montserrat,
+  Open_Sans,
+  Geist,
+  Geist_Mono,
+  Fraunces,
+} from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -55,6 +61,29 @@ const body = Open_Sans({
   display: "swap",
 });
 
+const sansDisplay = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const monoDisplay = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const serifAccent = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+
 export default function RootLayout({
   children,
 }: {
@@ -63,7 +92,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${heading.variable} ${body.variable}`}
+      className={`${heading.variable} ${body.variable} ${sansDisplay.variable} ${monoDisplay.variable} ${serifAccent.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -169,6 +169,19 @@ body {
   @apply text-gray-700/80;
 }
 
+/* Accent typography — Fraunces italic for inline emphasis words.
+   Bumps font-size and tightens spacing to compensate for the lower
+   x-height of a serif vs the surrounding Geist grotesk. */
+.accent {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.06em;
+  letter-spacing: -0.02em;
+  font-feature-settings: "ss01" on, "ss02" on;
+  font-optical-sizing: auto;
+}
+
 /* Animações personalizadas */
 @keyframes fade-in {
   from {

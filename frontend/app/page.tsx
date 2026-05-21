@@ -1,389 +1,1165 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { 
-  Sun, 
-  Moon, 
-  TrendingUp, 
-  PieChart, 
-  CreditCard, 
-  DollarSign, 
-  FileText, 
-  Users, 
-  Shield, 
-  Smartphone,
-  Brain,
-  Download,
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
+import {
+  ArrowUpRight,
   ArrowRight,
-  CheckCircle
+  CheckCircle2,
+  Sparkles,
+  TrendingUp,
+  PieChart,
+  FileText,
+  Users,
+  ShieldCheck,
+  LockKeyhole,
+  Plus,
+  Minus,
+  Receipt,
 } from "lucide-react";
 
-export default function MoneyHubHomePage() {
-  const [mounted, setMounted] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+const EASE = [0.32, 0.72, 0, 1] as const;
+const SPRING = { type: "spring" as const, stiffness: 110, damping: 22 };
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+const fontSans = "var(--font-sans), ui-sans-serif, system-ui";
+const fontMono = "var(--font-mono), ui-monospace, monospace";
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
+function Reveal({
+  children,
+  delay = 0,
+  y = 28,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ y, opacity: 0, filter: "blur(8px)" }}
+      whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-12%" }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Nav({ onLogin }: { onLogin: () => void }) {
+  return (
+    <motion.nav
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+      className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:top-6"
+    >
+      <div className="flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/75 p-1.5 pl-2 shadow-[0_10px_40px_-18px_rgba(1,58,86,0.25)] backdrop-blur-xl">
+        <div className="px-1.5 translate-y-[2px]">
+          <Logo size="sm" href={false} />
+        </div>
+        <div className="hidden h-5 w-px bg-black/10 sm:block" />
+        <div className="hidden items-center gap-0.5 sm:flex">
+          {[
+            { label: "Recursos", href: "#recursos" },
+            { label: "Segurança", href: "#seguranca" },
+            { label: "Sobre", href: "#sobre" },
+          ].map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="rounded-full px-3 py-1.5 text-[13px] text-[#4A5868] transition-colors hover:bg-black/[0.04] hover:text-[#013a56]"
+              style={{ fontFamily: fontSans }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+        <button
+          onClick={onLogin}
+          className="group ml-0.5 flex items-center gap-2 rounded-full bg-[#013a56] py-1.5 pl-3.5 pr-1.5 text-[13px] font-medium text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#012438] active:scale-[0.98]"
+          style={{ fontFamily: fontSans }}
+        >
+          <span>Entrar</span>
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/12 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <ArrowUpRight size={13} strokeWidth={2.2} />
+          </span>
+        </button>
+      </div>
+    </motion.nav>
+  );
+}
+
+function HeroVisual() {
+  const { scrollY } = useScroll();
+  const float = useTransform(scrollY, [0, 600], [0, -40]);
+  const rotate = useTransform(scrollY, [0, 600], [0, 2]);
+
+  return (
+    <motion.div
+      style={{ y: float, rotate }}
+      className="relative mx-auto w-full max-w-md"
+    >
+      {/* Outer shell — Double-Bezel */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1, ease: EASE, delay: 0.5 }}
+        className="rounded-[2.25rem] border border-black/[0.06] bg-gradient-to-b from-white to-[#F5F7F8] p-1.5 shadow-[0_30px_80px_-30px_rgba(1,58,86,0.35)]"
+      >
+        {/* Inner core */}
+        <div className="rounded-[calc(2.25rem-0.375rem)] bg-white p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_1px_2px_rgba(1,58,86,0.04)]">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                <Receipt size={15} strokeWidth={2} />
+              </div>
+              <div>
+                <p
+                  className="text-[10px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                  style={{ fontFamily: fontMono }}
+                >
+                  Saldo total
+                </p>
+                <p
+                  className="text-[11px] text-[#4A5868]"
+                  style={{ fontFamily: fontMono }}
+                >
+                  mai · 2026
+                </p>
+              </div>
+            </div>
+            <span
+              className="flex items-center gap-1 rounded-full bg-[#E8F8F0] px-2 py-1 text-[10px] font-medium text-[#0A7A47]"
+              style={{ fontFamily: fontMono }}
+            >
+              <TrendingUp size={11} strokeWidth={2.4} />
+              +12.4%
+            </span>
+          </div>
+
+          {/* Big number */}
+          <div className="mt-5">
+            <div
+              className="flex items-baseline gap-1 text-[#013a56]"
+              style={{ fontFamily: fontSans }}
+            >
+              <span className="text-[15px] font-medium opacity-70">R$</span>
+              <motion.span
+                className="text-[40px] font-medium leading-none tracking-tight"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, ease: EASE, delay: 1.0 }}
+              >
+                47.218
+              </motion.span>
+              <span className="text-[18px] font-medium opacity-70">,90</span>
+            </div>
+            <p
+              className="mt-1 text-[12px] text-[#8B95A1]"
+              style={{ fontFamily: fontSans }}
+            >
+              4 contas · 3 cartões sincronizados
+            </p>
+          </div>
+
+          {/* Chart area */}
+          <div className="mt-5 grid grid-cols-7 items-end gap-1.5 px-1">
+            {[28, 42, 35, 60, 48, 72, 65].map((h, i) => (
+              <motion.div
+                key={i}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: `${h}px`, opacity: 1 }}
+                transition={{
+                  duration: 0.7,
+                  delay: 1.1 + i * 0.06,
+                  ease: EASE,
+                }}
+                className={`w-full rounded-t-md ${
+                  i === 5
+                    ? "bg-[#00cc66]"
+                    : "bg-gradient-to-t from-[#013a56]/12 to-[#013a56]/30"
+                }`}
+              />
+            ))}
+          </div>
+          <div
+            className="mt-2 grid grid-cols-7 gap-1.5 px-1 text-center text-[10px] text-[#A0AAB6]"
+            style={{ fontFamily: fontMono }}
+          >
+            {["S", "T", "Q", "Q", "S", "S", "D"].map((d, i) => (
+              <span key={i}>{d}</span>
+            ))}
+          </div>
+
+          {/* Activity row */}
+          <div className="mt-5 space-y-2">
+            {[
+              {
+                label: "Mercado · Carrefour",
+                value: "-R$ 312,40",
+                neg: true,
+              },
+              {
+                label: "Salário · Proma Group",
+                value: "+R$ 8.450,00",
+                neg: false,
+              },
+            ].map((t, i) => (
+              <motion.div
+                key={t.label}
+                initial={{ x: -8, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 1.5 + i * 0.12,
+                  ease: EASE,
+                }}
+                className="flex items-center justify-between rounded-xl border border-black/[0.04] bg-[#FAFBFC] px-3 py-2"
+              >
+                <span
+                  className="text-[12px] text-[#4A5868]"
+                  style={{ fontFamily: fontSans }}
+                >
+                  {t.label}
+                </span>
+                <span
+                  className={`text-[12px] font-medium ${
+                    t.neg ? "text-[#C53F2E]" : "text-[#0A7A47]"
+                  }`}
+                  style={{
+                    fontFamily: fontMono,
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {t.value}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Floating sparkle chip */}
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ ...SPRING, delay: 1.4 }}
+        className="absolute -left-6 top-16 hidden items-center gap-2 rounded-full border border-black/[0.06] bg-white px-3 py-2 shadow-[0_12px_30px_-14px_rgba(1,58,86,0.3)] sm:flex"
+      >
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00cc66]/15 text-[#0A7A47]">
+          <Sparkles size={12} strokeWidth={2.2} />
+        </span>
+        <div className="pr-1">
+          <p
+            className="text-[10px] uppercase tracking-[0.18em] text-[#8B95A1]"
+            style={{ fontFamily: fontMono }}
+          >
+            IA
+          </p>
+          <p
+            className="text-[11px] font-medium text-[#013a56]"
+            style={{ fontFamily: fontSans }}
+          >
+            Contracheque lido
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Floating shield chip */}
+      <motion.div
+        initial={{ opacity: 0, y: -16, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ ...SPRING, delay: 1.6 }}
+        className="absolute -right-4 -bottom-3 hidden items-center gap-2 rounded-full border border-black/[0.06] bg-white px-3 py-2 shadow-[0_12px_30px_-14px_rgba(1,58,86,0.3)] sm:flex"
+      >
+        <LockKeyhole size={13} className="text-[#013a56]" strokeWidth={2.2} />
+        <span
+          className="text-[11px] font-medium text-[#013a56]"
+          style={{ fontFamily: fontSans }}
+        >
+          Criptografia bancária
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function Hero({ onLogin }: { onLogin: () => void }) {
+  const stagger: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
+  };
+  const item: Variants = {
+    hidden: { y: 32, opacity: 0, filter: "blur(10px)" },
+    show: {
+      y: 0,
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: { duration: 0.9, ease: EASE },
+    },
   };
 
-  const handleLoginRedirect = () => {
-    setIsTransitioning(true);
-    
-    // Animação de saída
-    setTimeout(() => {
-      // Redirecionamento para a página de login
-      window.location.href = '/auth/login';
-    }, 800);
-  };
+  return (
+    <section className="relative isolate overflow-hidden px-6 pb-20 pt-36 sm:pt-40 lg:px-12 lg:pb-32 lg:pt-44">
+      {/* Ambient mesh */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+      >
+        <div className="absolute -top-40 right-[-10%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.16),transparent_62%)] blur-3xl" />
+        <div className="absolute -bottom-32 left-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(1,58,86,0.10),transparent_60%)] blur-3xl" />
+      </div>
 
-  const features = [
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: "Controle Completo",
-      description: "Gerencie todas suas receitas e despesas em um só lugar"
-    },
-    {
-      icon: <PieChart className="w-8 h-8" />,
-      title: "Categorização Inteligente",
-      description: "Organize seus gastos por categorias personalizáveis"
-    },
-    {
-      icon: <CreditCard className="w-8 h-8" />,
-      title: "Contas e Cartões",
-      description: "Monitore saldos e limites de forma automática"
-    },
-    {
-      icon: <FileText className="w-8 h-8" />,
-      title: "Relatórios Detalhados",
-      description: "Exporte relatórios em PDF e CSV para análise"
-    },
-    {
-      icon: <Brain className="w-8 h-8" />,
-      title: "IA Integrada",
-      description: "Extração automática de dados de contracheques e extratos"
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "Compartilhamento",
-      description: "Gerencie finanças em casal ou família"
-    }
+      <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-14 md:grid-cols-12 md:gap-10">
+        {/* Left column */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="md:col-span-7"
+        >
+          <motion.div variants={item}>
+            <span
+              className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#013a56] backdrop-blur-md"
+              style={{ fontFamily: fontMono }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00cc66] shadow-[0_0_10px_rgba(0,204,102,0.6)]" />
+              MoneyHub · v2
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={item}
+            className="mt-7 text-[clamp(2.75rem,6.5vw,5.5rem)] font-medium leading-[0.96] tracking-[-0.03em] text-[#013a56]"
+            style={{
+              fontFamily: fontSans,
+              textWrap: "balance",
+            }}
+          >
+            Suas finanças,{" "}
+            <span
+              className="accent text-[#39cc60]">
+              finalmente
+            </span>{" "}
+            no lugar certo.
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-7 max-w-[58ch] text-[17px] leading-relaxed text-[#4A5868] sm:text-[18px]"
+            style={{ fontFamily: fontSans, textWrap: "pretty" }}
+          >
+            Uma plataforma de controle financeiro pessoal que une extração por
+            inteligência artificial, categorização contextual e segurança de
+            nível bancário — sem planilha, sem fricção.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            variants={item}
+            className="mt-9 flex flex-wrap items-center gap-3"
+          >
+            <button
+              onClick={onLogin}
+              className="group flex items-center gap-3 rounded-full bg-[#013a56] py-3.5 pl-6 pr-2 text-[14px] font-medium text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#012438] active:scale-[0.98]"
+              style={{ fontFamily: fontSans }}
+            >
+              <span>Entrar no MoneyHub</span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/12 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
+                <ArrowUpRight size={15} strokeWidth={2.2} />
+              </span>
+            </button>
+
+            <a
+              href="#recursos"
+              className="group inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/70 px-5 py-3.5 text-[14px] font-medium text-[#013a56] backdrop-blur-md transition-colors hover:bg-white"
+              style={{ fontFamily: fontSans }}
+            >
+              <span>Conhecer recursos</span>
+              <ArrowRight
+                size={14}
+                strokeWidth={2.2}
+                className="transition-transform duration-500 group-hover:translate-x-0.5"
+              />
+            </a>
+          </motion.div>
+
+          {/* Trust readout */}
+          <motion.div
+            variants={item}
+            className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-black/[0.06] pt-6"
+          >
+            {[
+              { k: "12.430+", l: "usuários ativos" },
+              { k: "R$ 847M", l: "organizados" },
+              { k: "99.97%", l: "uptime" },
+            ].map((s) => (
+              <div key={s.l}>
+                <p
+                  className="text-[22px] font-medium tracking-tight text-[#013a56] sm:text-[24px]"
+                  style={{
+                    fontFamily: fontSans,
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {s.k}
+                </p>
+                <p
+                  className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                  style={{ fontFamily: fontMono }}
+                >
+                  {s.l}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Right column */}
+        <div className="md:col-span-5">
+          <HeroVisual />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PillarsMarquee() {
+  const pillars = [
+    "Receitas e despesas",
+    "Categorização contextual",
+    "Contas e cartões",
+    "Relatórios PDF & CSV",
+    "IA para contracheques",
+    "Investimentos",
+    "Lembretes de vencimento",
+    "Compartilhamento familiar",
   ];
+  const loop = [...pillars, ...pillars];
 
-  const benefits = [
-    "Controle total de suas finanças pessoais",
-    "Interface moderna e intuitiva",
-    "Segurança máxima com criptografia avançada",
-    "Relatórios personalizáveis e exportáveis",
-    "Lembretes automáticos de vencimentos",
-    "Acesso multiplataforma (web e mobile)"
+  return (
+    <section
+      aria-label="Pilares"
+      className="relative overflow-hidden border-y border-black/[0.06] bg-white/40 py-8 backdrop-blur-sm"
+    >
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#F7F8FA] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#F7F8FA] to-transparent" />
+      <motion.div
+        className="flex w-max gap-12"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          duration: 40,
+          ease: "linear",
+          repeat: Infinity,
+        }}
+      >
+        {loop.map((p, i) => (
+          <div
+            key={`${p}-${i}`}
+            className="flex items-center gap-3 whitespace-nowrap"
+          >
+            <span
+              className="text-[10px] uppercase tracking-[0.24em] text-[#8B95A1]"
+              style={{ fontFamily: fontMono }}
+            >
+              ▸
+            </span>
+            <span
+              className="text-[14px] font-medium text-[#013a56]"
+              style={{ fontFamily: fontSans }}
+            >
+              {p}
+            </span>
+          </div>
+        ))}
+      </motion.div>
+    </section>
+  );
+}
+
+function BentoCard({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  return (
+    <Reveal delay={delay} className={className}>
+      <div className="h-full rounded-[2.25rem] border border-black/[0.05] bg-gradient-to-b from-white to-[#F5F7F8] p-1.5 shadow-[0_20px_50px_-25px_rgba(1,58,86,0.18)]">
+        <div className="flex h-full flex-col rounded-[calc(2.25rem-0.375rem)] bg-white p-7 sm:p-9">
+          {children}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function BentoSection() {
+  return (
+    <section id="recursos" className="px-6 py-24 sm:py-32 lg:px-12">
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <div className="flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <p
+                className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
+                style={{ fontFamily: fontMono }}
+              >
+                — Recursos
+              </p>
+              <h2
+                className="mt-4 text-[clamp(2rem,4.2vw,3.4rem)] font-medium leading-[1] tracking-[-0.02em] text-[#013a56]"
+                style={{ fontFamily: fontSans, textWrap: "balance" }}
+              >
+                O essencial.{" "}
+                <span className="accent text-[#39cc60]">
+                  Sem ruído.
+                </span>
+              </h2>
+            </div>
+            <p
+              className="max-w-sm text-[15px] leading-relaxed text-[#4A5868]"
+              style={{ fontFamily: fontSans }}
+            >
+              Tudo que você precisa para entender, decidir e crescer. Nada que
+              você não vá usar.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Bento grid — interlocked 7/5 + 5/7 */}
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5">
+          {/* Card A — wide, AI extraction */}
+          <BentoCard className="md:col-span-7" delay={0.05}>
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                <Sparkles size={16} strokeWidth={2} />
+              </span>
+              <span
+                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
+                style={{ fontFamily: fontMono }}
+              >
+                IA aplicada
+              </span>
+            </div>
+            <h3
+              className="mt-6 text-[26px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[30px]"
+              style={{ fontFamily: fontSans, textWrap: "balance" }}
+            >
+              Extração automática de{" "}
+              <span
+                className="accent text-[#39cc60]">
+                contracheques e extratos
+              </span>
+              .
+            </h3>
+            <p
+              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-[#4A5868]"
+              style={{ fontFamily: fontSans }}
+            >
+              Envie um PDF ou foto. O MoneyHub interpreta valores, descontos e
+              categorias automaticamente — você revisa e confirma.
+            </p>
+            <div className="mt-auto pt-8">
+              <div className="rounded-2xl border border-black/[0.05] bg-[#FAFBFC] p-4">
+                <div className="flex items-center justify-between">
+                  <span
+                    className="text-[11px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                    style={{ fontFamily: fontMono }}
+                  >
+                    contracheque · abr.pdf
+                  </span>
+                  <span
+                    className="rounded-full bg-[#E8F8F0] px-2 py-0.5 text-[10px] font-medium text-[#0A7A47]"
+                    style={{ fontFamily: fontMono }}
+                  >
+                    extraído em 1.8s
+                  </span>
+                </div>
+                <div
+                  className="mt-3 grid grid-cols-2 gap-2 text-[12.5px] text-[#4A5868] sm:grid-cols-4"
+                  style={{ fontFamily: fontMono }}
+                >
+                  {[
+                    ["Bruto", "8 450,00"],
+                    ["INSS", "-742,18"],
+                    ["IRRF", "-583,40"],
+                    ["Líquido", "7 124,42"],
+                  ].map(([k, v]) => (
+                    <div key={k}>
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-[#8B95A1]">
+                        {k}
+                      </p>
+                      <p
+                        className="mt-0.5 font-medium text-[#013a56]"
+                        style={{ fontVariantNumeric: "tabular-nums" }}
+                      >
+                        {v}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Card B — categorization */}
+          <BentoCard className="md:col-span-5" delay={0.12}>
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                <PieChart size={16} strokeWidth={2} />
+              </span>
+              <span
+                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
+                style={{ fontFamily: fontMono }}
+              >
+                Categorização
+              </span>
+            </div>
+            <h3
+              className="mt-6 text-[24px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[26px]"
+              style={{ fontFamily: fontSans, textWrap: "balance" }}
+            >
+              Cada gasto, no lugar certo.
+            </h3>
+            <p
+              className="mt-4 text-[14.5px] leading-relaxed text-[#4A5868]"
+              style={{ fontFamily: fontSans }}
+            >
+              Categorias personalizáveis, regras inteligentes e sugestões
+              baseadas no seu histórico.
+            </p>
+            <div className="mt-auto space-y-2 pt-8">
+              {[
+                { label: "Mercado", pct: 28, color: "#013a56" },
+                { label: "Moradia", pct: 21, color: "#00cc66" },
+                { label: "Transporte", pct: 14, color: "#8B95A1" },
+              ].map((c) => (
+                <div key={c.label}>
+                  <div
+                    className="mb-1 flex items-center justify-between text-[12px]"
+                    style={{
+                      fontFamily: fontMono,
+                      color: "#4A5868",
+                    }}
+                  >
+                    <span>{c.label}</span>
+                    <span
+                      style={{ fontVariantNumeric: "tabular-nums" }}
+                      className="text-[#013a56]"
+                    >
+                      {c.pct}%
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/[0.04]">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${c.pct}%` }}
+                      viewport={{ once: true, margin: "-15%" }}
+                      transition={{ duration: 1, ease: EASE, delay: 0.3 }}
+                      style={{ background: c.color }}
+                      className="h-full rounded-full"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Card C — sharing */}
+          <BentoCard className="md:col-span-5" delay={0.05}>
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                <Users size={16} strokeWidth={2} />
+              </span>
+              <span
+                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
+                style={{ fontFamily: fontMono }}
+              >
+                Compartilhamento
+              </span>
+            </div>
+            <h3
+              className="mt-6 text-[24px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[26px]"
+              style={{ fontFamily: fontSans, textWrap: "balance" }}
+            >
+              Casal, família,{" "}
+              <span
+                className="accent text-[#39cc60]">
+                ou só você
+              </span>
+              .
+            </h3>
+            <p
+              className="mt-4 text-[14.5px] leading-relaxed text-[#4A5868]"
+              style={{ fontFamily: fontSans }}
+            >
+              Convide membros com permissões granulares. Decisões financeiras
+              deixam de ser conversas difíceis.
+            </p>
+            <div className="mt-auto pt-8">
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[
+                    { name: "MC", bg: "#013a56" },
+                    { name: "RA", bg: "#0A7A47" },
+                    { name: "JL", bg: "#C53F2E" },
+                  ].map((u) => (
+                    <span
+                      key={u.name}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white text-[11px] font-medium text-white"
+                      style={{
+                        background: u.bg,
+                        fontFamily: fontMono,
+                      }}
+                    >
+                      {u.name}
+                    </span>
+                  ))}
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-[#F0F2F5] text-[12px] font-medium text-[#4A5868]">
+                    <Plus size={13} strokeWidth={2.2} />
+                  </span>
+                </div>
+                <span
+                  className="text-[12px] text-[#4A5868]"
+                  style={{ fontFamily: fontSans }}
+                >
+                  3 membros · 1 administrador
+                </span>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Card D — reports */}
+          <BentoCard className="md:col-span-7" delay={0.12}>
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                <FileText size={16} strokeWidth={2} />
+              </span>
+              <span
+                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
+                style={{ fontFamily: fontMono }}
+              >
+                Relatórios
+              </span>
+            </div>
+            <h3
+              className="mt-6 text-[26px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[30px]"
+              style={{ fontFamily: fontSans, textWrap: "balance" }}
+            >
+              Exporte em{" "}
+              <span
+                className="accent text-[#39cc60]">
+                PDF
+              </span>{" "}
+              ou{" "}
+              <span
+                className="accent text-[#39cc60]">
+                CSV
+              </span>{" "}
+              com um toque.
+            </h3>
+            <p
+              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-[#4A5868]"
+              style={{ fontFamily: fontSans }}
+            >
+              Relatórios mensais, anuais ou personalizados — prontos para
+              imprimir, enviar ao contador ou anexar ao IRPF.
+            </p>
+            <div className="mt-auto grid grid-cols-2 gap-3 pt-8">
+              {[
+                {
+                  type: "PDF",
+                  label: "Relatório mai · 2026",
+                  meta: "42 transações · 8 categorias",
+                },
+                {
+                  type: "CSV",
+                  label: "Movimentações Q1 · 2026",
+                  meta: "318 linhas · 24 KB",
+                },
+              ].map((r) => (
+                <div
+                  key={r.type}
+                  className="rounded-2xl border border-black/[0.05] bg-[#FAFBFC] p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="rounded-md bg-[#013a56] px-1.5 py-0.5 text-[10px] font-medium text-white"
+                      style={{ fontFamily: fontMono }}
+                    >
+                      {r.type}
+                    </span>
+                    <ArrowUpRight
+                      size={14}
+                      strokeWidth={2.2}
+                      className="text-[#8B95A1]"
+                    />
+                  </div>
+                  <p
+                    className="mt-3 text-[13px] font-medium text-[#013a56]"
+                    style={{ fontFamily: fontSans }}
+                  >
+                    {r.label}
+                  </p>
+                  <p
+                    className="mt-1 text-[11px] text-[#8B95A1]"
+                    style={{ fontFamily: fontMono }}
+                  >
+                    {r.meta}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TrustSection() {
+  return (
+    <section
+      id="seguranca"
+      className="relative overflow-hidden px-6 py-24 sm:py-32 lg:px-12"
+    >
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute right-0 top-1/3 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.10),transparent_60%)] blur-3xl" />
+      </div>
+      <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
+        <Reveal className="md:col-span-6">
+          <p
+            className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
+            style={{ fontFamily: fontMono }}
+          >
+            — Segurança
+          </p>
+          <h2
+            className="mt-4 text-[clamp(2rem,4.4vw,3.6rem)] font-medium leading-[1] tracking-[-0.025em] text-[#013a56]"
+            style={{ fontFamily: fontSans, textWrap: "balance" }}
+          >
+            Não é{" "}
+            <span
+              className="accent text-[#39cc60]">
+              luxo
+            </span>
+            . É o mínimo que você merece.
+          </h2>
+          <p
+            className="mt-6 max-w-md text-[15.5px] leading-relaxed text-[#4A5868]"
+            style={{ fontFamily: fontSans }}
+          >
+            Senhas com hash bcrypt, autenticação JWT em cookies HTTPOnly,
+            proteção CORS e XSS no nível do servidor. Os seus dados são seus —
+            ponto.
+          </p>
+        </Reveal>
+
+        <div className="md:col-span-6">
+          <div className="divide-y divide-black/[0.06] border-y border-black/[0.06]">
+            {[
+              {
+                title: "Criptografia bcrypt",
+                desc: "Senhas armazenadas com hash de 12 rounds. Nem nós conseguimos ler.",
+                icon: <LockKeyhole size={18} strokeWidth={1.8} />,
+              },
+              {
+                title: "Tokens JWT em cookies HTTPOnly",
+                desc: "Sessões assinadas, inacessíveis a scripts. Logout limpa tudo.",
+                icon: <ShieldCheck size={18} strokeWidth={1.8} />,
+              },
+              {
+                title: "Proteção CORS, XSS e CSRF",
+                desc: "Camadas defensivas auditadas a cada release.",
+                icon: <CheckCircle2 size={18} strokeWidth={1.8} />,
+              },
+            ].map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.08}>
+                <div className="flex items-start gap-5 py-6">
+                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white text-[#013a56]">
+                    {s.icon}
+                  </span>
+                  <div className="flex-1">
+                    <h3
+                      className="text-[16.5px] font-medium tracking-tight text-[#013a56]"
+                      style={{ fontFamily: fontSans }}
+                    >
+                      {s.title}
+                    </h3>
+                    <p
+                      className="mt-1.5 text-[14px] leading-relaxed text-[#4A5868]"
+                      style={{ fontFamily: fontSans }}
+                    >
+                      {s.desc}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+  const items = [
+    {
+      q: "Preciso conectar minha conta bancária?",
+      a: "Não. O MoneyHub funciona com lançamentos manuais ou importação por PDF/CSV. Open Finance é opcional e está no roadmap.",
+    },
+    {
+      q: "Funciona em mobile?",
+      a: "Sim. A interface é responsiva e está disponível como PWA instalável, com acesso offline parcial.",
+    },
+    {
+      q: "Posso usar com meu casal ou família?",
+      a: "Pode. Convide até 4 membros por conta familiar, com permissões granulares (administrador, contribuinte ou visualização).",
+    },
+    {
+      q: "Como exporto os dados para o contador?",
+      a: "Relatórios PDF prontos para impressão e CSV para planilhas. Exportação mensal, anual ou por período personalizado.",
+    },
   ];
 
   return (
-    <div
-      className={`min-h-screen transition-all duration-800 ${
-        isTransitioning 
-          ? "opacity-0 scale-95 blur-sm" 
-          : "opacity-100 scale-100 blur-0"
-      } ${
-        isDark
-          ? "bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800"
-          : "bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100"
-      }`}
-    >
-      {/* Theme Toggle Button */}
-      <button
-        onClick={toggleTheme}
-        className={`fixed top-6 right-6 z-50 p-3 rounded-full shadow-lg backdrop-blur-xl transition-all duration-300 ${
-          isDark
-            ? "bg-slate-800/80 border border-slate-700/50 text-yellow-400 hover:bg-slate-700/80"
-            : "bg-white/90 border border-slate-200/50 text-slate-600 hover:bg-white"
-        }`}
-      >
-        {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-      </button>
+    <section className="px-6 py-24 sm:py-32 lg:px-12">
+      <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
+        <Reveal className="md:col-span-5">
+          <p
+            className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
+            style={{ fontFamily: fontMono }}
+          >
+            — Perguntas frequentes
+          </p>
+          <h2
+            className="mt-4 text-[clamp(1.9rem,3.8vw,3rem)] font-medium leading-[1] tracking-[-0.02em] text-[#013a56]"
+            style={{ fontFamily: fontSans, textWrap: "balance" }}
+          >
+            Antes de você{" "}
+            <span
+              className="accent text-[#39cc60]">
+              perguntar
+            </span>
+            .
+          </h2>
+          <p
+            className="mt-6 max-w-sm text-[15px] leading-relaxed text-[#4A5868]"
+            style={{ fontFamily: fontSans }}
+          >
+            Algo que não está aqui? Fale com a gente em{" "}
+            <a
+              href="mailto:contato@moneyhub.app"
+              className="text-[#013a56] underline decoration-[#00cc66] decoration-2 underline-offset-4"
+            >
+              contato@moneyhub.app
+            </a>
+            .
+          </p>
+        </Reveal>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className={`absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-emerald-500/20 to-green-400/10 rounded-full blur-xl transition-all duration-[4000ms] ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
-          }`}
-          style={{
-            animation: mounted ? "float 6s ease-in-out infinite" : "none",
-          }}
-        />
-        <div
-          className={`absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-tr from-blue-500/20 to-cyan-400/10 rounded-full blur-xl transition-all duration-[5000ms] delay-1000 ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
-          }`}
-          style={{
-            animation: mounted ? "float 8s ease-in-out infinite reverse" : "none",
-          }}
-        />
-        <div
-          className={`absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-500/15 to-pink-400/10 rounded-full blur-xl transition-all duration-[6000ms] delay-2000 ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
-          }`}
-          style={{
-            animation: mounted ? "float 10s ease-in-out infinite" : "none",
-          }}
-        />
+        <div className="md:col-span-7">
+          <div className="border-t border-black/[0.06]">
+            {items.map((it, i) => {
+              const isOpen = open === i;
+              return (
+                <div
+                  key={it.q}
+                  className="border-b border-black/[0.06]"
+                >
+                  <button
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-[#013a56]"
+                  >
+                    <span
+                      className="text-[16.5px] font-medium text-[#013a56]"
+                      style={{ fontFamily: fontSans }}
+                    >
+                      {it.q}
+                    </span>
+                    <span className="mt-0.5 shrink-0 text-[#4A5868]">
+                      {isOpen ? (
+                        <Minus size={18} strokeWidth={1.8} />
+                      ) : (
+                        <Plus size={18} strokeWidth={1.8} />
+                      )}
+                    </span>
+                  </button>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: isOpen ? "auto" : 0,
+                      opacity: isOpen ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.45, ease: EASE }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <p
+                      className="pb-6 pr-10 text-[15px] leading-relaxed text-[#4A5868]"
+                      style={{ fontFamily: fontSans }}
+                    >
+                      {it.a}
+                    </p>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
+    </section>
+  );
+}
 
-      {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Logo and Main Title */}
-          <div
-            className={`transition-all duration-1000 delay-300 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <div className="inline-flex items-center justify-center w-32 h-32 mb-8 relative">
-              <Image
-                src="/logo_money_hub.png"
-                alt="MoneyHub Logo"
-                width={120}
-                height={120}
-                className="object-contain relative z-10 drop-shadow-xl transition-transform duration-500 hover:scale-110"
-                priority
-              />
+function FinalCTA({ onLogin }: { onLogin: () => void }) {
+  return (
+    <section id="sobre" className="px-6 py-24 sm:py-32 lg:px-12">
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-black/[0.05] bg-[#013a56] p-10 sm:p-16 lg:p-20">
+            {/* Mesh */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+            >
+              <div className="absolute -top-32 -right-20 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.35),transparent_60%)] blur-3xl" />
+              <div className="absolute -bottom-24 -left-12 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)] blur-3xl" />
             </div>
-            
-            <h1
-              className="text-6xl md:text-7xl font-bold mb-6"
-              style={{
-                fontFamily: "var(--font-heading, Montserrat, sans-serif)",
-              }}
-            >
-              <span style={{ color: "#013a56" }}>Money</span>
-              <span style={{ color: "#00cc66" }}>Hub</span>
-            </h1>
-            
-            <p
-              className={`text-2xl md:text-3xl font-medium mb-8 transition-colors duration-300 ${
-                isDark ? "text-slate-300" : "text-slate-600"
-              }`}
-              style={{
-                fontFamily: "var(--font-body, Open Sans, sans-serif)",
-              }}
-            >
-              Sua plataforma completa de controle financeiro
-            </p>
-            
-            <p
-              className={`text-lg md:text-xl mb-12 max-w-3xl mx-auto transition-colors duration-300 ${
-                isDark ? "text-slate-400" : "text-slate-500"
-              }`}
-              style={{
-                fontFamily: "var(--font-body, Open Sans, sans-serif)",
-              }}
-            >
-              Gerencie suas receitas, despesas, investimentos e muito mais com tecnologia de inteligência artificial e segurança máxima.
-            </p>
-          </div>
 
-          {/* CTA Button */}
-          <div
-            className={`flex justify-center mb-16 transition-all duration-1000 delay-500 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <button 
-              onClick={handleLoginRedirect}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-4 px-12 rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
-            >
-              Entrar no MoneyHub
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Feature Cards Grid */}
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 transition-all duration-1000 delay-700 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`p-6 rounded-2xl backdrop-blur-xl border shadow-lg transition-all duration-300 hover:scale-105 ${
-                  isDark
-                    ? "bg-slate-800/80 border-slate-700/50 text-white"
-                    : "bg-white/90 border-slate-200/50 text-slate-800"
-                }`}
-              >
-                <div className="text-emerald-500 mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+            <div className="relative grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end md:gap-12">
+              <div className="md:col-span-8">
                 <p
-                  className={`transition-colors duration-300 ${
-                    isDark ? "text-slate-300" : "text-slate-600"
-                  }`}
+                  className="text-[11px] uppercase tracking-[0.22em] text-white/50"
+                  style={{ fontFamily: fontMono }}
                 >
-                  {feature.description}
+                  — Comece agora
+                </p>
+                <h2
+                  className="mt-5 text-[clamp(2.2rem,5vw,4.4rem)] font-medium leading-[1] tracking-[-0.03em] text-white"
+                  style={{ fontFamily: fontSans, textWrap: "balance" }}
+                >
+                  Deixe sua planilha em paz.{" "}
+                  <span
+                    className="accent text-[#39cc60]">
+                    Comece hoje.
+                  </span>
+                </h2>
+                <p
+                  className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/70"
+                  style={{ fontFamily: fontSans }}
+                >
+                  Cadastro gratuito. Sem cartão de crédito. Importe seu
+                  histórico em segundos.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Benefits Section */}
-      <section
-        className={`py-20 px-4 ${
-          isDark ? "bg-slate-800/50" : "bg-white/50"
-        } backdrop-blur-xl`}
-      >
-        <div className="max-w-4xl mx-auto">
-          <h2
-            className={`text-4xl font-bold text-center mb-12 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-heading, Montserrat, sans-serif)",
-            }}
-          >
-            Por que escolher o MoneyHub?
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
-                  isDark
-                    ? "hover:bg-slate-700/50"
-                    : "hover:bg-slate-100/50"
-                }`}
-              >
-                <CheckCircle className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-                <span
-                  className={`text-lg ${
-                    isDark ? "text-slate-300" : "text-slate-700"
-                  }`}
+              <div className="md:col-span-4 md:text-right">
+                <button
+                  onClick={onLogin}
+                  className="group inline-flex items-center gap-3 rounded-full bg-white py-4 pl-6 pr-2 text-[14.5px] font-medium text-[#013a56] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#F0F2F5] active:scale-[0.98]"
+                  style={{ fontFamily: fontSans }}
                 >
-                  {benefit}
-                </span>
+                  <span>Entrar no MoneyHub</span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#013a56]/8 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
+                    <ArrowUpRight size={15} strokeWidth={2.2} />
+                  </span>
+                </button>
               </div>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
-      {/* Security Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl mb-8">
-            <Shield className="w-10 h-10 text-white" />
-          </div>
-          
-          <h2
-            className={`text-4xl font-bold mb-6 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-heading, Montserrat, sans-serif)",
-            }}
+function Footer() {
+  return (
+    <footer className="border-t border-black/[0.06] px-6 py-12 lg:px-12">
+      <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+        <div className="flex items-center gap-3">
+          <Logo size="sm" href={false} />
+          <span
+            className="text-[12px] text-[#8B95A1]"
+            style={{ fontFamily: fontMono }}
           >
-            Segurança em Primeiro Lugar
-          </h2>
-          
-          <p
-            className={`text-xl mb-8 max-w-3xl mx-auto ${
-              isDark ? "text-slate-300" : "text-slate-600"
-            }`}
-          >
-            Seus dados financeiros são protegidos com criptografia de nível bancário, 
-            autenticação JWT e cookies HTTPOnly para máxima segurança.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: <Shield className="w-8 h-8" />, title: "Criptografia", desc: "Dados protegidos com bcrypt" },
-              { icon: <DollarSign className="w-8 h-8" />, title: "JWT Tokens", desc: "Autenticação segura" },
-              { icon: <Smartphone className="w-8 h-8" />, title: "CORS/XSS", desc: "Proteção contra ataques" }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className={`p-6 rounded-xl border ${
-                  isDark
-                    ? "bg-slate-800/50 border-slate-700/50"
-                    : "bg-white/50 border-slate-200/50"
-                }`}
-              >
-                <div className="text-emerald-500 mb-4">{item.icon}</div>
-                <h3 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-slate-800"}`}>
-                  {item.title}
-                </h3>
-                <p className={isDark ? "text-slate-400" : "text-slate-600"}>
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+            © 2026 · controle financeiro inteligente
+          </span>
         </div>
-      </section>
-
-      {/* Footer CTA */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2
-            className={`text-4xl font-bold mb-6 ${
-              isDark ? "text-white" : "text-slate-800"
-            }`}
-            style={{
-              fontFamily: "var(--font-heading, Montserrat, sans-serif)",
-            }}
-          >
-            Pronto para transformar suas finanças?
-          </h2>
-          
-          <p
-            className={`text-xl mb-8 ${
-              isDark ? "text-slate-300" : "text-slate-600"
-            }`}
-          >
-            Junte-se a milhares de usuários que já organizaram sua vida financeira com o MoneyHub.
-          </p>
-          
-          <div className="flex justify-center">
-            <button 
-              onClick={handleLoginRedirect}
-              disabled={isTransitioning}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-4 px-12 rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          {[
+            { label: "Privacidade", href: "/privacy" },
+            { label: "Termos", href: "/terms" },
+            { label: "Contato", href: "mailto:contato@moneyhub.app" },
+          ].map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="text-[13px] text-[#4A5868] transition-colors hover:text-[#013a56]"
+              style={{ fontFamily: fontSans }}
             >
-              {isTransitioning ? 'Carregando...' : 'Fazer Login'}
-            </button>
-          </div>
+              {l.label}
+            </a>
+          ))}
         </div>
-      </section>
+      </div>
+    </footer>
+  );
+}
 
-      {/* Footer */}
-      <footer
-        className={`py-8 px-4 border-t ${
-          isDark
-            ? "bg-slate-900/50 border-slate-700/50 text-slate-400"
-            : "bg-white/50 border-slate-200/50 text-slate-500"
-        }`}
+export default function MoneyHubHomePage() {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    router.prefetch("/auth/login");
+  }, [router]);
+
+  const handleLoginRedirect = () => {
+    router.push("/auth/login");
+  };
+
+  return (
+    <div
+      className="relative min-h-[100dvh] w-full max-w-full overflow-x-hidden bg-[#F7F8FA] text-[#013a56] selection:bg-[#013a56] selection:text-white"
+      style={{ fontFamily: fontSans }}
+    >
+      <a
+        href="#recursos"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[#013a56] focus:px-4 focus:py-2 focus:text-white"
       >
-        <div className="max-w-6xl mx-auto text-center">
-          <p>&copy; 2025 MoneyHub. Controle financeiro inteligente e seguro.</p>
-        </div>
-      </footer>
+        Ir para conteúdo
+      </a>
 
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(120deg); }
-          66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-      `}</style>
+      <Nav onLogin={handleLoginRedirect} />
+
+      <main>
+        <Hero onLogin={handleLoginRedirect} />
+        <PillarsMarquee />
+        <BentoSection />
+        <TrustSection />
+        <FAQ />
+        <FinalCTA onLogin={handleLoginRedirect} />
+      </main>
+
+      <Footer />
     </div>
   );
 }
