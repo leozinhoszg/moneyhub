@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from urllib.parse import quote_plus
 
 from sqlalchemy import create_engine, text
