@@ -1,5 +1,6 @@
 import pytest
 from sqlalchemy import create_engine, text
+from urllib.parse import quote_plus
 
 from app.core.config import get_settings
 from app.db.bootstrap import ensure_database_exists
@@ -58,3 +59,37 @@ def test_ensure_database_is_idempotent(settings):
     with server.connect() as conn:
         conn.execute(text(f"DROP DATABASE IF EXISTS {test_db}"))
         conn.commit()
+
+
+from app.db.bootstrap import run_migrations
+
+
+def test_run_migrations_applies_all(settings):
+    server = _server_engine(settings)
+    test_db = "moneyhub_test_migrations"
+    with server.connect() as conn:
+        conn.execute(text(f"DROP DATABASE IF EXISTS {test_db}"))
+        conn.execute(text(f"CREATE DATABASE {test_db} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"))
+        conn.commit()
+
+    run_migrations(
+        host=settings.db_host, port=settings.db_port,
+        user=settings.db_user, password=settings.db_password,
+        db_name=test_db,
+    )
+
+    db_url = f"mysql+pymysql://{settings.db_user}:{quote_plus(settings.db_password)}@{settings.db_host}:{settings.db_port}/{test_db}"
+    db_engine = create_engine(db_url)
+    try:
+        with db_engine.connect() as conn:
+            tables = [r[0] for r in conn.execute(text("SHOW TABLES")).fetchall()]
+            assert "alembic_version" in tables
+            assert "usuarios" in tables
+            assert "categorias" in tables
+            assert "subcategorias" in tables
+            assert "faturas_cartao" in tables
+    finally:
+        db_engine.dispose()
+        with server.connect() as conn:
+            conn.execute(text(f"DROP DATABASE {test_db}"))
+            conn.commit()
