@@ -7,9 +7,9 @@ const sizeMap: Record<
   LogoSize,
   { icon: number; text: string; gap: string }
 > = {
-  sm: { icon: 18, text: "text-[14px]", gap: "gap-2" },
-  md: { icon: 32, text: "text-[18px]", gap: "gap-2.5" },
-  lg: { icon: 48, text: "text-[26px]", gap: "gap-3" },
+  sm: { icon: 22, text: "text-[15px]", gap: "gap-2" },
+  md: { icon: 44, text: "text-[24px]", gap: "gap-3" },
+  lg: { icon: 56, text: "text-[30px]", gap: "gap-3" },
 };
 
 interface LogoProps {
@@ -30,8 +30,9 @@ export default function Logo({
 }: LogoProps) {
   const s = sizeMap[size];
 
-  const moneyColor = inverted ? "#ffffff" : "#013a56";
-  const hubColor = "#39cc60";
+  const moneyClass = inverted
+    ? "text-white"
+    : "text-[color:var(--color-primary)] dark:text-white";
 
   const content = (
     <span className={`inline-flex items-center ${s.gap} ${className}`}>
@@ -47,8 +48,8 @@ export default function Logo({
         className={`${s.text} font-bold tracking-tight leading-none whitespace-nowrap`}
         style={{ fontFamily: "var(--font-body), ui-sans-serif, system-ui" }}
       >
-        <span style={{ color: moneyColor }}>Money</span>
-        <span style={{ color: hubColor }}>Hub</span>
+        <span className={moneyClass}>Money</span>
+        <span className="text-[color:var(--color-secondary)]">Hub</span>
       </span>
     </span>
   );

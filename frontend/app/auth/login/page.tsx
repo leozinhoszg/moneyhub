@@ -21,16 +21,38 @@ import {
   ArrowUpRight,
   ArrowRight,
   Mail,
-  LockKeyhole,
-  ShieldCheck,
   AlertCircle,
   CheckCircle2,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
-const fontSans = "var(--font-sans), ui-sans-serif, system-ui";
+const fontHeading = "var(--font-heading), ui-sans-serif, system-ui";
+const fontBody = "var(--font-body), ui-sans-serif, system-ui";
 const fontMono = "var(--font-mono), ui-monospace, monospace";
+
+// --- Theme toggle -----------------------------------------------------------
+
+function ThemeToggle({ inverted = false }: { inverted?: boolean }) {
+  const { isDark, toggleTheme, mounted } = useTheme();
+  if (!mounted) return <span className="h-8 w-8" aria-hidden />;
+  const base = inverted
+    ? "border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+    : "border-gray-200/70 bg-white/80 text-[color:var(--color-primary)] hover:bg-white dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-800";
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
+      className={`flex h-8 w-8 items-center justify-center rounded-full border transition-colors ${base}`}
+    >
+      {isDark ? <Sun size={14} strokeWidth={2.2} /> : <Moon size={14} strokeWidth={2.2} />}
+    </button>
+  );
+}
 
 // --- Field primitives ---------------------------------------------------------
 
@@ -44,7 +66,7 @@ function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-1.5 block text-[11px] uppercase tracking-[0.18em] text-[#8B95A1]"
+      className="mb-1.5 block text-[11px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
       style={{ fontFamily: fontMono }}
     >
       {children}
@@ -83,8 +105,8 @@ function TextInput({
 }) {
   return (
     <div
-      className={`group relative flex items-center rounded-2xl border border-black/[0.08] bg-white transition-all duration-300 focus-within:border-[#013a56] focus-within:shadow-[0_0_0_4px_rgba(1,58,86,0.08)] ${
-        readOnly ? "bg-[#F5F7F8]" : ""
+      className={`group relative flex items-center rounded-2xl border border-gray-200/70 bg-white transition-all duration-300 focus-within:border-[color:var(--color-primary)] focus-within:shadow-[0_0_0_4px_rgba(0,51,102,0.10)] dark:border-slate-700 dark:bg-slate-800/60 dark:focus-within:border-[color:var(--color-secondary)] dark:focus-within:shadow-[0_0_0_4px_rgba(0,204,102,0.18)] ${
+        readOnly ? "bg-gray-50 dark:bg-slate-800/40" : ""
       }`}
     >
       <input
@@ -100,10 +122,10 @@ function TextInput({
         maxLength={maxLength}
         inputMode={inputMode}
         autoComplete={autoComplete}
-        className={`w-full bg-transparent px-4 py-3.5 text-[15px] text-[#013a56] placeholder:text-[#A0AAB6] focus:outline-none disabled:cursor-not-allowed ${
+        className={`w-full bg-transparent px-4 py-3.5 text-[15px] text-[color:var(--color-primary)] placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500 ${
           centered ? "text-center tracking-[0.4em]" : ""
         }`}
-        style={{ fontFamily: centered ? fontMono : fontSans }}
+        style={{ fontFamily: centered ? fontMono : fontBody }}
       />
       {rightSlot && <div className="pr-2">{rightSlot}</div>}
     </div>
@@ -128,11 +150,11 @@ function PrimaryButton({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className="group flex w-full items-center justify-between gap-3 rounded-full bg-[#013a56] py-3 pl-6 pr-2 text-[14px] font-medium text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#012438] disabled:opacity-60 active:scale-[0.99]"
-      style={{ fontFamily: fontSans }}
+      className="group flex w-full items-center justify-between gap-3 rounded-full bg-[color:var(--color-secondary)] py-3 pl-6 pr-2 text-[14px] font-semibold text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[color:var(--color-secondary-dark)] disabled:opacity-60 active:scale-[0.99]"
+      style={{ fontFamily: fontBody }}
     >
       <span>{children}</span>
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/12 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
+      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
         {loading ? (
           <span className="block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
         ) : (
@@ -157,8 +179,8 @@ function GhostButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#013a56] transition-colors hover:text-[#012438] disabled:opacity-50"
-      style={{ fontFamily: fontSans }}
+      className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[color:var(--color-primary)] transition-colors hover:text-[color:var(--color-primary-dark)] disabled:opacity-50 dark:text-slate-200 dark:hover:text-white"
+      style={{ fontFamily: fontBody }}
     >
       {children}
     </button>
@@ -179,7 +201,7 @@ function StepBadge({
   return (
     <div className="flex items-center gap-3">
       <span
-        className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
+        className="text-[11px] uppercase tracking-[0.22em] text-gray-500 dark:text-slate-400"
         style={{ fontFamily: fontMono }}
       >
         Passo {current.toString().padStart(2, "0")} / {total.toString().padStart(2, "0")}
@@ -189,12 +211,17 @@ function StepBadge({
           <span
             key={i}
             className={`h-[2px] w-7 rounded-full transition-colors ${
-              i < current ? "bg-[#013a56]" : "bg-black/[0.08]"
+              i < current
+                ? "bg-[color:var(--color-primary)] dark:bg-[color:var(--color-secondary)]"
+                : "bg-gray-200 dark:bg-slate-700"
             }`}
           />
         ))}
       </div>
-      <span className="hidden text-[11px] uppercase tracking-[0.22em] text-[#013a56] sm:inline" style={{ fontFamily: fontMono }}>
+      <span
+        className="hidden text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-primary)] dark:text-slate-200 sm:inline"
+        style={{ fontFamily: fontMono }}
+      >
         · {label}
       </span>
     </div>
@@ -251,8 +278,8 @@ function InlineAlert({
 }) {
   const styles =
     tone === "error"
-      ? "border-[#F0B5AC] bg-[#FCEFEC] text-[#9B2E1F]"
-      : "border-[#A8D9BD] bg-[#E8F8F0] text-[#0A5A33]";
+      ? "border-red-200 bg-red-50 text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-200"
+      : "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-200";
   const Icon = tone === "error" ? AlertCircle : CheckCircle2;
   return (
     <motion.div
@@ -260,7 +287,7 @@ function InlineAlert({
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: EASE }}
       className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-[13.5px] leading-relaxed ${styles}`}
-      style={{ fontFamily: fontSans }}
+      style={{ fontFamily: fontBody }}
       role={tone === "error" ? "alert" : "status"}
     >
       <Icon size={16} strokeWidth={2} className="mt-0.5 shrink-0" />
@@ -517,8 +544,6 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-  // Reference handlePasswordReset to satisfy TS unused warning while preserving
-  // the function for future URL-token reset flow.
   void handlePasswordReset;
 
   const handleBasicInfo = async (e: FormEvent) => {
@@ -779,7 +804,6 @@ export default function LoginPage() {
     clearErrorOnInput();
   };
 
-  // Unused but referenced: confirm password handler kept for password reset flow
   void confirmPassword;
   void setConfirmPassword;
   void setResetToken;
@@ -840,52 +864,49 @@ export default function LoginPage() {
 
   return (
     <div
-      className="relative grid min-h-[100dvh] w-full max-w-full grid-cols-1 overflow-x-hidden bg-[#F7F8FA] text-[#013a56] selection:bg-[#013a56] selection:text-white lg:grid-cols-[6fr_4fr]"
-      style={{ fontFamily: fontSans }}
+      className="relative grid min-h-[100dvh] w-full max-w-full grid-cols-1 overflow-x-hidden bg-gray-50 text-[color:var(--color-primary)] selection:bg-[color:var(--color-primary)] selection:text-white dark:bg-slate-950 dark:text-slate-100 lg:grid-cols-2"
+      style={{ fontFamily: fontBody }}
     >
       <a
         href="#form"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[#013a56] focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[color:var(--color-primary)] focus:px-4 focus:py-2 focus:text-white"
       >
         Ir para o formulário
       </a>
 
       {/* Mobile compact header */}
-      <header className="flex items-center justify-between border-b border-black/[0.06] bg-white/80 px-5 py-4 backdrop-blur-md lg:hidden">
-        <Logo size="sm" href="/" />
-        <a
-          href="/"
-          className="inline-flex items-center gap-1.5 text-[12px] text-[#4A5868] hover:text-[#013a56]"
-        >
-          <ArrowLeft size={13} strokeWidth={2} />
-          Voltar
-        </a>
+      <header className="flex items-center justify-between border-b border-gray-200/70 bg-white/80 px-5 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80 lg:hidden">
+        <Logo size="md" href="/" />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <a
+            href="/"
+            className="inline-flex items-center gap-1.5 text-[12px] text-gray-600 hover:text-[color:var(--color-primary)] dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            <ArrowLeft size={13} strokeWidth={2} />
+            Voltar
+          </a>
+        </div>
       </header>
 
       {/* === Brand panel (desktop only) === */}
-      <aside className="relative hidden overflow-hidden bg-[#013a56] text-white lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16">
-        {/* Background banner — light opacity wash */}
+      <aside className="relative hidden overflow-hidden bg-[color:var(--color-primary)] text-white dark:bg-[color:var(--color-primary-dark)] lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16">
+        {/* Background banner */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <Image
             src="/BANNER_02.png"
             alt=""
             fill
             priority
-            sizes="(min-width: 1024px) 60vw, 0px"
-            className="object-cover opacity-90"
+            quality={95}
+            sizes="(min-width: 1536px) 1100px, (min-width: 1024px) 60vw, 0px"
+            className="object-cover opacity-90 dark:opacity-60"
           />
         </div>
 
-        {/* Subtle navy wash — keeps brand cohesion */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[#013a56]/15"
-        />
-
         {/* Ambient mesh */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -right-20 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle_at_center,rgba(57,204,96,0.30),transparent_62%)] blur-3xl" />
-          {/* Grain texture for depth */}
+          <div className="absolute -top-32 -right-20 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.30),transparent_62%)] blur-3xl" />
           <div
             className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
             style={{
@@ -895,13 +916,13 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Bottom dark gradient — depth + legibility for trust readout */}
+        {/* Bottom dark gradient */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#012438] via-[#012438]/70 via-25% to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[color:var(--color-primary-dark)] via-[color:var(--color-primary-dark)]/70 via-25% to-transparent"
         />
 
-        {/* Top: logo + back link */}
+        {/* Top: logo + back link + theme */}
         <motion.div
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: mounted ? 1 : 0 }}
@@ -910,17 +931,20 @@ export default function LoginPage() {
         >
           <Logo size="md" href="/" inverted />
 
-          <a
-            href="/"
-            className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[12px] text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
-          >
-            <ArrowLeft
-              size={12}
-              strokeWidth={2.2}
-              className="transition-transform duration-500 group-hover:-translate-x-0.5"
-            />
-            Voltar ao site
-          </a>
+          <div className="flex items-center gap-2">
+            <ThemeToggle inverted />
+            <a
+              href="/"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[12px] text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <ArrowLeft
+                size={12}
+                strokeWidth={2.2}
+                className="transition-transform duration-500 group-hover:-translate-x-0.5"
+              />
+              Voltar ao site
+            </a>
+          </div>
         </motion.div>
 
         {/* Middle: editorial pull quote */}
@@ -941,26 +965,24 @@ export default function LoginPage() {
             — Plataforma · MoneyHub v2
           </p>
           <h2
-            className="mt-6 text-[clamp(2.2rem,4.2vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.025em]"
-            style={{ fontFamily: fontSans, textWrap: "balance" }}
+            className="mt-6 text-[clamp(2.2rem,4.2vw,3.4rem)] font-bold leading-[1.02] tracking-[-0.025em]"
+            style={{ fontFamily: fontHeading, textWrap: "balance" }}
           >
             Suas finanças,{" "}
-            <span
-              className="accent text-[#39cc60]">
+            <span className="text-[color:var(--color-secondary-light)]">
               finalmente
             </span>{" "}
             no lugar certo.
           </h2>
           <p
             className="mt-6 max-w-[40ch] text-[15px] leading-relaxed text-white/70"
-            style={{ fontFamily: fontSans }}
+            style={{ fontFamily: fontBody }}
           >
             Extração por IA, categorização contextual e segurança de nível
             bancário — em uma única plataforma.
           </p>
         </motion.div>
 
-        {/* Spacer — preserves pull-quote position with lg:justify-between */}
         <div aria-hidden className="h-[88px]" />
       </aside>
 
@@ -969,6 +991,11 @@ export default function LoginPage() {
         id="form"
         className="relative flex items-center justify-center px-5 py-10 sm:px-8 sm:py-14 lg:px-6 lg:py-16 xl:px-8"
       >
+        {/* Desktop theme toggle (top-right) */}
+        <div className="absolute right-4 top-4 z-20 hidden lg:block">
+          <ThemeToggle />
+        </div>
+
         {/* Subtle ambient */}
         <div
           aria-hidden
@@ -987,7 +1014,7 @@ export default function LoginPage() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
           className="relative z-10 w-full max-w-md"
         >
-          {/* Step badge — hidden for recovery/success states */}
+          {/* Step badge */}
           {(isRegister || loginStep === 1 || loginStep === 2) && (
             <StepBadge
               current={Math.min(currentStep, isRegister ? 3 : 2)}
@@ -996,7 +1023,7 @@ export default function LoginPage() {
             />
           )}
 
-          {/* Mode switch crossfade title */}
+          {/* Title crossfade */}
           <AnimatePresence mode="wait">
             <motion.div
               key={`${isRegister ? "register" : "login"}-${currentStep}`}
@@ -1007,14 +1034,13 @@ export default function LoginPage() {
               className="mt-6"
             >
               <h1
-                className="text-[clamp(1.9rem,3.5vw,2.6rem)] font-medium leading-[1.05] tracking-[-0.025em] text-[#013a56]"
-                style={{ fontFamily: fontSans, textWrap: "balance" }}
+                className="text-[clamp(1.9rem,3.5vw,2.6rem)] font-bold leading-[1.05] tracking-[-0.025em] text-[color:var(--color-primary)] dark:text-slate-100"
+                style={{ fontFamily: fontHeading, textWrap: "balance" }}
               >
                 {formTitle.includes("Verifique") ? (
                   <>
                     Verifique seu{" "}
-                    <span
-                      className="accent text-[#39cc60]">
+                    <span className="text-[color:var(--color-secondary)]">
                       e-mail
                     </span>
                     .
@@ -1022,8 +1048,7 @@ export default function LoginPage() {
                 ) : formTitle.includes("Bem-vindo") ? (
                   <>
                     Bem-vindo{" "}
-                    <span
-                      className="accent text-[#39cc60]">
+                    <span className="text-[color:var(--color-secondary)]">
                       de volta
                     </span>
                     .
@@ -1031,8 +1056,7 @@ export default function LoginPage() {
                 ) : formTitle.includes("Crie") ? (
                   <>
                     Crie sua{" "}
-                    <span
-                      className="accent text-[#39cc60]">
+                    <span className="text-[color:var(--color-secondary)]">
                       conta
                     </span>
                     .
@@ -1040,8 +1064,7 @@ export default function LoginPage() {
                 ) : formTitle.includes("Recuperar") ? (
                   <>
                     Recuperar{" "}
-                    <span
-                      className="accent text-[#39cc60]">
+                    <span className="text-[color:var(--color-secondary)]">
                       acesso
                     </span>
                     .
@@ -1051,8 +1074,8 @@ export default function LoginPage() {
                 )}
               </h1>
               <p
-                className="mt-3 text-[14.5px] leading-relaxed text-[#4A5868]"
-                style={{ fontFamily: fontSans, textWrap: "pretty" }}
+                className="mt-3 text-[14.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+                style={{ fontFamily: fontBody, textWrap: "pretty" }}
               >
                 {formSubtitle}
               </p>
@@ -1060,14 +1083,13 @@ export default function LoginPage() {
           </AnimatePresence>
 
           {/* Double-Bezel form card */}
-          <div className="mt-8 rounded-[2.25rem] border border-black/[0.05] bg-gradient-to-b from-white to-[#F5F7F8] p-1.5 shadow-[0_24px_60px_-28px_rgba(1,58,86,0.20)]">
-            <div className="rounded-[calc(2.25rem-0.375rem)] bg-white p-6 sm:p-8">
+          <div className="mt-8 rounded-[2.25rem] border border-white/40 bg-gradient-to-b from-white/70 to-white/40 p-1.5 shadow-[0_24px_60px_-28px_rgba(0,51,102,0.20)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.08] dark:from-slate-900/60 dark:to-slate-950/40 dark:ring-white/[0.06] dark:shadow-[0_24px_60px_-28px_rgba(0,0,0,0.6)]">
+            <div className="rounded-[calc(2.25rem-0.375rem)] bg-white/55 p-6 backdrop-blur-xl dark:bg-slate-900/45 sm:p-8">
               <form onSubmit={onSubmit} className="space-y-4" noValidate>
                 <AnimatePresence mode="wait">
                   {/* ============ LOGIN MODE ============ */}
                   {!isRegister && (
                     <StepFrame k={`login-${loginStep}`}>
-                      {/* Email field — visible in steps 1, 2, 3 */}
                       {loginStep !== 4 && (
                         <div>
                           <FieldLabel htmlFor="email">E-mail</FieldLabel>
@@ -1086,7 +1108,7 @@ export default function LoginPage() {
                                 <button
                                   type="button"
                                   onClick={goBackStep}
-                                  className="flex h-8 w-8 items-center justify-center rounded-full text-[#013a56] transition-colors hover:bg-black/[0.04]"
+                                  className="flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-primary)] transition-colors hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800"
                                   aria-label="Alterar e-mail"
                                 >
                                   <ArrowLeft size={14} strokeWidth={2.2} />
@@ -1097,7 +1119,6 @@ export default function LoginPage() {
                         </div>
                       )}
 
-                      {/* Password field — only step 2 */}
                       {loginStep === 2 && (
                         <div>
                           <FieldLabel htmlFor="senha">Senha</FieldLabel>
@@ -1114,11 +1135,9 @@ export default function LoginPage() {
                               <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="flex h-8 w-8 items-center justify-center rounded-full text-[#8B95A1] transition-colors hover:bg-black/[0.04] hover:text-[#013a56]"
+                                className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                                 aria-label={
-                                  showPassword
-                                    ? "Ocultar senha"
-                                    : "Mostrar senha"
+                                  showPassword ? "Ocultar senha" : "Mostrar senha"
                                 }
                               >
                                 {showPassword ? (
@@ -1140,19 +1159,18 @@ export default function LoginPage() {
                         </div>
                       )}
 
-                      {/* Reset success — step 4 */}
                       {loginStep === 4 && successMessage && (
                         <div className="flex flex-col items-center text-center">
-                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8F8F0]">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/40">
                             <Mail
                               size={22}
                               strokeWidth={1.8}
-                              className="text-[#0A7A47]"
+                              className="text-emerald-700 dark:text-emerald-300"
                             />
                           </div>
                           <p
-                            className="mt-5 text-[15px] leading-relaxed text-[#4A5868]"
-                            style={{ fontFamily: fontSans }}
+                            className="mt-5 text-[15px] leading-relaxed text-gray-600 dark:text-slate-300"
+                            style={{ fontFamily: fontBody }}
                           >
                             {successMessage}
                           </p>
@@ -1162,8 +1180,8 @@ export default function LoginPage() {
                               setLoginStep(1);
                               setSuccessMessage("");
                             }}
-                            className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#013a56] hover:text-[#012438]"
-                            style={{ fontFamily: fontSans }}
+                            className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-dark)] dark:text-slate-200 dark:hover:text-white"
+                            style={{ fontFamily: fontBody }}
                           >
                             <ArrowLeft size={13} strokeWidth={2.2} />
                             Voltar ao login
@@ -1176,7 +1194,6 @@ export default function LoginPage() {
                   {/* ============ REGISTER MODE ============ */}
                   {isRegister && (
                     <StepFrame k={`register-${registrationStep}`}>
-                      {/* Step 1: Basic info */}
                       {registrationStep === 1 && (
                         <>
                           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -1225,7 +1242,6 @@ export default function LoginPage() {
                         </>
                       )}
 
-                      {/* Step 2: Password */}
                       {registrationStep === 2 && (
                         <>
                           <div>
@@ -1242,7 +1258,7 @@ export default function LoginPage() {
                                 <button
                                   type="button"
                                   onClick={goBackStep}
-                                  className="flex h-8 w-8 items-center justify-center rounded-full text-[#013a56] transition-colors hover:bg-black/[0.04]"
+                                  className="flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-primary)] transition-colors hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800"
                                   aria-label="Alterar e-mail"
                                 >
                                   <ArrowLeft size={14} strokeWidth={2.2} />
@@ -1267,7 +1283,7 @@ export default function LoginPage() {
                                 <button
                                   type="button"
                                   onClick={() => setShowPassword(!showPassword)}
-                                  className="flex h-8 w-8 items-center justify-center rounded-full text-[#8B95A1] transition-colors hover:bg-black/[0.04] hover:text-[#013a56]"
+                                  className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-primary)] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                                   aria-label={
                                     showPassword
                                       ? "Ocultar senha"
@@ -1283,8 +1299,8 @@ export default function LoginPage() {
                               }
                             />
                             <p
-                              className="mt-2 text-[12px] text-[#8B95A1]"
-                              style={{ fontFamily: fontSans }}
+                              className="mt-2 text-[12px] text-gray-500 dark:text-slate-400"
+                              style={{ fontFamily: fontBody }}
                             >
                               Pelo menos 6 caracteres, uma maiúscula, uma
                               minúscula e um número.
@@ -1293,23 +1309,22 @@ export default function LoginPage() {
                         </>
                       )}
 
-                      {/* Step 3: Verification */}
                       {registrationStep === 3 && (
                         <>
-                          <div className="flex items-start gap-3 rounded-2xl border border-black/[0.05] bg-[#FAFBFC] p-4">
-                            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#013a56] text-white">
+                          <div className="flex items-start gap-3 rounded-2xl border border-gray-200/70 bg-gray-50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[color:var(--color-primary)] text-white">
                               <Mail size={16} strokeWidth={1.8} />
                             </span>
                             <div className="flex-1">
                               <p
-                                className="text-[10px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                                className="text-[10px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
                                 style={{ fontFamily: fontMono }}
                               >
                                 Código enviado para
                               </p>
                               <p
-                                className="mt-0.5 text-[14px] font-medium text-[#013a56]"
-                                style={{ fontFamily: fontSans }}
+                                className="mt-0.5 text-[14px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+                                style={{ fontFamily: fontBody }}
                               >
                                 {email}
                               </p>
@@ -1333,8 +1348,8 @@ export default function LoginPage() {
                               centered
                             />
                             <p
-                              className="mt-2 text-center text-[12px] text-[#8B95A1]"
-                              style={{ fontFamily: fontSans }}
+                              className="mt-2 text-center text-[12px] text-gray-500 dark:text-slate-400"
+                              style={{ fontFamily: fontBody }}
                             >
                               Digite os 6 dígitos enviados para o seu e-mail.
                             </p>
@@ -1385,15 +1400,14 @@ export default function LoginPage() {
                         : "Continuar"}
                     </PrimaryButton>
 
-                    {/* Back button — show when step > 1 in either mode */}
                     {((isRegister && registrationStep > 1) ||
                       (!isRegister && loginStep === 3)) && (
                       <button
                         type="button"
                         onClick={goBackStep}
                         disabled={loading || googleLoading}
-                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-3 text-[13.5px] font-medium text-[#013a56] transition-colors hover:bg-[#F5F7F8] disabled:opacity-50"
-                        style={{ fontFamily: fontSans }}
+                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-gray-200/70 bg-white py-3 text-[13.5px] font-semibold text-[color:var(--color-primary)] transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100 dark:hover:bg-slate-800"
+                        style={{ fontFamily: fontBody }}
                       >
                         <ArrowLeft size={13} strokeWidth={2.2} />
                         Voltar
@@ -1403,26 +1417,26 @@ export default function LoginPage() {
                 )}
               </form>
 
-              {/* Divider + Google — only on entry steps */}
+              {/* Divider + Google */}
               {!isRegister && (loginStep === 1 || loginStep === 2) && (
                 <>
                   <div className="my-6 flex items-center gap-3">
-                    <span className="h-px flex-1 bg-black/[0.06]" />
+                    <span className="h-px flex-1 bg-gray-200 dark:bg-slate-700" />
                     <span
-                      className="text-[10px] uppercase tracking-[0.22em] text-[#8B95A1]"
+                      className="text-[10px] uppercase tracking-[0.22em] text-gray-500 dark:text-slate-400"
                       style={{ fontFamily: fontMono }}
                     >
                       ou
                     </span>
-                    <span className="h-px flex-1 bg-black/[0.06]" />
+                    <span className="h-px flex-1 bg-gray-200 dark:bg-slate-700" />
                   </div>
 
                   <button
                     type="button"
                     onClick={handleGoogleLogin}
                     disabled={googleLoading || loading}
-                    className="group flex w-full items-center justify-center gap-3 rounded-full border border-black/[0.08] bg-white py-3 text-[14px] font-medium text-[#013a56] transition-all duration-300 hover:bg-[#FAFBFC] hover:shadow-[0_8px_30px_-15px_rgba(1,58,86,0.20)] disabled:opacity-50"
-                    style={{ fontFamily: fontSans }}
+                    className="group flex w-full items-center justify-center gap-3 rounded-full border border-gray-200/70 bg-white py-3 text-[14px] font-semibold text-[color:var(--color-primary)] transition-all duration-300 hover:bg-gray-50 hover:shadow-[0_8px_30px_-15px_rgba(0,51,102,0.20)] disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100 dark:hover:bg-slate-800"
+                    style={{ fontFamily: fontBody }}
                   >
                     <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden>
                       <path
@@ -1451,14 +1465,14 @@ export default function LoginPage() {
 
           {/* Mode toggle */}
           <div className="mt-7 flex items-center justify-center gap-1.5 text-[13.5px]">
-            <span className="text-[#4A5868]" style={{ fontFamily: fontSans }}>
+            <span className="text-gray-600 dark:text-slate-400" style={{ fontFamily: fontBody }}>
               {isRegister ? "Já tem uma conta?" : "Ainda não tem conta?"}
             </span>
             <button
               type="button"
               onClick={toggleCard}
-              className="group inline-flex items-center gap-1 font-medium text-[#013a56] underline decoration-[#00cc66] decoration-2 underline-offset-4 transition-colors hover:text-[#012438]"
-              style={{ fontFamily: fontSans }}
+              className="group inline-flex items-center gap-1 font-semibold text-[color:var(--color-primary)] underline decoration-[color:var(--color-secondary)] decoration-2 underline-offset-4 transition-colors hover:text-[color:var(--color-primary-dark)] dark:text-slate-100 dark:hover:text-white"
+              style={{ fontFamily: fontBody }}
             >
               {isRegister ? "Fazer login" : "Criar conta"}
               <ArrowRight
@@ -1469,35 +1483,33 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* Trust line */}
-          <div className="mt-10 flex items-center justify-center gap-4 border-t border-black/[0.06] pt-6 text-[11px] text-[#8B95A1]">
+          {/* Trust line — sem ícones, só texto editorial */}
+          <div className="mt-10 flex items-center justify-center gap-4 border-t border-gray-200/70 pt-6 text-[11px] text-gray-500 dark:border-slate-800 dark:text-slate-400">
             <span
-              className="inline-flex items-center gap-1.5 uppercase tracking-[0.18em]"
+              className="uppercase tracking-[0.18em]"
               style={{ fontFamily: fontMono }}
             >
-              <LockKeyhole size={11} strokeWidth={2.2} />
               Criptografia bcrypt
             </span>
-            <span className="h-3 w-px bg-black/[0.08]" />
+            <span className="h-3 w-px bg-gray-300 dark:bg-slate-700" />
             <span
-              className="inline-flex items-center gap-1.5 uppercase tracking-[0.18em]"
+              className="uppercase tracking-[0.18em]"
               style={{ fontFamily: fontMono }}
             >
-              <ShieldCheck size={11} strokeWidth={2.2} />
               JWT HTTPOnly
             </span>
           </div>
 
           <p
-            className="mt-6 text-center text-[11px] text-[#A0AAB6]"
-            style={{ fontFamily: fontSans }}
+            className="mt-6 text-center text-[11px] text-gray-400 dark:text-slate-500"
+            style={{ fontFamily: fontBody }}
           >
             © 2026 MoneyHub · ao continuar, você concorda com nossos{" "}
-            <a href="/terms" className="text-[#4A5868] hover:text-[#013a56]">
+            <a href="/terms" className="text-gray-600 hover:text-[color:var(--color-primary)] dark:text-slate-400 dark:hover:text-slate-200">
               Termos
             </a>{" "}
             e{" "}
-            <a href="/privacy" className="text-[#4A5868] hover:text-[#013a56]">
+            <a href="/privacy" className="text-gray-600 hover:text-[color:var(--color-primary)] dark:text-slate-400 dark:hover:text-slate-200">
               Privacidade
             </a>
             .

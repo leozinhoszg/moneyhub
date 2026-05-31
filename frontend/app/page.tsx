@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import {
+  AnimatePresence,
+  animate,
   motion,
+  useMotionValue,
   useScroll,
   useTransform,
   type Variants,
@@ -12,23 +15,18 @@ import {
 import {
   ArrowUpRight,
   ArrowRight,
-  CheckCircle2,
-  Sparkles,
-  TrendingUp,
-  PieChart,
-  FileText,
-  Users,
-  ShieldCheck,
-  LockKeyhole,
   Plus,
   Minus,
-  Receipt,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 const SPRING = { type: "spring" as const, stiffness: 110, damping: 22 };
 
-const fontSans = "var(--font-sans), ui-sans-serif, system-ui";
+const fontHeading = "var(--font-heading), ui-sans-serif, system-ui";
+const fontBody = "var(--font-body), ui-sans-serif, system-ui";
 const fontMono = "var(--font-mono), ui-monospace, monospace";
 
 function Reveal({
@@ -55,6 +53,21 @@ function Reveal({
   );
 }
 
+function ThemeToggle() {
+  const { isDark, toggleTheme, mounted } = useTheme();
+  if (!mounted) return <span className="h-8 w-8" aria-hidden />;
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? "Ativar tema claro" : "Ativar tema escuro"}
+      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200/70 bg-white/80 text-[color:var(--color-primary)] transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-800"
+    >
+      {isDark ? <Sun size={14} strokeWidth={2.2} /> : <Moon size={14} strokeWidth={2.2} />}
+    </button>
+  );
+}
+
 function Nav({ onLogin }: { onLogin: () => void }) {
   return (
     <motion.nav
@@ -63,11 +76,11 @@ function Nav({ onLogin }: { onLogin: () => void }) {
       transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
       className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:top-6"
     >
-      <div className="flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/75 p-1.5 pl-2 shadow-[0_10px_40px_-18px_rgba(1,58,86,0.25)] backdrop-blur-xl">
-        <div className="px-1.5 translate-y-[2px]">
+      <div className="flex items-center gap-1.5 rounded-full border border-white/40 bg-white/55 p-1.5 pl-2 shadow-[0_10px_40px_-18px_rgba(0,51,102,0.25)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/40 dark:ring-white/10 dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)]">
+        <div className="px-1.5">
           <Logo size="sm" href={false} />
         </div>
-        <div className="hidden h-5 w-px bg-black/10 sm:block" />
+        <div className="hidden h-5 w-px bg-gray-200 dark:bg-slate-700 sm:block" />
         <div className="hidden items-center gap-0.5 sm:flex">
           {[
             { label: "Recursos", href: "#recursos" },
@@ -77,20 +90,21 @@ function Nav({ onLogin }: { onLogin: () => void }) {
             <a
               key={l.label}
               href={l.href}
-              className="rounded-full px-3 py-1.5 text-[13px] text-[#4A5868] transition-colors hover:bg-black/[0.04] hover:text-[#013a56]"
-              style={{ fontFamily: fontSans }}
+              className="rounded-full px-3 py-1.5 text-[13px] text-gray-600 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
+              style={{ fontFamily: fontBody }}
             >
               {l.label}
             </a>
           ))}
         </div>
+        <ThemeToggle />
         <button
           onClick={onLogin}
-          className="group ml-0.5 flex items-center gap-2 rounded-full bg-[#013a56] py-1.5 pl-3.5 pr-1.5 text-[13px] font-medium text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#012438] active:scale-[0.98]"
-          style={{ fontFamily: fontSans }}
+          className="group ml-0.5 flex items-center gap-2 rounded-full bg-[color:var(--color-secondary)] py-1.5 pl-3.5 pr-1.5 text-[13px] font-semibold text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[color:var(--color-secondary-dark)] active:scale-[0.98]"
+          style={{ fontFamily: fontBody }}
         >
           <span>Entrar</span>
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/12 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
             <ArrowUpRight size={13} strokeWidth={2.2} />
           </span>
         </button>
@@ -99,198 +113,359 @@ function Nav({ onLogin }: { onLogin: () => void }) {
   );
 }
 
+// --- Hero card simulado: cicla por estados realistas -----------------------
+
+type HeroState = {
+  balance: number;
+  delta: string;
+  topBadge: { kicker: string; label: string; tone: "secondary" | "danger" };
+  bottomBadge: string;
+  activeBar: number;
+  bars: number[];
+  transactions: { label: string; value: string; neg: boolean }[];
+};
+
+// Saldo inicial (antes da segunda): R$ 47.218,90
+// Movimentos da semana somam zero: -7842,40 -24,80 -32,50 +1450 -187,90 +8450 -312,40 -1500 = 0
+// Assim o ciclo fecha exatamente no valor inicial quando o loop reinicia.
+const heroStates: HeroState[] = [
+  // Segunda — fatura do cartão (zera o ciclo da semana anterior)
+  {
+    balance: 39376.5,
+    delta: "+9,8%",
+    topBadge: { kicker: "Fatura", label: "MoneyBank Visa", tone: "danger" },
+    bottomBadge: "Início de mês · ciclo fechado",
+    activeBar: 0,
+    bars: [88, 8, 8, 8, 8, 8, 8],
+    transactions: [
+      { label: "Fatura · MoneyBank", value: "-R$ 7.842,40", neg: true },
+      { label: "Cinema · Sala Aurora", value: "-R$ 48,00", neg: true },
+    ],
+  },
+  // Terça — transporte
+  {
+    balance: 39351.7,
+    delta: "+9,7%",
+    topBadge: { kicker: "Cartão", label: "Transporte urbano", tone: "danger" },
+    bottomBadge: "Categorização automática",
+    activeBar: 1,
+    bars: [88, 28, 8, 8, 8, 8, 8],
+    transactions: [
+      { label: "Transporte · MoveBus", value: "-R$ 24,80", neg: true },
+      { label: "Fatura · MoneyBank", value: "-R$ 7.842,40", neg: true },
+    ],
+  },
+  // Quarta — almoço
+  {
+    balance: 39319.2,
+    delta: "+9,6%",
+    topBadge: { kicker: "Almoço", label: "Bela Aurora", tone: "danger" },
+    bottomBadge: "Categoria · Alimentação",
+    activeBar: 2,
+    bars: [88, 28, 32, 8, 8, 8, 8],
+    transactions: [
+      { label: "Almoço · Bela Aurora", value: "-R$ 32,50", neg: true },
+      { label: "Transporte · MoveBus", value: "-R$ 24,80", neg: true },
+    ],
+  },
+  // Quinta — Pix recebido + boleto de energia
+  {
+    balance: 40581.3,
+    delta: "+12,8%",
+    topBadge: { kicker: "Pix", label: "Atelier Norte", tone: "secondary" },
+    bottomBadge: "Pix · Confirmado em 1,2s",
+    activeBar: 3,
+    bars: [88, 28, 32, 75, 8, 8, 8],
+    transactions: [
+      { label: "Pix · Atelier Norte", value: "+R$ 1.450,00", neg: false },
+      { label: "Energia · EletraSul", value: "-R$ 187,90", neg: true },
+    ],
+  },
+  // Sexta — salário (climax)
+  {
+    balance: 49031.3,
+    delta: "+28,4%",
+    topBadge: { kicker: "Salário", label: "Lumen Tech", tone: "secondary" },
+    bottomBadge: "Categorizado por IA",
+    activeBar: 4,
+    bars: [88, 28, 32, 75, 100, 8, 8],
+    transactions: [
+      { label: "Salário · Lumen Tech", value: "+R$ 8.450,00", neg: false },
+      { label: "Pix · Atelier Norte", value: "+R$ 1.450,00", neg: false },
+    ],
+  },
+  // Sábado — mercado
+  {
+    balance: 48718.9,
+    delta: "+27,7%",
+    topBadge: { kicker: "Mercado", label: "Vila Norte", tone: "danger" },
+    bottomBadge: "Orçamento · 41% do mês",
+    activeBar: 5,
+    bars: [88, 28, 32, 75, 100, 48, 8],
+    transactions: [
+      { label: "Mercado · Vila Norte", value: "-R$ 312,40", neg: true },
+      { label: "Salário · Lumen Tech", value: "+R$ 8.450,00", neg: false },
+    ],
+  },
+  // Domingo — TED para poupança (fecha a semana no valor inicial)
+  {
+    balance: 47218.9,
+    delta: "+23,8%",
+    topBadge: { kicker: "TED", label: "Poupança", tone: "secondary" },
+    bottomBadge: "Meta · 22% poupado",
+    activeBar: 6,
+    bars: [88, 28, 32, 75, 100, 48, 78],
+    transactions: [
+      { label: "TED · Poupança", value: "-R$ 1.500,00", neg: true },
+      { label: "Mercado · Vila Norte", value: "-R$ 312,40", neg: true },
+    ],
+  },
+];
+
+function AnimatedBalance({ value }: { value: number }) {
+  const mv = useMotionValue(value);
+  const intDisplay = useTransform(mv, (v) =>
+    Math.floor(v).toLocaleString("pt-BR")
+  );
+  const decDisplay = useTransform(mv, (v) => {
+    const decPart = Math.round((v - Math.floor(v)) * 100);
+    return decPart.toString().padStart(2, "0");
+  });
+
+  useEffect(() => {
+    const controls = animate(mv, value, {
+      duration: 1.4,
+      ease: [0.32, 0.72, 0, 1],
+    });
+    return () => controls.stop();
+  }, [value, mv]);
+
+  return (
+    <>
+      <motion.span
+        className="text-[40px] font-bold leading-none tracking-tight"
+        style={{ fontVariantNumeric: "tabular-nums" }}
+      >
+        {intDisplay}
+      </motion.span>
+      <span className="text-[18px] font-semibold opacity-70">
+        ,<motion.span>{decDisplay}</motion.span>
+      </span>
+    </>
+  );
+}
+
 function HeroVisual() {
   const { scrollY } = useScroll();
   const float = useTransform(scrollY, [0, 600], [0, -40]);
   const rotate = useTransform(scrollY, [0, 600], [0, 2]);
+
+  const [stateIndex, setStateIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStateIndex((i) => (i + 1) % heroStates.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const current = heroStates[stateIndex];
+  const dayLabels = ["S", "T", "Q", "Q", "S", "S", "D"];
 
   return (
     <motion.div
       style={{ y: float, rotate }}
       className="relative mx-auto w-full max-w-md"
     >
-      {/* Outer shell — Double-Bezel */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1, ease: EASE, delay: 0.5 }}
-        className="rounded-[2.25rem] border border-black/[0.06] bg-gradient-to-b from-white to-[#F5F7F8] p-1.5 shadow-[0_30px_80px_-30px_rgba(1,58,86,0.35)]"
+        className="rounded-[2.25rem] border border-white/40 bg-gradient-to-b from-white/70 to-white/40 p-1.5 shadow-[0_30px_80px_-30px_rgba(0,51,102,0.35)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.08] dark:from-slate-900/60 dark:to-slate-950/40 dark:ring-white/[0.06] dark:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)]"
       >
-        {/* Inner core */}
-        <div className="rounded-[calc(2.25rem-0.375rem)] bg-white p-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_1px_2px_rgba(1,58,86,0.04)]">
+        <div className="rounded-[calc(2.25rem-0.375rem)] bg-white/55 p-5 backdrop-blur-xl dark:bg-slate-900/45">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#013a56] text-white">
-                <Receipt size={15} strokeWidth={2} />
-              </div>
-              <div>
-                <p
-                  className="text-[10px] uppercase tracking-[0.18em] text-[#8B95A1]"
-                  style={{ fontFamily: fontMono }}
-                >
-                  Saldo total
-                </p>
-                <p
-                  className="text-[11px] text-[#4A5868]"
-                  style={{ fontFamily: fontMono }}
-                >
-                  mai · 2026
-                </p>
-              </div>
+            <div>
+              <p
+                className="text-[10px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
+                style={{ fontFamily: fontMono }}
+              >
+                Saldo total
+              </p>
+              <p
+                className="text-[11px] text-gray-500 dark:text-slate-400"
+                style={{ fontFamily: fontMono }}
+              >
+                mai · 2026
+              </p>
             </div>
-            <span
-              className="flex items-center gap-1 rounded-full bg-[#E8F8F0] px-2 py-1 text-[10px] font-medium text-[#0A7A47]"
-              style={{ fontFamily: fontMono }}
-            >
-              <TrendingUp size={11} strokeWidth={2.4} />
-              +12.4%
-            </span>
+            <div className="overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={current.delta}
+                  initial={{ y: 14, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -14, opacity: 0 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="block rounded-full bg-[color:var(--color-secondary)]/15 px-2.5 py-1 text-[10px] font-medium text-[color:var(--color-secondary-dark)] dark:bg-[color:var(--color-secondary)]/20 dark:text-[color:var(--color-secondary-light)]"
+                  style={{ fontFamily: fontMono }}
+                >
+                  {current.delta}
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Big number */}
           <div className="mt-5">
             <div
-              className="flex items-baseline gap-1 text-[#013a56]"
-              style={{ fontFamily: fontSans }}
+              className="flex items-baseline gap-1 text-[color:var(--color-primary)] dark:text-slate-100"
+              style={{ fontFamily: fontHeading }}
             >
               <span className="text-[15px] font-medium opacity-70">R$</span>
-              <motion.span
-                className="text-[40px] font-medium leading-none tracking-tight"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.2, ease: EASE, delay: 1.0 }}
-              >
-                47.218
-              </motion.span>
-              <span className="text-[18px] font-medium opacity-70">,90</span>
+              <AnimatedBalance value={current.balance} />
             </div>
             <p
-              className="mt-1 text-[12px] text-[#8B95A1]"
-              style={{ fontFamily: fontSans }}
+              className="mt-1 text-[12px] text-gray-500 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               4 contas · 3 cartões sincronizados
             </p>
           </div>
 
           {/* Chart area */}
-          <div className="mt-5 grid grid-cols-7 items-end gap-1.5 px-1">
-            {[28, 42, 35, 60, 48, 72, 65].map((h, i) => (
+          <div className="mt-5 grid grid-cols-7 items-end gap-1.5 px-1" style={{ height: 100 }}>
+            {current.bars.map((h, i) => (
               <motion.div
                 key={i}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: `${h}px`, opacity: 1 }}
-                transition={{
-                  duration: 0.7,
-                  delay: 1.1 + i * 0.06,
-                  ease: EASE,
-                }}
-                className={`w-full rounded-t-md ${
-                  i === 5
-                    ? "bg-[#00cc66]"
-                    : "bg-gradient-to-t from-[#013a56]/12 to-[#013a56]/30"
+                initial={false}
+                animate={{ height: `${h}px` }}
+                transition={{ duration: 0.8, ease: EASE }}
+                className={`w-full rounded-t-md transition-colors duration-500 ${
+                  i === current.activeBar
+                    ? "bg-[color:var(--color-secondary)] shadow-[0_0_18px_rgba(0,204,102,0.45)]"
+                    : "bg-gradient-to-t from-[color:var(--color-primary)]/12 to-[color:var(--color-primary)]/30 dark:from-slate-700/40 dark:to-slate-600/70"
                 }`}
               />
             ))}
           </div>
           <div
-            className="mt-2 grid grid-cols-7 gap-1.5 px-1 text-center text-[10px] text-[#A0AAB6]"
+            className="mt-2 grid grid-cols-7 gap-1.5 px-1 text-center text-[10px] text-gray-400 dark:text-slate-500"
             style={{ fontFamily: fontMono }}
           >
-            {["S", "T", "Q", "Q", "S", "S", "D"].map((d, i) => (
-              <span key={i}>{d}</span>
+            {dayLabels.map((d, i) => (
+              <span
+                key={i}
+                className={
+                  i === current.activeBar
+                    ? "font-semibold text-[color:var(--color-secondary-dark)] dark:text-[color:var(--color-secondary-light)]"
+                    : ""
+                }
+              >
+                {d}
+              </span>
             ))}
           </div>
 
           {/* Activity row */}
           <div className="mt-5 space-y-2">
-            {[
-              {
-                label: "Mercado · Carrefour",
-                value: "-R$ 312,40",
-                neg: true,
-              },
-              {
-                label: "Salário · Proma Group",
-                value: "+R$ 8.450,00",
-                neg: false,
-              },
-            ].map((t, i) => (
-              <motion.div
-                key={t.label}
-                initial={{ x: -8, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 1.5 + i * 0.12,
-                  ease: EASE,
-                }}
-                className="flex items-center justify-between rounded-xl border border-black/[0.04] bg-[#FAFBFC] px-3 py-2"
-              >
-                <span
-                  className="text-[12px] text-[#4A5868]"
-                  style={{ fontFamily: fontSans }}
+            <AnimatePresence mode="popLayout" initial={false}>
+              {current.transactions.map((t) => (
+                <motion.div
+                  key={t.label}
+                  layout
+                  initial={{ opacity: 0, x: -24, scale: 0.96 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 24, scale: 0.96 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="flex items-center justify-between rounded-xl border border-gray-200/60 bg-gray-50 px-3 py-2 dark:border-slate-800 dark:bg-slate-800/60"
                 >
-                  {t.label}
-                </span>
-                <span
-                  className={`text-[12px] font-medium ${
-                    t.neg ? "text-[#C53F2E]" : "text-[#0A7A47]"
-                  }`}
-                  style={{
-                    fontFamily: fontMono,
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
-                  {t.value}
-                </span>
-              </motion.div>
-            ))}
+                  <span
+                    className="text-[12px] text-gray-600 dark:text-slate-300"
+                    style={{ fontFamily: fontBody }}
+                  >
+                    {t.label}
+                  </span>
+                  <span
+                    className={`text-[12px] font-semibold ${
+                      t.neg
+                        ? "text-[color:var(--color-danger)]"
+                        : "text-[color:var(--color-secondary-dark)] dark:text-[color:var(--color-secondary-light)]"
+                    }`}
+                    style={{
+                      fontFamily: fontMono,
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {t.value}
+                  </span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
       </motion.div>
 
-      {/* Floating sparkle chip */}
+      {/* Top floating badge — alterna mensagem */}
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ ...SPRING, delay: 1.4 }}
-        className="absolute -left-6 top-16 hidden items-center gap-2 rounded-full border border-black/[0.06] bg-white px-3 py-2 shadow-[0_12px_30px_-14px_rgba(1,58,86,0.3)] sm:flex"
+        className="absolute -top-5 left-4 hidden items-center gap-2 rounded-full border border-white/40 bg-white/60 px-3.5 py-2 shadow-[0_12px_30px_-14px_rgba(0,51,102,0.3)] ring-1 ring-inset ring-white/40 backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/50 dark:ring-white/10 sm:flex"
       >
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00cc66]/15 text-[#0A7A47]">
-          <Sparkles size={12} strokeWidth={2.2} />
-        </span>
-        <div className="pr-1">
-          <p
-            className="text-[10px] uppercase tracking-[0.18em] text-[#8B95A1]"
-            style={{ fontFamily: fontMono }}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${current.topBadge.kicker}-${current.topBadge.label}`}
+            initial={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="flex items-center gap-2"
           >
-            IA
-          </p>
-          <p
-            className="text-[11px] font-medium text-[#013a56]"
-            style={{ fontFamily: fontSans }}
-          >
-            Contracheque lido
-          </p>
-        </div>
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${
+                current.topBadge.tone === "danger"
+                  ? "bg-[color:var(--color-danger)] shadow-[0_0_10px_rgba(204,51,0,0.55)]"
+                  : "bg-[color:var(--color-secondary)] shadow-[0_0_10px_rgba(0,204,102,0.6)]"
+              }`}
+            />
+            <span
+              className="text-[10px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
+              style={{ fontFamily: fontMono }}
+            >
+              {current.topBadge.kicker}
+            </span>
+            <span
+              className="whitespace-nowrap text-[11px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+              style={{ fontFamily: fontBody }}
+            >
+              {current.topBadge.label}
+            </span>
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
 
-      {/* Floating shield chip */}
+      {/* Bottom floating badge — alterna mensagem */}
       <motion.div
         initial={{ opacity: 0, y: -16, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ ...SPRING, delay: 1.6 }}
-        className="absolute -right-4 -bottom-3 hidden items-center gap-2 rounded-full border border-black/[0.06] bg-white px-3 py-2 shadow-[0_12px_30px_-14px_rgba(1,58,86,0.3)] sm:flex"
+        className="absolute -bottom-5 right-4 hidden items-center gap-2 rounded-full border border-white/40 bg-white/60 px-3.5 py-2 shadow-[0_12px_30px_-14px_rgba(0,51,102,0.3)] ring-1 ring-inset ring-white/40 backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/50 dark:ring-white/10 sm:flex"
       >
-        <LockKeyhole size={13} className="text-[#013a56]" strokeWidth={2.2} />
-        <span
-          className="text-[11px] font-medium text-[#013a56]"
-          style={{ fontFamily: fontSans }}
-        >
-          Criptografia bancária
-        </span>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={current.bottomBadge}
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="whitespace-nowrap text-[11px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+            style={{ fontFamily: fontBody }}
+          >
+            {current.bottomBadge}
+          </motion.span>
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );
@@ -314,12 +489,9 @@ function Hero({ onLogin }: { onLogin: () => void }) {
   return (
     <section className="relative isolate overflow-hidden px-6 pb-20 pt-36 sm:pt-40 lg:px-12 lg:pb-32 lg:pt-44">
       {/* Ambient mesh */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-      >
-        <div className="absolute -top-40 right-[-10%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.16),transparent_62%)] blur-3xl" />
-        <div className="absolute -bottom-32 left-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(1,58,86,0.10),transparent_60%)] blur-3xl" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-40 right-[-10%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.16),transparent_62%)] blur-3xl dark:bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.10),transparent_62%)]" />
+        <div className="absolute -bottom-32 left-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,51,102,0.10),transparent_60%)] blur-3xl dark:bg-[radial-gradient(circle_at_center,rgba(0,102,153,0.18),transparent_60%)]" />
       </div>
 
       <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-14 md:grid-cols-12 md:gap-10">
@@ -332,25 +504,21 @@ function Hero({ onLogin }: { onLogin: () => void }) {
         >
           <motion.div variants={item}>
             <span
-              className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[#013a56] backdrop-blur-md"
+              className="inline-flex items-center gap-2 rounded-full border border-gray-200/60 bg-white/70 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[color:var(--color-primary)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
               style={{ fontFamily: fontMono }}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00cc66] shadow-[0_0_10px_rgba(0,204,102,0.6)]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-secondary)] shadow-[0_0_10px_rgba(0,204,102,0.6)]" />
               MoneyHub · v2
             </span>
           </motion.div>
 
           <motion.h1
             variants={item}
-            className="mt-7 text-[clamp(2.75rem,6.5vw,5.5rem)] font-medium leading-[0.96] tracking-[-0.03em] text-[#013a56]"
-            style={{
-              fontFamily: fontSans,
-              textWrap: "balance",
-            }}
+            className="mt-7 text-[clamp(2.75rem,6.5vw,5.5rem)] font-bold leading-[0.96] tracking-[-0.03em] text-[color:var(--color-primary)] dark:text-slate-100"
+            style={{ fontFamily: fontHeading, textWrap: "balance" }}
           >
             Suas finanças,{" "}
-            <span
-              className="accent text-[#39cc60]">
+            <span className="text-[color:var(--color-secondary)]">
               finalmente
             </span>{" "}
             no lugar certo.
@@ -358,8 +526,8 @@ function Hero({ onLogin }: { onLogin: () => void }) {
 
           <motion.p
             variants={item}
-            className="mt-7 max-w-[58ch] text-[17px] leading-relaxed text-[#4A5868] sm:text-[18px]"
-            style={{ fontFamily: fontSans, textWrap: "pretty" }}
+            className="mt-7 max-w-[58ch] text-[17px] leading-relaxed text-gray-600 dark:text-slate-300 sm:text-[18px]"
+            style={{ fontFamily: fontBody, textWrap: "pretty" }}
           >
             Uma plataforma de controle financeiro pessoal que une extração por
             inteligência artificial, categorização contextual e segurança de
@@ -373,19 +541,19 @@ function Hero({ onLogin }: { onLogin: () => void }) {
           >
             <button
               onClick={onLogin}
-              className="group flex items-center gap-3 rounded-full bg-[#013a56] py-3.5 pl-6 pr-2 text-[14px] font-medium text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#012438] active:scale-[0.98]"
-              style={{ fontFamily: fontSans }}
+              className="group flex items-center gap-3 rounded-full bg-[color:var(--color-secondary)] py-3.5 pl-6 pr-2 text-[14px] font-semibold text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[color:var(--color-secondary-dark)] active:scale-[0.98]"
+              style={{ fontFamily: fontBody }}
             >
               <span>Entrar no MoneyHub</span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/12 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
                 <ArrowUpRight size={15} strokeWidth={2.2} />
               </span>
             </button>
 
             <a
               href="#recursos"
-              className="group inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/70 px-5 py-3.5 text-[14px] font-medium text-[#013a56] backdrop-blur-md transition-colors hover:bg-white"
-              style={{ fontFamily: fontSans }}
+              className="group inline-flex items-center gap-2 rounded-full border border-gray-200/70 bg-white/70 px-5 py-3.5 text-[14px] font-semibold text-[color:var(--color-primary)] backdrop-blur-md transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800"
+              style={{ fontFamily: fontBody }}
             >
               <span>Conhecer recursos</span>
               <ArrowRight
@@ -399,25 +567,25 @@ function Hero({ onLogin }: { onLogin: () => void }) {
           {/* Trust readout */}
           <motion.div
             variants={item}
-            className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-black/[0.06] pt-6"
+            className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-gray-200/70 pt-6 dark:border-slate-800"
           >
             {[
               { k: "12.430+", l: "usuários ativos" },
               { k: "R$ 847M", l: "organizados" },
-              { k: "99.97%", l: "uptime" },
+              { k: "99,97%", l: "uptime" },
             ].map((s) => (
               <div key={s.l}>
                 <p
-                  className="text-[22px] font-medium tracking-tight text-[#013a56] sm:text-[24px]"
+                  className="text-[22px] font-bold tracking-tight text-[color:var(--color-primary)] dark:text-slate-100 sm:text-[24px]"
                   style={{
-                    fontFamily: fontSans,
+                    fontFamily: fontHeading,
                     fontVariantNumeric: "tabular-nums",
                   }}
                 >
                   {s.k}
                 </p>
                 <p
-                  className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                  className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
                   style={{ fontFamily: fontMono }}
                 >
                   {s.l}
@@ -452,10 +620,10 @@ function PillarsMarquee() {
   return (
     <section
       aria-label="Pilares"
-      className="relative overflow-hidden border-y border-black/[0.06] bg-white/40 py-8 backdrop-blur-sm"
+      className="relative overflow-hidden border-y border-gray-200/70 bg-white/40 py-8 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/40"
     >
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#F7F8FA] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#F7F8FA] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-gray-50 to-transparent dark:from-slate-950" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-gray-50 to-transparent dark:from-slate-950" />
       <motion.div
         className="flex w-max gap-12"
         animate={{ x: ["0%", "-50%"] }}
@@ -471,14 +639,14 @@ function PillarsMarquee() {
             className="flex items-center gap-3 whitespace-nowrap"
           >
             <span
-              className="text-[10px] uppercase tracking-[0.24em] text-[#8B95A1]"
+              className="text-[10px] uppercase tracking-[0.24em] text-gray-500 dark:text-slate-500"
               style={{ fontFamily: fontMono }}
             >
               ▸
             </span>
             <span
-              className="text-[14px] font-medium text-[#013a56]"
-              style={{ fontFamily: fontSans }}
+              className="text-[14px] font-semibold text-[color:var(--color-primary)] dark:text-slate-200"
+              style={{ fontFamily: fontBody }}
             >
               {p}
             </span>
@@ -489,7 +657,7 @@ function PillarsMarquee() {
   );
 }
 
-function BentoCard({
+function BezelCard({
   children,
   className = "",
   delay = 0,
@@ -500,8 +668,8 @@ function BentoCard({
 }) {
   return (
     <Reveal delay={delay} className={className}>
-      <div className="h-full rounded-[2.25rem] border border-black/[0.05] bg-gradient-to-b from-white to-[#F5F7F8] p-1.5 shadow-[0_20px_50px_-25px_rgba(1,58,86,0.18)]">
-        <div className="flex h-full flex-col rounded-[calc(2.25rem-0.375rem)] bg-white p-7 sm:p-9">
+      <div className="h-full rounded-[2.25rem] border border-white/40 bg-gradient-to-b from-white/70 to-white/40 p-1.5 shadow-[0_20px_50px_-25px_rgba(0,51,102,0.18)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.08] dark:from-slate-900/60 dark:to-slate-950/40 dark:ring-white/[0.06] dark:shadow-[0_20px_50px_-25px_rgba(0,0,0,0.55)]">
+        <div className="flex h-full flex-col rounded-[calc(2.25rem-0.375rem)] bg-white/55 p-7 backdrop-blur-xl dark:bg-slate-900/45 sm:p-9">
           {children}
         </div>
       </div>
@@ -509,32 +677,42 @@ function BentoCard({
   );
 }
 
+function SectionKicker({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      className="text-[11px] uppercase tracking-[0.2em] text-gray-500 dark:text-slate-400"
+      style={{ fontFamily: fontMono }}
+    >
+      {children}
+    </p>
+  );
+}
+
 function BentoSection() {
   return (
-    <section id="recursos" className="px-6 py-24 sm:py-32 lg:px-12">
+    <section id="recursos" className="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:px-12">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-[-8%] top-1/4 h-[460px] w-[460px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.14),transparent_62%)] blur-3xl" />
+        <div className="absolute right-[-6%] bottom-1/4 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,51,102,0.10),transparent_60%)] blur-3xl dark:bg-[radial-gradient(circle_at_center,rgba(0,102,153,0.16),transparent_60%)]" />
+      </div>
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
           <div className="flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <p
-                className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
-                style={{ fontFamily: fontMono }}
-              >
-                — Recursos
-              </p>
+              <SectionKicker>— Recursos</SectionKicker>
               <h2
-                className="mt-4 text-[clamp(2rem,4.2vw,3.4rem)] font-medium leading-[1] tracking-[-0.02em] text-[#013a56]"
-                style={{ fontFamily: fontSans, textWrap: "balance" }}
+                className="mt-4 text-[clamp(2rem,4.2vw,3.4rem)] font-bold leading-[1] tracking-[-0.02em] text-[color:var(--color-primary)] dark:text-slate-100"
+                style={{ fontFamily: fontHeading, textWrap: "balance" }}
               >
                 O essencial.{" "}
-                <span className="accent text-[#39cc60]">
+                <span className="text-[color:var(--color-secondary)]">
                   Sem ruído.
                 </span>
               </h2>
             </div>
             <p
-              className="max-w-sm text-[15px] leading-relaxed text-[#4A5868]"
-              style={{ fontFamily: fontSans }}
+              className="max-w-sm text-[15px] leading-relaxed text-gray-600 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               Tudo que você precisa para entender, decidir e crescer. Nada que
               você não vá usar.
@@ -542,71 +720,60 @@ function BentoSection() {
           </div>
         </Reveal>
 
-        {/* Bento grid — interlocked 7/5 + 5/7 */}
+        {/* Bento grid */}
         <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5">
           {/* Card A — wide, AI extraction */}
-          <BentoCard className="md:col-span-7" delay={0.05}>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
-                <Sparkles size={16} strokeWidth={2} />
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
-                style={{ fontFamily: fontMono }}
-              >
-                IA aplicada
-              </span>
-            </div>
+          <BezelCard className="md:col-span-7" delay={0.05}>
+            <SectionKicker>IA aplicada</SectionKicker>
             <h3
-              className="mt-6 text-[26px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[30px]"
-              style={{ fontFamily: fontSans, textWrap: "balance" }}
+              className="mt-6 text-[26px] font-bold leading-tight tracking-tight text-[color:var(--color-primary)] dark:text-slate-100 sm:text-[30px]"
+              style={{ fontFamily: fontHeading, textWrap: "balance" }}
             >
               Extração automática de{" "}
-              <span
-                className="accent text-[#39cc60]">
+              <span className="text-[color:var(--color-secondary)]">
                 contracheques e extratos
               </span>
               .
             </h3>
             <p
-              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-[#4A5868]"
-              style={{ fontFamily: fontSans }}
+              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               Envie um PDF ou foto. O MoneyHub interpreta valores, descontos e
               categorias automaticamente — você revisa e confirma.
             </p>
             <div className="mt-auto pt-8">
-              <div className="rounded-2xl border border-black/[0.05] bg-[#FAFBFC] p-4">
+              <div className="rounded-2xl border border-gray-200/70 bg-gray-50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
                 <div className="flex items-center justify-between">
                   <span
-                    className="text-[11px] uppercase tracking-[0.18em] text-[#8B95A1]"
+                    className="text-[11px] uppercase tracking-[0.18em] text-gray-500 dark:text-slate-400"
                     style={{ fontFamily: fontMono }}
                   >
                     contracheque · abr.pdf
                   </span>
                   <span
-                    className="rounded-full bg-[#E8F8F0] px-2 py-0.5 text-[10px] font-medium text-[#0A7A47]"
+                    className="rounded-full bg-[color:var(--color-secondary)]/15 px-2 py-0.5 text-[10px] font-medium text-[color:var(--color-secondary-dark)] dark:text-[color:var(--color-secondary-light)]"
                     style={{ fontFamily: fontMono }}
                   >
-                    extraído em 1.8s
+                    extraído em 1,8s
                   </span>
                 </div>
                 <div
-                  className="mt-3 grid grid-cols-2 gap-2 text-[12.5px] text-[#4A5868] sm:grid-cols-4"
+                  className="mt-3 grid grid-cols-2 gap-2 text-[12.5px] text-gray-600 dark:text-slate-300 sm:grid-cols-4"
                   style={{ fontFamily: fontMono }}
                 >
                   {[
-                    ["Bruto", "8 450,00"],
+                    ["Bruto", "8.450,00"],
                     ["INSS", "-742,18"],
                     ["IRRF", "-583,40"],
-                    ["Líquido", "7 124,42"],
+                    ["Líquido", "7.124,42"],
                   ].map(([k, v]) => (
                     <div key={k}>
-                      <p className="text-[10px] uppercase tracking-[0.16em] text-[#8B95A1]">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 dark:text-slate-400">
                         {k}
                       </p>
                       <p
-                        className="mt-0.5 font-medium text-[#013a56]"
+                        className="mt-0.5 font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
                         style={{ fontVariantNumeric: "tabular-nums" }}
                       >
                         {v}
@@ -616,57 +783,44 @@ function BentoSection() {
                 </div>
               </div>
             </div>
-          </BentoCard>
+          </BezelCard>
 
           {/* Card B — categorization */}
-          <BentoCard className="md:col-span-5" delay={0.12}>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
-                <PieChart size={16} strokeWidth={2} />
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
-                style={{ fontFamily: fontMono }}
-              >
-                Categorização
-              </span>
-            </div>
+          <BezelCard className="md:col-span-5" delay={0.12}>
+            <SectionKicker>Categorização</SectionKicker>
             <h3
-              className="mt-6 text-[24px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[26px]"
-              style={{ fontFamily: fontSans, textWrap: "balance" }}
+              className="mt-6 text-[24px] font-bold leading-tight tracking-tight text-[color:var(--color-primary)] dark:text-slate-100 sm:text-[26px]"
+              style={{ fontFamily: fontHeading, textWrap: "balance" }}
             >
               Cada gasto, no lugar certo.
             </h3>
             <p
-              className="mt-4 text-[14.5px] leading-relaxed text-[#4A5868]"
-              style={{ fontFamily: fontSans }}
+              className="mt-4 text-[14.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               Categorias personalizáveis, regras inteligentes e sugestões
               baseadas no seu histórico.
             </p>
             <div className="mt-auto space-y-2 pt-8">
               {[
-                { label: "Mercado", pct: 28, color: "#013a56" },
-                { label: "Moradia", pct: 21, color: "#00cc66" },
-                { label: "Transporte", pct: 14, color: "#8B95A1" },
+                { label: "Mercado", pct: 28, color: "var(--color-primary)" },
+                { label: "Moradia", pct: 21, color: "var(--color-secondary)" },
+                { label: "Transporte", pct: 14, color: "#94A3B8" },
               ].map((c) => (
                 <div key={c.label}>
                   <div
-                    className="mb-1 flex items-center justify-between text-[12px]"
-                    style={{
-                      fontFamily: fontMono,
-                      color: "#4A5868",
-                    }}
+                    className="mb-1 flex items-center justify-between text-[12px] text-gray-600 dark:text-slate-300"
+                    style={{ fontFamily: fontMono }}
                   >
                     <span>{c.label}</span>
                     <span
                       style={{ fontVariantNumeric: "tabular-nums" }}
-                      className="text-[#013a56]"
+                      className="text-[color:var(--color-primary)] dark:text-slate-100"
                     >
                       {c.pct}%
                     </span>
                   </div>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/[0.04]">
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-slate-800">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${c.pct}%` }}
@@ -679,35 +833,24 @@ function BentoSection() {
                 </div>
               ))}
             </div>
-          </BentoCard>
+          </BezelCard>
 
           {/* Card C — sharing */}
-          <BentoCard className="md:col-span-5" delay={0.05}>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
-                <Users size={16} strokeWidth={2} />
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
-                style={{ fontFamily: fontMono }}
-              >
-                Compartilhamento
-              </span>
-            </div>
+          <BezelCard className="md:col-span-5" delay={0.05}>
+            <SectionKicker>Compartilhamento</SectionKicker>
             <h3
-              className="mt-6 text-[24px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[26px]"
-              style={{ fontFamily: fontSans, textWrap: "balance" }}
+              className="mt-6 text-[24px] font-bold leading-tight tracking-tight text-[color:var(--color-primary)] dark:text-slate-100 sm:text-[26px]"
+              style={{ fontFamily: fontHeading, textWrap: "balance" }}
             >
               Casal, família,{" "}
-              <span
-                className="accent text-[#39cc60]">
+              <span className="text-[color:var(--color-secondary)]">
                 ou só você
               </span>
               .
             </h3>
             <p
-              className="mt-4 text-[14.5px] leading-relaxed text-[#4A5868]"
-              style={{ fontFamily: fontSans }}
+              className="mt-4 text-[14.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               Convide membros com permissões granulares. Decisões financeiras
               deixam de ser conversas difíceis.
@@ -716,13 +859,13 @@ function BentoSection() {
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {[
-                    { name: "MC", bg: "#013a56" },
-                    { name: "RA", bg: "#0A7A47" },
-                    { name: "JL", bg: "#C53F2E" },
+                    { name: "MC", bg: "var(--color-primary)" },
+                    { name: "RA", bg: "var(--color-secondary-dark)" },
+                    { name: "JL", bg: "var(--color-danger)" },
                   ].map((u) => (
                     <span
                       key={u.name}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white text-[11px] font-medium text-white"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white text-[11px] font-semibold text-white dark:border-slate-900"
                       style={{
                         background: u.bg,
                         fontFamily: fontMono,
@@ -731,52 +874,40 @@ function BentoSection() {
                       {u.name}
                     </span>
                   ))}
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-[#F0F2F5] text-[12px] font-medium text-[#4A5868]">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-gray-100 text-[12px] font-medium text-gray-600 dark:border-slate-900 dark:bg-slate-800 dark:text-slate-300">
                     <Plus size={13} strokeWidth={2.2} />
                   </span>
                 </div>
                 <span
-                  className="text-[12px] text-[#4A5868]"
-                  style={{ fontFamily: fontSans }}
+                  className="text-[12px] text-gray-600 dark:text-slate-400"
+                  style={{ fontFamily: fontBody }}
                 >
                   3 membros · 1 administrador
                 </span>
               </div>
             </div>
-          </BentoCard>
+          </BezelCard>
 
           {/* Card D — reports */}
-          <BentoCard className="md:col-span-7" delay={0.12}>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#013a56] text-white">
-                <FileText size={16} strokeWidth={2} />
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.2em] text-[#8B95A1]"
-                style={{ fontFamily: fontMono }}
-              >
-                Relatórios
-              </span>
-            </div>
+          <BezelCard className="md:col-span-7" delay={0.12}>
+            <SectionKicker>Relatórios</SectionKicker>
             <h3
-              className="mt-6 text-[26px] font-medium leading-tight tracking-tight text-[#013a56] sm:text-[30px]"
-              style={{ fontFamily: fontSans, textWrap: "balance" }}
+              className="mt-6 text-[26px] font-bold leading-tight tracking-tight text-[color:var(--color-primary)] dark:text-slate-100 sm:text-[30px]"
+              style={{ fontFamily: fontHeading, textWrap: "balance" }}
             >
               Exporte em{" "}
-              <span
-                className="accent text-[#39cc60]">
+              <span className="text-[color:var(--color-secondary)]">
                 PDF
               </span>{" "}
               ou{" "}
-              <span
-                className="accent text-[#39cc60]">
+              <span className="text-[color:var(--color-secondary)]">
                 CSV
               </span>{" "}
               com um toque.
             </h3>
             <p
-              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-[#4A5868]"
-              style={{ fontFamily: fontSans }}
+              className="mt-4 max-w-md text-[14.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+              style={{ fontFamily: fontBody }}
             >
               Relatórios mensais, anuais ou personalizados — prontos para
               imprimir, enviar ao contador ou anexar ao IRPF.
@@ -796,11 +927,11 @@ function BentoSection() {
               ].map((r) => (
                 <div
                   key={r.type}
-                  className="rounded-2xl border border-black/[0.05] bg-[#FAFBFC] p-4"
+                  className="rounded-2xl border border-gray-200/70 bg-gray-50 p-4 dark:border-slate-800 dark:bg-slate-800/40"
                 >
                   <div className="flex items-center justify-between">
                     <span
-                      className="rounded-md bg-[#013a56] px-1.5 py-0.5 text-[10px] font-medium text-white"
+                      className="rounded-md bg-[color:var(--color-primary)] px-1.5 py-0.5 text-[10px] font-medium text-white"
                       style={{ fontFamily: fontMono }}
                     >
                       {r.type}
@@ -808,17 +939,17 @@ function BentoSection() {
                     <ArrowUpRight
                       size={14}
                       strokeWidth={2.2}
-                      className="text-[#8B95A1]"
+                      className="text-gray-400 dark:text-slate-500"
                     />
                   </div>
                   <p
-                    className="mt-3 text-[13px] font-medium text-[#013a56]"
-                    style={{ fontFamily: fontSans }}
+                    className="mt-3 text-[13px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+                    style={{ fontFamily: fontBody }}
                   >
                     {r.label}
                   </p>
                   <p
-                    className="mt-1 text-[11px] text-[#8B95A1]"
+                    className="mt-1 text-[11px] text-gray-500 dark:text-slate-400"
                     style={{ fontFamily: fontMono }}
                   >
                     {r.meta}
@@ -826,7 +957,7 @@ function BentoSection() {
                 </div>
               ))}
             </div>
-          </BentoCard>
+          </BezelCard>
         </div>
       </div>
     </section>
@@ -844,26 +975,20 @@ function TrustSection() {
       </div>
       <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
         <Reveal className="md:col-span-6">
-          <p
-            className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
-            style={{ fontFamily: fontMono }}
-          >
-            — Segurança
-          </p>
+          <SectionKicker>— Segurança</SectionKicker>
           <h2
-            className="mt-4 text-[clamp(2rem,4.4vw,3.6rem)] font-medium leading-[1] tracking-[-0.025em] text-[#013a56]"
-            style={{ fontFamily: fontSans, textWrap: "balance" }}
+            className="mt-4 text-[clamp(2rem,4.4vw,3.6rem)] font-bold leading-[1] tracking-[-0.025em] text-[color:var(--color-primary)] dark:text-slate-100"
+            style={{ fontFamily: fontHeading, textWrap: "balance" }}
           >
             Não é{" "}
-            <span
-              className="accent text-[#39cc60]">
+            <span className="text-[color:var(--color-secondary)]">
               luxo
             </span>
             . É o mínimo que você merece.
           </h2>
           <p
-            className="mt-6 max-w-md text-[15.5px] leading-relaxed text-[#4A5868]"
-            style={{ fontFamily: fontSans }}
+            className="mt-6 max-w-md text-[15.5px] leading-relaxed text-gray-600 dark:text-slate-400"
+            style={{ fontFamily: fontBody }}
           >
             Senhas com hash bcrypt, autenticação JWT em cookies HTTPOnly,
             proteção CORS e XSS no nível do servidor. Os seus dados são seus —
@@ -872,39 +997,39 @@ function TrustSection() {
         </Reveal>
 
         <div className="md:col-span-6">
-          <div className="divide-y divide-black/[0.06] border-y border-black/[0.06]">
+          <div className="divide-y divide-gray-200/70 border-y border-gray-200/70 dark:divide-slate-800 dark:border-slate-800">
             {[
               {
                 title: "Criptografia bcrypt",
                 desc: "Senhas armazenadas com hash de 12 rounds. Nem nós conseguimos ler.",
-                icon: <LockKeyhole size={18} strokeWidth={1.8} />,
               },
               {
                 title: "Tokens JWT em cookies HTTPOnly",
                 desc: "Sessões assinadas, inacessíveis a scripts. Logout limpa tudo.",
-                icon: <ShieldCheck size={18} strokeWidth={1.8} />,
               },
               {
                 title: "Proteção CORS, XSS e CSRF",
                 desc: "Camadas defensivas auditadas a cada release.",
-                icon: <CheckCircle2 size={18} strokeWidth={1.8} />,
               },
             ].map((s, i) => (
               <Reveal key={s.title} delay={i * 0.08}>
                 <div className="flex items-start gap-5 py-6">
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white text-[#013a56]">
-                    {s.icon}
+                  <span
+                    className="mt-1 flex h-7 shrink-0 items-center justify-center rounded-md bg-[color:var(--color-primary)] px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-white"
+                    style={{ fontFamily: fontMono }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="flex-1">
                     <h3
-                      className="text-[16.5px] font-medium tracking-tight text-[#013a56]"
-                      style={{ fontFamily: fontSans }}
+                      className="text-[16.5px] font-semibold tracking-tight text-[color:var(--color-primary)] dark:text-slate-100"
+                      style={{ fontFamily: fontHeading }}
                     >
                       {s.title}
                     </h3>
                     <p
-                      className="mt-1.5 text-[14px] leading-relaxed text-[#4A5868]"
-                      style={{ fontFamily: fontSans }}
+                      className="mt-1.5 text-[14px] leading-relaxed text-gray-600 dark:text-slate-400"
+                      style={{ fontFamily: fontBody }}
                     >
                       {s.desc}
                     </p>
@@ -944,31 +1069,25 @@ function FAQ() {
     <section className="px-6 py-24 sm:py-32 lg:px-12">
       <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
         <Reveal className="md:col-span-5">
-          <p
-            className="text-[11px] uppercase tracking-[0.22em] text-[#8B95A1]"
-            style={{ fontFamily: fontMono }}
-          >
-            — Perguntas frequentes
-          </p>
+          <SectionKicker>— Perguntas frequentes</SectionKicker>
           <h2
-            className="mt-4 text-[clamp(1.9rem,3.8vw,3rem)] font-medium leading-[1] tracking-[-0.02em] text-[#013a56]"
-            style={{ fontFamily: fontSans, textWrap: "balance" }}
+            className="mt-4 text-[clamp(1.9rem,3.8vw,3rem)] font-bold leading-[1] tracking-[-0.02em] text-[color:var(--color-primary)] dark:text-slate-100"
+            style={{ fontFamily: fontHeading, textWrap: "balance" }}
           >
             Antes de você{" "}
-            <span
-              className="accent text-[#39cc60]">
+            <span className="text-[color:var(--color-secondary)]">
               perguntar
             </span>
             .
           </h2>
           <p
-            className="mt-6 max-w-sm text-[15px] leading-relaxed text-[#4A5868]"
-            style={{ fontFamily: fontSans }}
+            className="mt-6 max-w-sm text-[15px] leading-relaxed text-gray-600 dark:text-slate-400"
+            style={{ fontFamily: fontBody }}
           >
             Algo que não está aqui? Fale com a gente em{" "}
             <a
               href="mailto:contato@moneyhub.app"
-              className="text-[#013a56] underline decoration-[#00cc66] decoration-2 underline-offset-4"
+              className="text-[color:var(--color-primary)] underline decoration-[color:var(--color-secondary)] decoration-2 underline-offset-4 dark:text-slate-200"
             >
               contato@moneyhub.app
             </a>
@@ -977,25 +1096,25 @@ function FAQ() {
         </Reveal>
 
         <div className="md:col-span-7">
-          <div className="border-t border-black/[0.06]">
+          <div className="border-t border-gray-200/70 dark:border-slate-800">
             {items.map((it, i) => {
               const isOpen = open === i;
               return (
                 <div
                   key={it.q}
-                  className="border-b border-black/[0.06]"
+                  className="border-b border-gray-200/70 dark:border-slate-800"
                 >
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-[#013a56]"
+                    className="flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-[color:var(--color-primary)] dark:hover:text-slate-100"
                   >
                     <span
-                      className="text-[16.5px] font-medium text-[#013a56]"
-                      style={{ fontFamily: fontSans }}
+                      className="text-[16.5px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+                      style={{ fontFamily: fontHeading }}
                     >
                       {it.q}
                     </span>
-                    <span className="mt-0.5 shrink-0 text-[#4A5868]">
+                    <span className="mt-0.5 shrink-0 text-gray-500 dark:text-slate-400">
                       {isOpen ? (
                         <Minus size={18} strokeWidth={1.8} />
                       ) : (
@@ -1013,8 +1132,8 @@ function FAQ() {
                     style={{ overflow: "hidden" }}
                   >
                     <p
-                      className="pb-6 pr-10 text-[15px] leading-relaxed text-[#4A5868]"
-                      style={{ fontFamily: fontSans }}
+                      className="pb-6 pr-10 text-[15px] leading-relaxed text-gray-600 dark:text-slate-400"
+                      style={{ fontFamily: fontBody }}
                     >
                       {it.a}
                     </p>
@@ -1034,12 +1153,8 @@ function FinalCTA({ onLogin }: { onLogin: () => void }) {
     <section id="sobre" className="px-6 py-24 sm:py-32 lg:px-12">
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-black/[0.05] bg-[#013a56] p-10 sm:p-16 lg:p-20">
-            {/* Mesh */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-            >
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-gray-200/60 bg-[color:var(--color-primary)] p-10 dark:border-slate-800 dark:bg-[color:var(--color-primary-dark)] sm:p-16 lg:p-20">
+            <div aria-hidden className="pointer-events-none absolute inset-0">
               <div className="absolute -top-32 -right-20 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.35),transparent_60%)] blur-3xl" />
               <div className="absolute -bottom-24 -left-12 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)] blur-3xl" />
             </div>
@@ -1053,18 +1168,17 @@ function FinalCTA({ onLogin }: { onLogin: () => void }) {
                   — Comece agora
                 </p>
                 <h2
-                  className="mt-5 text-[clamp(2.2rem,5vw,4.4rem)] font-medium leading-[1] tracking-[-0.03em] text-white"
-                  style={{ fontFamily: fontSans, textWrap: "balance" }}
+                  className="mt-5 text-[clamp(2.2rem,5vw,4.4rem)] font-bold leading-[1] tracking-[-0.03em] text-white"
+                  style={{ fontFamily: fontHeading, textWrap: "balance" }}
                 >
                   Deixe sua planilha em paz.{" "}
-                  <span
-                    className="accent text-[#39cc60]">
+                  <span className="text-[color:var(--color-secondary-light)]">
                     Comece hoje.
                   </span>
                 </h2>
                 <p
                   className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/70"
-                  style={{ fontFamily: fontSans }}
+                  style={{ fontFamily: fontBody }}
                 >
                   Cadastro gratuito. Sem cartão de crédito. Importe seu
                   histórico em segundos.
@@ -1074,11 +1188,11 @@ function FinalCTA({ onLogin }: { onLogin: () => void }) {
               <div className="md:col-span-4 md:text-right">
                 <button
                   onClick={onLogin}
-                  className="group inline-flex items-center gap-3 rounded-full bg-white py-4 pl-6 pr-2 text-[14.5px] font-medium text-[#013a56] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#F0F2F5] active:scale-[0.98]"
-                  style={{ fontFamily: fontSans }}
+                  className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-secondary)] py-4 pl-6 pr-2 text-[14.5px] font-semibold text-white transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[color:var(--color-secondary-dark)] active:scale-[0.98]"
+                  style={{ fontFamily: fontBody }}
                 >
                   <span>Entrar no MoneyHub</span>
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#013a56]/8 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105">
                     <ArrowUpRight size={15} strokeWidth={2.2} />
                   </span>
                 </button>
@@ -1093,12 +1207,12 @@ function FinalCTA({ onLogin }: { onLogin: () => void }) {
 
 function Footer() {
   return (
-    <footer className="border-t border-black/[0.06] px-6 py-12 lg:px-12">
+    <footer className="border-t border-gray-200/70 px-6 py-12 dark:border-slate-800 lg:px-12">
       <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div className="flex items-center gap-3">
-          <Logo size="sm" href={false} />
+          <Logo size="md" href={false} />
           <span
-            className="text-[12px] text-[#8B95A1]"
+            className="text-[12px] text-gray-500 dark:text-slate-400"
             style={{ fontFamily: fontMono }}
           >
             © 2026 · controle financeiro inteligente
@@ -1113,8 +1227,8 @@ function Footer() {
             <a
               key={l.label}
               href={l.href}
-              className="text-[13px] text-[#4A5868] transition-colors hover:text-[#013a56]"
-              style={{ fontFamily: fontSans }}
+              className="text-[13px] text-gray-600 transition-colors hover:text-[color:var(--color-secondary)] dark:text-slate-400 dark:hover:text-[color:var(--color-secondary-light)]"
+              style={{ fontFamily: fontBody }}
             >
               {l.label}
             </a>
@@ -1138,12 +1252,12 @@ export default function MoneyHubHomePage() {
 
   return (
     <div
-      className="relative min-h-[100dvh] w-full max-w-full overflow-x-hidden bg-[#F7F8FA] text-[#013a56] selection:bg-[#013a56] selection:text-white"
-      style={{ fontFamily: fontSans }}
+      className="relative min-h-[100dvh] w-full max-w-full overflow-x-hidden bg-gray-50 text-[color:var(--color-primary)] selection:bg-[color:var(--color-primary)] selection:text-white dark:bg-slate-950 dark:text-slate-100"
+      style={{ fontFamily: fontBody }}
     >
       <a
         href="#recursos"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[#013a56] focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-[color:var(--color-primary)] focus:px-4 focus:py-2 focus:text-white"
       >
         Ir para conteúdo
       </a>
