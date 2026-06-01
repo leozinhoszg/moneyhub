@@ -27,6 +27,7 @@ import {
   Moon,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -323,6 +324,10 @@ export default function LoginPage() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const router = useRouter();
+  // Mesmo AuthContext consumido pelo layout (finance): após autenticar
+  // precisamos atualizar o estado do context ANTES de navegar, senão o guard
+  // do dashboard vê isAuthenticated=false e redireciona de volta (loop/piscar).
+  const { refreshUser } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -428,6 +433,7 @@ export default function LoginPage() {
         senha,
       });
       console.log("Login realizado com sucesso:", response.user);
+      await refreshUser();
       router.push("/dashboard");
     } catch (e: any) {
       let errorMessage = "Falha no login. Verifique suas credenciais.";
@@ -667,6 +673,7 @@ export default function LoginPage() {
       });
       console.log("Registro realizado com sucesso:", response.message);
       console.log("Usuário:", response.user);
+      await refreshUser();
       router.push("/dashboard");
     } catch (e: any) {
       let errorMessage = "Código de verificação inválido. Tente novamente.";
@@ -704,6 +711,7 @@ export default function LoginPage() {
     setError(null);
     try {
       await loginWithGoogle();
+      await refreshUser();
       router.push("/dashboard");
     } catch (e: any) {
       let errorMessage = "Falha no login com Google. Tente novamente.";
@@ -900,7 +908,16 @@ export default function LoginPage() {
             priority
             quality={95}
             sizes="(min-width: 1536px) 1100px, (min-width: 1024px) 60vw, 0px"
-            className="object-cover opacity-90 dark:opacity-60"
+            className="object-cover opacity-90 dark:hidden"
+          />
+          <Image
+            src="/banner_01.png"
+            alt=""
+            fill
+            priority
+            quality={95}
+            sizes="(min-width: 1536px) 1100px, (min-width: 1024px) 60vw, 0px"
+            className="hidden object-cover opacity-60 dark:block"
           />
         </div>
 

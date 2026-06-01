@@ -19,246 +19,65 @@ class EmailService:
     
     def create_verification_email_html(self, code: str, user_name: str) -> str:
         """Cria o HTML do email de verificação"""
-        return f"""
-        <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Verificação de Email - MoneyHub</title>
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap');
-                
-                body {{
-                    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-                }}
-                .container {{
-                    background-color: white;
-                    padding: 40px;
-                    border-radius: 24px;
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                    border: 1px solid rgba(226, 232, 240, 0.5);
-                }}
-                .header {{
-                    text-align: center;
-                    margin-bottom: 40px;
-                }}
-                .logo-container {{
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 120px;
-                    height: 120px;
-                    margin-bottom: 20px;
-                    position: relative;
-                }}
-                .logo-bg {{
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    border-radius: 50%;
-                    opacity: 0.1;
-                }}
-                .logo-icon {{
-                    width: 80px;
-                    height: 80px;
-                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                    z-index: 10;
-                }}
-                .logo-icon::before {{
-                    content: '📊';
-                    font-size: 36px;
-                    filter: brightness(0) invert(1);
-                }}
-                .logo-text {{
-                    font-family: 'Montserrat', sans-serif;
-                    font-size: 32px;
-                    font-weight: 700;
-                    margin-bottom: 8px;
-                }}
-                .logo-money {{
-                    color: #013a56;
-                }}
-                .logo-hub {{
-                    color: #00cc66;
-                }}
-                .subtitle {{
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #1e293b;
-                    margin-bottom: 8px;
-                }}
-                .description {{
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 14px;
-                    color: #64748b;
-                }}
-                .content {{
-                    margin: 32px 0;
-                }}
-                .greeting {{
-                    font-size: 16px;
-                    color: #1e293b;
-                    margin-bottom: 24px;
-                }}
-                .message {{
-                    font-size: 15px;
-                    color: #475569;
-                    margin-bottom: 32px;
-                    line-height: 1.7;
-                }}
-                .verification-code {{
-                    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-                    border: 2px dashed #10b981;
-                    padding: 32px 24px;
-                    text-align: center;
-                    margin: 40px 0;
-                    border-radius: 16px;
-                    position: relative;
-                }}
-                .code-label {{
-                    font-size: 14px;
-                    color: #059669;
-                    margin-bottom: 16px;
-                    font-weight: 600;
-                }}
-                .code {{
-                    font-size: 36px;
-                    font-weight: 700;
-                    color: #013a56;
-                    letter-spacing: 12px;
-                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-                    background: white;
-                    padding: 16px 24px;
-                    border-radius: 12px;
-                    border: 1px solid #10b981;
-                    display: inline-block;
-                    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
-                }}
-                .warning {{
-                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-                    border: 1px solid #f59e0b;
-                    padding: 20px;
-                    border-radius: 12px;
-                    margin: 32px 0;
-                    position: relative;
-                }}
-                .warning-icon {{
-                    display: inline-block;
-                    margin-right: 8px;
-                    font-size: 16px;
-                }}
-                .warning-text {{
-                    font-size: 14px;
-                    color: #92400e;
-                    font-weight: 500;
-                }}
-                .footer {{
-                    margin-top: 40px;
-                    padding-top: 24px;
-                    border-top: 1px solid #e2e8f0;
-                    text-align: center;
-                }}
-                .footer-text {{
-                    font-size: 12px;
-                    color: #64748b;
-                    margin: 4px 0;
-                }}
-                .team-signature {{
-                    font-size: 15px;
-                    color: #1e293b;
-                    margin: 24px 0 16px 0;
-                }}
-                .team-name {{
-                    font-weight: 600;
-                    color: #013a56;
-                }}
-                
-                /* Responsive */
-                @media (max-width: 640px) {{
-                    .container {{
-                        padding: 24px;
-                        border-radius: 16px;
-                    }}
-                    .logo-text {{
-                        font-size: 28px;
-                    }}
-                    .code {{
-                        font-size: 28px;
-                        letter-spacing: 8px;
-                        padding: 12px 16px;
-                    }}
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <div class="logo-container">
-                        <div class="logo-bg"></div>
-                        <div class="logo-icon"></div>
-                    </div>
-                    <div class="logo-text">
-                        <span class="logo-money">Money</span><span class="logo-hub">Hub</span>
-                    </div>
-                    <div class="subtitle">Verificação de Email</div>
-                    <div class="description">Obrigado por se cadastrar no MoneyHub!</div>
-                </div>
-                
-                <div class="content">
-                    <div class="greeting">Olá <strong>{user_name}</strong>,</div>
-                    
-                    <div class="message">
-                        Para completar seu cadastro, use o código de verificação abaixo:
-                    </div>
-                    
-                    <div class="verification-code">
-                        <div class="code-label">Seu código de verificação é:</div>
-                        <div class="code">{code}</div>
-                    </div>
-                    
-                    <div class="message">
-                        Digite este código na página de cadastro para ativar sua conta.
-                    </div>
-                    
-                    <div class="warning">
-                        <span class="warning-icon">⚠️</span>
-                        <span class="warning-text">
-                            <strong>Importante:</strong> Este código expira em {self.settings.email_verification_expiry_minutes} minutos. 
-                            Se você não solicitou este cadastro, pode ignorar este email.
-                        </span>
-                    </div>
-                    
-                    <div class="message">
-                        Se você tiver alguma dúvida, entre em contato conosco.
-                    </div>
-                    
-                    <div class="team-signature">
-                        Atenciosamente,<br>
-                        <span class="team-name">Equipe MoneyHub</span>
-                    </div>
-                </div>
-                
-                <div class="footer">
-                    <div class="footer-text">Este é um email automático, não responda a esta mensagem.</div>
-                    <div class="footer-text">© 2025 MoneyHub - Centro de Controle Financeiro</div>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
+        expiry = self.settings.email_verification_expiry_minutes
+        return f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu código MoneyHub</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f0f2f5;padding:32px 16px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="560" style="max-width:560px;width:100%;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                    <tr>
+                        <td align="center" style="background-color:#013a56;padding:28px 24px;">
+                            <span style="font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:28px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">
+                                Money<span style="color:#00cc66;">Hub</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:40px 40px 32px 40px;color:#3d3d3d;font-size:16px;line-height:1.6;">
+                            <p style="margin:0 0 20px 0;">Olá,</p>
+                            <p style="margin:0 0 20px 0;">
+                                Seu código do gerenciador financeiro MoneyHub chegou! &#x1F60D;
+                            </p>
+                            <p style="margin:0 0 28px 0;">
+                                Ao copiá-lo volte à página de acesso e insira o código abaixo para confirmar sua identidade.
+                            </p>
+                            <p style="margin:0 0 8px 0;font-size:18px;font-weight:700;color:#1a1a1a;">
+                                Seu código de acesso é:
+                            </p>
+                            <p style="margin:0 0 32px 0;font-size:44px;font-weight:700;color:#00cc66;letter-spacing:4px;line-height:1.1;">
+                                {code}
+                            </p>
+                            <p style="margin:0 0 20px 0;">
+                                Lembrando que essa etapa é muito importante do nosso gerenciador financeiro para mantermos a segurança dos seus dados e cumprirmos nosso compromisso com você.
+                            </p>
+                            <p style="margin:0 0 20px 0;">
+                                Este código expira em <strong>{expiry} minutos</strong>. Se você não solicitou o código, não o utilize e ignore.
+                            </p>
+                            <p style="margin:28px 0 4px 0;">Abraços,</p>
+                            <p style="margin:0;font-weight:700;color:#1a1a1a;">
+                                Equipe MoneyHub <span style="color:#00cc66;">&#x1F49A;</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 40px 28px 40px;border-top:1px solid #eef0f2;text-align:center;color:#9aa0a6;font-size:12px;line-height:1.5;">
+                            Este é um email automático, não responda a esta mensagem.<br>
+                            &copy; 2025 MoneyHub &middot; Centro de Controle Financeiro
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>"""
     
     async def send_verification_email(self, email: str, code: str, user_name: str) -> bool:
         """Envia email de verificação"""
@@ -318,263 +137,75 @@ class EmailService:
     def create_password_reset_email_html(self, reset_token: str, user_name: str) -> str:
         """Cria o HTML do email de reset de senha"""
         reset_url = f"{self.settings.frontend_url}/auth/reset-password?token={reset_token}"
-        
-        return f"""
-        <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Reset your password - MoneyHub</title>
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap');
-                
-                body {{
-                    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-                }}
-                .container {{
-                    background-color: white;
-                    padding: 40px;
-                    border-radius: 24px;
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                    border: 1px solid rgba(226, 232, 240, 0.5);
-                }}
-                .header {{
-                    text-align: center;
-                    margin-bottom: 40px;
-                }}
-                .logo-container {{
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 120px;
-                    height: 120px;
-                    margin-bottom: 20px;
-                    position: relative;
-                }}
-                .logo-bg {{
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    border-radius: 50%;
-                    opacity: 0.1;
-                }}
-                .logo-icon {{
-                    width: 80px;
-                    height: 80px;
-                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
-                    z-index: 10;
-                }}
-                .logo-icon::before {{
-                    content: '📊';
-                    font-size: 36px;
-                    filter: brightness(0) invert(1);
-                }}
-                .logo-text {{
-                    font-family: 'Montserrat', sans-serif;
-                    font-size: 32px;
-                    font-weight: 700;
-                    margin-bottom: 8px;
-                }}
-                .logo-money {{
-                    color: #013a56;
-                }}
-                .logo-hub {{
-                    color: #00cc66;
-                }}
-                .subtitle {{
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #1e293b;
-                    margin-bottom: 8px;
-                }}
-                .description {{
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 14px;
-                    color: #64748b;
-                }}
-                .content {{
-                    margin: 32px 0;
-                }}
-                .greeting {{
-                    font-size: 16px;
-                    color: #1e293b;
-                    margin-bottom: 24px;
-                }}
-                .message {{
-                    font-size: 15px;
-                    color: #475569;
-                    margin-bottom: 32px;
-                    line-height: 1.7;
-                }}
-                .button-container {{
-                    text-align: center;
-                    margin: 40px 0;
-                }}
-                .reset-button {{
-                    display: inline-block;
-                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    color: white;
-                    padding: 16px 32px;
-                    text-decoration: none;
-                    border-radius: 12px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-weight: 700;
-                    font-size: 16px;
-                    box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -2px rgba(16, 185, 129, 0.1);
-                    transition: all 0.3s ease;
-                    border: none;
-                }}
-                .reset-button:hover {{
-                    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-                    transform: translateY(-2px);
-                    box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.4), 0 10px 10px -5px rgba(16, 185, 129, 0.2);
-                }}
-                .link-fallback {{
-                    margin: 24px 0;
-                    padding: 16px;
-                    background-color: #f8fafc;
-                    border-radius: 8px;
-                    border: 1px solid #e2e8f0;
-                }}
-                .link-text {{
-                    font-size: 14px;
-                    color: #475569;
-                    margin-bottom: 8px;
-                }}
-                .link-url {{
-                    word-break: break-all;
-                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-                    font-size: 12px;
-                    color: #0f172a;
-                    background-color: white;
-                    padding: 8px 12px;
-                    border-radius: 6px;
-                    border: 1px solid #e2e8f0;
-                }}
-                .warning {{
-                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-                    border: 1px solid #f59e0b;
-                    padding: 20px;
-                    border-radius: 12px;
-                    margin: 32px 0;
-                    position: relative;
-                }}
-                .warning-icon {{
-                    display: inline-block;
-                    margin-right: 8px;
-                    font-size: 16px;
-                }}
-                .warning-text {{
-                    font-size: 14px;
-                    color: #92400e;
-                    font-weight: 500;
-                }}
-                .footer {{
-                    margin-top: 40px;
-                    padding-top: 24px;
-                    border-top: 1px solid #e2e8f0;
-                    text-align: center;
-                }}
-                .footer-text {{
-                    font-size: 12px;
-                    color: #64748b;
-                    margin: 4px 0;
-                }}
-                .team-signature {{
-                    font-size: 15px;
-                    color: #1e293b;
-                    margin: 24px 0 16px 0;
-                }}
-                .team-name {{
-                    font-weight: 600;
-                    color: #013a56;
-                }}
-                
-                /* Responsive */
-                @media (max-width: 640px) {{
-                    .container {{
-                        padding: 24px;
-                        border-radius: 16px;
-                    }}
-                    .logo-text {{
-                        font-size: 28px;
-                    }}
-                    .reset-button {{
-                        padding: 14px 28px;
-                        font-size: 15px;
-                    }}
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <div class="logo-container">
-                        <div class="logo-bg"></div>
-                        <div class="logo-icon"></div>
-                    </div>
-                    <div class="logo-text">
-                        <span class="logo-money">Money</span><span class="logo-hub">Hub</span>
-                    </div>
-                    <div class="subtitle">Reset your password</div>
-                    <div class="description">We received a request to reset the password for your account.</div>
-                </div>
-                
-                <div class="content">
-                    <div class="greeting">Olá <strong>{user_name}</strong>,</div>
-                    
-                    <div class="message">
-                        Recebemos uma solicitação para redefinir a senha da sua conta MoneyHub.
-                    </div>
-                    
-                    <div class="button-container">
-                        <a href="{reset_url}" class="reset-button">Reset password</a>
-                    </div>
-                    
-                    <div class="link-fallback">
-                        <div class="link-text">Se o botão não funcionar, copie e cole o link abaixo no seu navegador:</div>
-                        <div class="link-url">{reset_url}</div>
-                    </div>
-                    
-                    <div class="warning">
-                        <span class="warning-icon">⚠️</span>
-                        <span class="warning-text">
-                            <strong>Importante:</strong> Este link expira em {self.settings.email_verification_expiry_minutes} minutos. 
-                            Se você não solicitou esta redefinição, pode ignorar este email com segurança.
-                        </span>
-                    </div>
-                    
-                    <div class="message">
-                        Se você tiver alguma dúvida, entre em contato conosco.
-                    </div>
-                    
-                    <div class="team-signature">
-                        Atenciosamente,<br>
-                        <span class="team-name">Equipe MoneyHub</span>
-                    </div>
-                </div>
-                
-                <div class="footer">
-                    <div class="footer-text">Este é um email automático, não responda a esta mensagem.</div>
-                    <div class="footer-text">© 2025 MoneyHub - Centro de Controle Financeiro</div>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
+        expiry = self.settings.email_verification_expiry_minutes
+
+        return f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir senha - MoneyHub</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f0f2f5;padding:32px 16px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="560" style="max-width:560px;width:100%;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                    <tr>
+                        <td align="center" style="background-color:#013a56;padding:28px 24px;">
+                            <span style="font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:28px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">
+                                Money<span style="color:#00cc66;">Hub</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:40px 40px 32px 40px;color:#3d3d3d;font-size:16px;line-height:1.6;">
+                            <p style="margin:0 0 20px 0;">Olá,</p>
+                            <p style="margin:0 0 20px 0;">
+                                Recebemos uma solicitação para redefinir a senha da sua conta no gerenciador financeiro MoneyHub. &#x1F510;
+                            </p>
+                            <p style="margin:0 0 28px 0;">
+                                Para criar uma nova senha, clique no botão abaixo:
+                            </p>
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 32px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{reset_url}" style="display:inline-block;background-color:#00cc66;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 36px;border-radius:6px;">
+                                            Redefinir senha
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="margin:0 0 8px 0;font-size:14px;color:#6b7280;">
+                                Se o botão não funcionar, copie e cole o link abaixo no seu navegador:
+                            </p>
+                            <p style="margin:0 0 28px 0;font-size:13px;word-break:break-all;color:#013a56;background-color:#f6f8fa;padding:12px 14px;border-radius:6px;border:1px solid #eef0f2;">
+                                {reset_url}
+                            </p>
+                            <p style="margin:0 0 20px 0;">
+                                Lembrando que essa etapa é muito importante para mantermos a segurança dos seus dados e cumprirmos nosso compromisso com você.
+                            </p>
+                            <p style="margin:0 0 20px 0;">
+                                Este link expira em <strong>{expiry} minutos</strong>. Se você não solicitou a redefinição, ignore este email com segurança.
+                            </p>
+                            <p style="margin:28px 0 4px 0;">Abraços,</p>
+                            <p style="margin:0;font-weight:700;color:#1a1a1a;">
+                                Equipe MoneyHub <span style="color:#00cc66;">&#x1F49A;</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 40px 28px 40px;border-top:1px solid #eef0f2;text-align:center;color:#9aa0a6;font-size:12px;line-height:1.5;">
+                            Este é um email automático, não responda a esta mensagem.<br>
+                            &copy; 2025 MoneyHub &middot; Centro de Controle Financeiro
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>"""
     
     async def send_password_reset_email(self, email: str, reset_token: str, user_name: str) -> bool:
         """Envia email de reset de senha"""

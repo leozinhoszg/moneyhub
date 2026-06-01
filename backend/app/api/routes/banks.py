@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get("/banks", response_model=BankList)
 def list_banks(
     search: str = Query(None, description="Buscar bancos por nome"),
-    limit: int = Query(300, description="Limite de bancos retornados"),
+    limit: int = Query(500, description="Limite de bancos retornados"),
     db: Session = Depends(get_db),
 ):
     """

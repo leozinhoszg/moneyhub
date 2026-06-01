@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   Bell,
   User,
   Sun,
   Moon,
   ChevronDown,
-  Settings,
   LogOut,
   Menu,
   X,
@@ -19,12 +18,15 @@ import {
   FolderOpen,
   Calendar,
   BarChart3,
+  LayoutGrid,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Logo from "./Logo";
 import LanguageSelector from "./LanguageSelector";
+import { fontBody, SPRING } from "@/lib/motion";
 
 interface User {
   id: number;
@@ -50,6 +52,10 @@ type MobileNavbarProps = {
   onToggleCardManager?: () => void;
   showCardManagerButton?: boolean;
 };
+
+// Botão de ação circular "ghost" (notificações, tema, cards).
+const ghostBtn =
+  "relative flex h-9 w-9 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]";
 
 export default function MobileNavbar({
   isActive,
@@ -130,446 +136,276 @@ export default function MobileNavbar({
   };
 
   const navigationItems = [
-    {
-      href: "/dashboard",
-      label: t("common.dashboard"),
-      icon: Home,
-    },
-    {
-      href: "/accounts",
-      label: t("common.accounts"),
-      icon: Wallet,
-    },
-    {
-      href: "/cards",
-      label: t("common.cards"),
-      icon: CreditCard,
-    },
+    { href: "/dashboard", label: t("common.dashboard"), icon: Home },
+    { href: "/accounts", label: t("common.accounts"), icon: Wallet },
+    { href: "/cards", label: t("common.cards"), icon: CreditCard },
     {
       href: "/transactions",
       label: t("common.transactions"),
       icon: ArrowLeftRight,
     },
-    {
-      href: "/categories",
-      label: t("common.categories"),
-      icon: FolderOpen,
-    },
+    { href: "/categories", label: t("common.categories"), icon: FolderOpen },
     {
       href: "/fixed-expenses",
       label: t("common.fixedExpenses"),
       icon: Calendar,
     },
-    {
-      href: "/reports",
-      label: t("common.reports"),
-      icon: BarChart3,
-    },
+    { href: "/reports", label: t("common.reports"), icon: BarChart3 },
   ];
 
   return (
     <>
+      {/* Nav flutuante de vidro — mesmo material da landing */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 shadow-lg border-b backdrop-blur-xl transition-all duration-300 ${
-          isDark
-            ? "bg-slate-800/95 border-slate-700/50 text-white"
-            : "bg-white/95 border-slate-200/50 text-gray-800"
-        }`}
+        className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 sm:px-4"
         style={{
-          fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-          boxShadow:
-            "0 4px 20px rgba(0, 204, 102, 0.15), 0 8px 40px rgba(0, 204, 102, 0.08), 0 0 0 1px rgba(0, 204, 102, 0.1)",
-          paddingTop: "env(safe-area-inset-top)",
+          paddingTop: "calc(0.6rem + env(safe-area-inset-top))",
+          fontFamily: fontBody,
         }}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex items-center justify-between h-16">
-            {/* Mobile Menu Button - Left */}
+        <div className="flex w-full max-w-7xl items-center gap-2 rounded-full border border-white/40 bg-white/55 p-1.5 pl-2 shadow-[0_10px_40px_-18px_rgba(0,51,102,0.25)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/50 dark:ring-white/10 dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)] sm:pl-3">
+          {/* Esquerda: hambúrguer (mobile) + logo */}
+          <div className="flex shrink-0 items-center gap-1.5">
             <button
-              className={`md:hidden mobile-menu-button p-2 rounded-lg transition-all duration-200 ${
-                isDark
-                  ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                  : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
-              }`}
+              className="mobile-menu-button flex h-9 w-9 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 md:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle mobile menu"
+              aria-label="Abrir menu"
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <Logo size="sm" href="/dashboard" />
+          </div>
+
+          {/* Centro: links (desktop) */}
+          <div className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 md:flex lg:gap-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  title={item.label}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-2 text-[13px] font-medium transition-colors duration-300 xl:px-3 ${
+                    active
+                      ? "text-white"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
+                  }`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      transition={SPRING}
+                      className="absolute inset-0 rounded-full bg-[color:var(--color-secondary)] shadow-[0_8px_20px_-10px_rgba(0,204,102,0.7)]"
+                    />
+                  )}
+                  <Icon
+                    className="relative z-10 h-4 w-4 shrink-0"
+                    strokeWidth={2}
+                  />
+                  <span className="relative z-10 hidden whitespace-nowrap xl:block">
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Direita: ações */}
+          <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0">
+            {/* Tema */}
+            <button
+              onClick={toggleTheme}
+              className="hidden h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 bg-white/80 text-[color:var(--color-primary)] transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-800 sm:flex"
+              aria-label="Alternar tema"
+            >
+              {mounted ? (
+                isDark ? (
+                  <Sun size={15} strokeWidth={2.2} />
+                ) : (
+                  <Moon size={15} strokeWidth={2.2} />
+                )
+              ) : null}
             </button>
 
-            {/* Logo - Center on mobile, Left on desktop */}
-            <div className="flex-1 md:flex-none flex justify-center md:justify-start">
-              <Link href="/dashboard" className="flex items-center space-x-3">
-                <div className="inline-flex items-center justify-center w-10 h-10 relative">
-                  <Image
-                    src="/logo_money_hub.png"
-                    alt="MoneyHub Logo"
-                    width={40}
-                    height={40}
-                    className="object-contain relative z-10 drop-shadow-lg transition-transform duration-300 hover:scale-110"
-                    priority
-                  />
-                </div>
-                <span className="text-xl font-bold hidden sm:block">
-                  <span
-                    style={{
-                      color: isDark ? "#ffffff" : "#013a56",
-                      textShadow: isDark
-                        ? "0 0 10px rgba(255, 255, 255, 0.3)"
-                        : "none",
-                    }}
-                  >
-                    Money
-                  </span>
-                  <span
-                    style={{
-                      color: "#00cc66",
-                      textShadow: isDark
-                        ? "0 0 10px rgba(0, 204, 102, 0.5)"
-                        : "none",
-                    }}
-                  >
-                    Hub
-                  </span>
+            {/* Notificações */}
+            <button
+              onClick={() => onNotificationClick?.()}
+              className={ghostBtn}
+              aria-label="Notificações"
+            >
+              <Bell size={18} strokeWidth={2} />
+              {notificationsCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[color:var(--color-danger)] px-1 text-[10px] font-semibold text-white">
+                  {notificationsCount > 9 ? "9+" : notificationsCount}
                 </span>
-              </Link>
-            </div>
-
-            {/* Desktop Navigation Links - Center */}
-            <div className="hidden md:flex flex-1 justify-center">
-              <div className="flex items-baseline space-x-2 lg:space-x-4">
-                {navigationItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                        isActive(item.href)
-                          ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg"
-                          : isDark
-                          ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                          : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
-                      }`}
-                      style={{
-                        fontFamily:
-                          "var(--font-secondary, Open Sans, sans-serif)",
-                      }}
-                    >
-                      <Icon className="w-4 h-4 mr-2" />
-                      <span className="hidden lg:block">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Right side - Actions */}
-            <div className="flex items-center space-x-2">
-              {/* Theme Toggle - Hidden on mobile */}
-              <button
-                onClick={toggleTheme}
-                className={`hidden sm:flex p-2 rounded-full transition-all duration-300 h-10 w-10 items-center justify-center ${
-                  isDark
-                    ? "bg-gray-700 text-yellow-400 hover:bg-gray-600"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-                aria-label="Toggle theme"
-              >
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-
-              {/* Notifications */}
-              <button
-                onClick={() => onNotificationClick?.()}
-                className={`relative p-2 rounded-full transition-all duration-200 h-10 w-10 flex items-center justify-center ${
-                  isDark
-                    ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                    : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
-                }`}
-                aria-label="Notifications"
-              >
-                <Bell className="w-5 h-5" />
-                {notificationsCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                    {notificationsCount > 9 ? "9+" : notificationsCount}
-                  </span>
-                )}
-              </button>
-
-              {/* Card Manager Button - Only show on dashboard */}
-              {showCardManagerButton && onToggleCardManager && (
-                <button
-                  onClick={onToggleCardManager}
-                  className={`hidden sm:flex p-2 rounded-full transition-all duration-200 h-10 w-10 items-center justify-center ${
-                    isDark
-                      ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                      : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
-                  }`}
-                  title="Gerenciar Cards do Dashboard"
-                  aria-label="Manage dashboard cards"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                    />
-                  </svg>
-                </button>
               )}
+            </button>
 
-              {/* Language Selector - Hidden on mobile */}
-              <div className="hidden sm:block">
-                <LanguageSelector />
-              </div>
+            {/* Gerenciar cards (apenas no dashboard) */}
+            {showCardManagerButton && onToggleCardManager && (
+              <button
+                onClick={onToggleCardManager}
+                className={`hidden sm:flex ${ghostBtn}`}
+                title="Gerenciar cards do dashboard"
+                aria-label="Gerenciar cards"
+              >
+                <LayoutGrid size={18} strokeWidth={2} />
+              </button>
+            )}
 
-              {/* User Dropdown */}
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                  className={`flex items-center space-x-2 p-2 rounded-lg transition-all duration-200 ${
-                    isUserDropdownOpen
-                      ? isDark
-                        ? "bg-slate-700/50"
-                        : "bg-gray-100"
-                      : "hover:bg-opacity-50"
-                  } ${isDark ? "hover:bg-slate-700/50" : "hover:bg-gray-100"}`}
-                  aria-label="User menu"
+            {/* Idioma */}
+            <div className="hidden sm:block">
+              <LanguageSelector />
+            </div>
+
+            {/* Usuário */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                className="flex items-center gap-1.5 rounded-full p-0.5 pr-1.5 transition-colors hover:bg-gray-100 dark:hover:bg-slate-800"
+                aria-label="Menu do usuário"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-secondary)] text-white shadow-[0_6px_16px_-8px_rgba(0,204,102,0.7)]">
+                  <User size={16} strokeWidth={2.2} />
+                </span>
+                <ChevronDown
+                  size={15}
+                  className={`hidden text-gray-500 transition-transform duration-200 dark:text-slate-400 sm:block ${
+                    isUserDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isUserDropdownOpen && (
+                <div
+                  className="absolute right-0 top-full z-[9999] mt-2 w-72 overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_24px_60px_-28px_rgba(0,51,102,0.35)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/85 dark:ring-white/10"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
-                    <User className="w-4 h-4 text-white" />
+                  {/* Cabeçalho do usuário */}
+                  <div className="flex items-center gap-3 border-b border-gray-200/60 p-4 dark:border-slate-800">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--color-secondary)] text-white">
+                      <User size={22} strokeWidth={2.2} />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="truncate text-[14px] font-semibold text-[color:var(--color-primary)] dark:text-white">
+                        {user ? `${user.nome} ${user.sobrenome}` : "Usuário"}
+                      </h3>
+                      <p className="truncate text-[12px] text-gray-500 dark:text-slate-400">
+                        {user?.email || "email@exemplo.com"}
+                      </p>
+                    </div>
                   </div>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 hidden sm:block ${
-                      isUserDropdownOpen ? "rotate-180" : ""
-                    } ${isDark ? "text-slate-300" : "text-gray-600"}`}
-                  />
-                </button>
 
-                {/* User Dropdown Menu */}
-                {isUserDropdownOpen && (
-                  <div
-                    className={`absolute right-0 top-full mt-2 w-72 rounded-2xl shadow-2xl border backdrop-blur-xl overflow-hidden transform transition-all duration-300 ease-out z-[9999] ${
-                      isDark
-                        ? "bg-slate-800/95 border-slate-700/50"
-                        : "bg-white/95 border-slate-200/50"
-                    }`}
-                    style={{
-                      boxShadow:
-                        "0 0 30px rgba(0, 204, 102, 0.3), 0 0 60px rgba(0, 204, 102, 0.1)",
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* User Info Section */}
-                    <div
-                      className={`p-4 border-b ${
-                        isDark ? "border-slate-700/50" : "border-slate-200/50"
-                      }`}
+                  <div className="py-2">
+                    <button
+                      onClick={handleProfileClick}
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-[13.5px] text-gray-700 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
                     >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
-                          <User className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h3
-                            className={`font-semibold text-sm ${
-                              isDark ? "text-white" : "text-gray-900"
-                            }`}
-                            style={{
-                              fontFamily:
-                                "var(--font-primary, Montserrat, sans-serif)",
-                            }}
-                          >
-                            {user
-                              ? `${user.nome} ${user.sobrenome}`
-                              : "Usuário"}
-                          </h3>
-                          <p
-                            className={`text-xs ${
-                              isDark ? "text-slate-400" : "text-gray-600"
-                            }`}
-                            style={{
-                              fontFamily:
-                                "var(--font-secondary, Open Sans, sans-serif)",
-                            }}
-                          >
-                            {user?.email || "email@exemplo.com"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      <User size={16} strokeWidth={2} />
+                      {t("common.profile")}
+                    </button>
 
-                    {/* Menu Items */}
-                    <div className="py-2">
-                      <button
-                        onClick={handleProfileClick}
-                        className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
-                          isDark
-                            ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                            : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
-                        }`}
-                        style={{
-                          fontFamily:
-                            "var(--font-secondary, Open Sans, sans-serif)",
-                        }}
-                      >
-                        <User className="w-4 h-4 mr-3" />
-                        {t("common.profile")}
-                      </button>
+                    <Link
+                      href="/budget"
+                      onClick={() => {
+                        setIsUserDropdownOpen(false);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-[13.5px] text-gray-700 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
+                    >
+                      <Wallet size={16} strokeWidth={2} />
+                      {t("common.budget") || "Orçamento"}
+                    </Link>
 
-                      <Link
-                        href="/budget"
-                        onClick={() => {
-                          setIsUserDropdownOpen(false);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
-                          isDark
-                            ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                            : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
-                        }`}
-                        style={{
-                          fontFamily:
-                            "var(--font-secondary, Open Sans, sans-serif)",
-                        }}
-                      >
-                        <Wallet className="w-4 h-4 mr-3" />
-                        {t("common.budget") || "Orçamento"}
-                      </Link>
-
-                      <button
-                        onClick={handleLogout}
-                        className={`w-full flex items-center px-4 py-3 text-sm transition-all duration-200 ${
-                          isDark
-                            ? "text-slate-300 hover:text-red-400 hover:bg-red-900/20"
-                            : "text-gray-700 hover:text-red-600 hover:bg-red-50"
-                        }`}
-                        style={{
-                          fontFamily:
-                            "var(--font-secondary, Open Sans, sans-serif)",
-                        }}
-                      >
-                        <LogOut className="w-4 h-4 mr-3" />
-                        {t("common.logout")}
-                      </button>
-                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-[13.5px] text-gray-700 transition-colors hover:bg-[color:var(--color-danger)]/10 hover:text-[color:var(--color-danger)] dark:text-slate-300 dark:hover:bg-[color:var(--color-danger)]/15 dark:hover:text-red-300"
+                    >
+                      <LogOut size={16} strokeWidth={2} />
+                      {t("common.logout")}
+                    </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Menu mobile */}
       {isMobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 md:hidden"
-          style={{ top: "calc(4rem + env(safe-area-inset-top))" }}
+          style={{ top: "calc(4.25rem + env(safe-area-inset-top))" }}
         >
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setIsMobileMenuOpen(false)}
           />
 
-          {/* Menu Content */}
+          {/* Painel */}
           <div
             ref={mobileMenuRef}
-            className={`absolute top-0 left-0 right-0 max-h-screen overflow-y-auto border-b backdrop-blur-xl ${
-              isDark
-                ? "bg-slate-800/95 border-slate-700/50"
-                : "bg-white/95 border-slate-200/50"
-            }`}
-            style={{
-              maxHeight: "calc(100vh - 4rem - env(safe-area-inset-top))",
-            }}
+            className="absolute inset-x-3 top-0 max-h-[calc(100vh-5rem)] overflow-y-auto rounded-3xl border border-white/40 bg-white/80 p-3 shadow-[0_24px_60px_-28px_rgba(0,51,102,0.35)] ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-slate-900/85 dark:ring-white/10"
+            style={{ fontFamily: fontBody }}
           >
-            {/* Navigation Items */}
-            <div className="px-4 py-6 space-y-2">
+            {/* Links */}
+            <div className="space-y-1.5">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
+                const active = isActive(item.href);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={handleMobileMenuItemClick}
-                    className={`flex items-center w-full px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                      isActive(item.href)
-                        ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg"
-                        : isDark
-                        ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                        : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
+                    className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium transition-all duration-200 ${
+                      active
+                        ? "bg-[color:var(--color-secondary)] text-white shadow-[0_8px_20px_-10px_rgba(0,204,102,0.7)]"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
                     }`}
                   >
-                    <Icon className="w-5 h-5 mr-3" />
+                    <Icon className="h-5 w-5" strokeWidth={2} />
                     {item.label}
                   </Link>
                 );
               })}
             </div>
 
-            {/* Mobile-only Actions */}
-            <div className="px-4 py-4 border-t border-slate-200/50 dark:border-slate-700/50 space-y-4">
-              {/* Theme Toggle */}
+            {/* Ações mobile */}
+            <div className="mt-3 space-y-1.5 border-t border-gray-200/60 pt-3 dark:border-slate-800">
               <button
                 onClick={() => {
                   toggleTheme();
                   setIsMobileMenuOpen(false);
                 }}
-                className={`flex items-center w-full px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                  isDark
-                    ? "text-slate-300 hover:text-yellow-400 hover:bg-slate-700/50"
-                    : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                }`}
+                className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800"
               >
                 {isDark ? (
-                  <Sun className="w-5 h-5 mr-3" />
+                  <Sun className="h-5 w-5" strokeWidth={2} />
                 ) : (
-                  <Moon className="w-5 h-5 mr-3" />
+                  <Moon className="h-5 w-5" strokeWidth={2} />
                 )}
-                {isDark ? "Modo Claro" : "Modo Escuro"}
+                {isDark ? "Modo claro" : "Modo escuro"}
               </button>
 
-              {/* Language Selector */}
-              <div className="px-4">
+              <div className="px-2">
                 <LanguageSelector />
               </div>
 
-              {/* Card Manager Button for mobile */}
               {showCardManagerButton && onToggleCardManager && (
                 <button
                   onClick={() => {
                     onToggleCardManager();
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`flex items-center w-full px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                    isDark
-                      ? "text-slate-300 hover:text-emerald-400 hover:bg-slate-700/50"
-                      : "text-gray-700 hover:text-emerald-600 hover:bg-emerald-50"
-                  }`}
+                  className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]"
                 >
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                    />
-                  </svg>
-                  Gerenciar Cards
+                  <LayoutGrid className="h-5 w-5" strokeWidth={2} />
+                  Gerenciar cards
                 </button>
               )}
             </div>
@@ -579,4 +415,3 @@ export default function MobileNavbar({
     </>
   );
 }
-

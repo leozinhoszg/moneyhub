@@ -10,23 +10,25 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from "sonner";
+import type { Metadata, Viewport } from "next";
 
-export const metadata = {
-  title: "MoneyHub",
-  description: "MoneyHub - Controle de finanças pessoais",
-  keywords: "finanças, controle financeiro, orçamento, gastos, receitas",
-  authors: [{ name: "MoneyHub Team" }],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: "cover",
-  },
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#00cc66" },
     { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
   ],
+};
+
+export const metadata: Metadata = {
+  title: "MoneyHub",
+  description: "MoneyHub - Controle de finanças pessoais",
+  keywords: "finanças, controle financeiro, orçamento, gastos, receitas",
+  authors: [{ name: "MoneyHub Team" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

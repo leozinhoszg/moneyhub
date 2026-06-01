@@ -46,5 +46,10 @@ python-dateutil>=2.9.0,<2.10.0
 # Serialização
 orjson>=3.10.0,<3.11.0
 
+# Upload e manipulacao de imagens (avatar / foto de perfil)
+Pillow>=10.0.0,<13.0.0
+python-multipart>=0.0.9,<0.1.0
+aiofiles>=23.0.0,<26.0.0
+
 # Especificar versão mínima do Python
 # python_requires = ">=3.11"

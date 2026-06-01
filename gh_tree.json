@@ -1,0 +1,2130 @@
+{
+  "sha": "73d82e89efe74b80154053f560f50e16d981c351",
+  "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/73d82e89efe74b80154053f560f50e16d981c351",
+  "tree": [
+    {
+      "path": "ABC Brasil",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ddcfc57a0136a0ba07e167c6dfb6a40842393e1c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/ddcfc57a0136a0ba07e167c6dfb6a40842393e1c"
+    },
+    {
+      "path": "ABC Brasil/logoabc-negativada.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c3b480da28b69825aa617d85a7c7ba18929c5c1",
+      "size": 6289,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1c3b480da28b69825aa617d85a7c7ba18929c5c1"
+    },
+    {
+      "path": "ABC Brasil/logoabc.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "603c6ba0d83db763f804021d7b4fcfa0c377b498",
+      "size": 6250,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/603c6ba0d83db763f804021d7b4fcfa0c377b498"
+    },
+    {
+      "path": "Ailos",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2e1ee15188b2b61e3e039390dfe19dd94cd22a80",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/2e1ee15188b2b61e3e039390dfe19dd94cd22a80"
+    },
+    {
+      "path": "Ailos/ailos com fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf1d9c55ee85bb36b803823da45e200b487cf47f",
+      "size": 8161,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/cf1d9c55ee85bb36b803823da45e200b487cf47f"
+    },
+    {
+      "path": "Ailos/logo-ailos.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "acdb7afd929753a11d30af213d0241ffd8a0c8cb",
+      "size": 7868,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/acdb7afd929753a11d30af213d0241ffd8a0c8cb"
+    },
+    {
+      "path": "Asaas IP S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2439cf8b5a33fca947a29056dcda5ec7de8d4818",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/2439cf8b5a33fca947a29056dcda5ec7de8d4818"
+    },
+    {
+      "path": "Asaas IP S.A/header-logo-azul.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1436f565fdb0c2c2a59cd9281803d13877f040be",
+      "size": 4431,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1436f565fdb0c2c2a59cd9281803d13877f040be"
+    },
+    {
+      "path": "Asaas IP S.A/header-logo-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ae53b6db56edefc789aeaf3be1db3839e7707cb",
+      "size": 4423,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2ae53b6db56edefc789aeaf3be1db3839e7707cb"
+    },
+    {
+      "path": "BK Bank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0cac19909e499e577658ecc020b17c5d906cdfca",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/0cac19909e499e577658ecc020b17c5d906cdfca"
+    },
+    {
+      "path": "BK Bank/bkBank-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d99943b21e181c2ba077bfb3a99d958c31288d2f",
+      "size": 2565,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d99943b21e181c2ba077bfb3a99d958c31288d2f"
+    },
+    {
+      "path": "BK Bank/bkBank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71f13bd9f061fbd73773873d089f77264847c08e",
+      "size": 1161,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/71f13bd9f061fbd73773873d089f77264847c08e"
+    },
+    {
+      "path": "BNP Paripas",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "50c0c8c8255d63facc295cb73d0554614d017f32",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/50c0c8c8255d63facc295cb73d0554614d017f32"
+    },
+    {
+      "path": "BNP Paripas/logo-bnp-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "268e82e6e05a3437c6d5147bcd98b3547811330c",
+      "size": 80179,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/268e82e6e05a3437c6d5147bcd98b3547811330c"
+    },
+    {
+      "path": "BNP Paripas/logo-bnp.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b328fec2a6af9723b739c840d07e7d68dfb1cbde",
+      "size": 70922,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b328fec2a6af9723b739c840d07e7d68dfb1cbde"
+    },
+    {
+      "path": "BRB - Banco de Brasilia",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2bdb5afab43e46d9098a57a844451267a3f63a07",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/2bdb5afab43e46d9098a57a844451267a3f63a07"
+    },
+    {
+      "path": "BRB - Banco de Brasilia/brb-logo-abreviado.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23d2c9dea39b4b3048215a0a4b0d5ddaeed4a00e",
+      "size": 18343,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/23d2c9dea39b4b3048215a0a4b0d5ddaeed4a00e"
+    },
+    {
+      "path": "BRB - Banco de Brasilia/brb-logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c0164ed54e7626559df61e4e003a0e28c34b3c5",
+      "size": 14550,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1c0164ed54e7626559df61e4e003a0e28c34b3c5"
+    },
+    {
+      "path": "BRB - Banco de Brasilia/brb-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be9e5230436bbf0340008d1acc81930bc281615d",
+      "size": 5254,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/be9e5230436bbf0340008d1acc81930bc281615d"
+    },
+    {
+      "path": "Banco Arbi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9abdaac0afc9b41a3fcedc136319cddea8c2ea2b",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/9abdaac0afc9b41a3fcedc136319cddea8c2ea2b"
+    },
+    {
+      "path": "Banco Arbi/Banco_Arbi .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7041bdff3524df249b36ac9174ff528ca930c231",
+      "size": 3008,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7041bdff3524df249b36ac9174ff528ca930c231"
+    },
+    {
+      "path": "Banco Arbi/bancoArbi_Nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e5e35e8aa4fd3c45bee5806074312f311466ac4",
+      "size": 7340,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6e5e35e8aa4fd3c45bee5806074312f311466ac4"
+    },
+    {
+      "path": "Banco BMG",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dda3d734594db33ceeaf5723310bc90d28753c6a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/dda3d734594db33ceeaf5723310bc90d28753c6a"
+    },
+    {
+      "path": "Banco BMG/banco-bmg-logo -nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a1f937131686a634bca0a5d3a8ea5aacf607423",
+      "size": 7452,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0a1f937131686a634bca0a5d3a8ea5aacf607423"
+    },
+    {
+      "path": "Banco BMG/banco-bmg-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2084e04022221b620e98a4d47ea0d1fb185aa17d",
+      "size": 2883,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2084e04022221b620e98a4d47ea0d1fb185aa17d"
+    },
+    {
+      "path": "Banco BMP",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e2f8d8b22dbe4b375fb3c35b6dec9bd96bb62c33",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/e2f8d8b22dbe4b375fb3c35b6dec9bd96bb62c33"
+    },
+    {
+      "path": "Banco BMP/logo_bmp.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "523dc094641bee119cad64566791f2be3dbbc9b6",
+      "size": 4473,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/523dc094641bee119cad64566791f2be3dbbc9b6"
+    },
+    {
+      "path": "Banco BS2 S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6cbf84558add8a40a77b28159340718e99982bde",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/6cbf84558add8a40a77b28159340718e99982bde"
+    },
+    {
+      "path": "Banco BS2 S.A/Banco_BS2.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11e17532a4653826ceefcfd9c50afc80362ea914",
+      "size": 3587,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/11e17532a4653826ceefcfd9c50afc80362ea914"
+    },
+    {
+      "path": "Banco BTG Pacutal",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1d61a0992b5859678250a2f61ca65c6ebf6d7a70",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/1d61a0992b5859678250a2f61ca65c6ebf6d7a70"
+    },
+    {
+      "path": "Banco BTG Pacutal/btg-pactual-nome .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5e322655e658276e9c602204c39dbea85d11384",
+      "size": 5876,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a5e322655e658276e9c602204c39dbea85d11384"
+    },
+    {
+      "path": "Banco BTG Pacutal/btg-pactual.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c919886c1e779768e2e85925a820eefdf03e215",
+      "size": 3369,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2c919886c1e779768e2e85925a820eefdf03e215"
+    },
+    {
+      "path": "Banco C6 S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "87816aa149500de82afc58bd1535c6ed03412807",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/87816aa149500de82afc58bd1535c6ed03412807"
+    },
+    {
+      "path": "Banco C6 S.A/c6 bank- branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed39b6ac7a1b46dc45c3dba602a0f4d628463363",
+      "size": 3394,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ed39b6ac7a1b46dc45c3dba602a0f4d628463363"
+    },
+    {
+      "path": "Banco C6 S.A/c6 bank- nome- branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "796f7d16590b72f22be884e1a5c57d4a5ede01bf",
+      "size": 5709,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/796f7d16590b72f22be884e1a5c57d4a5ede01bf"
+    },
+    {
+      "path": "Banco C6 S.A/c6 bank- nome- preto .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46adcc3a55a7c40f7438794d479e6bea1fc7e028",
+      "size": 5696,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/46adcc3a55a7c40f7438794d479e6bea1fc7e028"
+    },
+    {
+      "path": "Banco C6 S.A/c6 bank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d68370d2588b0883f2fc3f0fb5d23682ab97e54e",
+      "size": 3386,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d68370d2588b0883f2fc3f0fb5d23682ab97e54e"
+    },
+    {
+      "path": "Banco Daycoval",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "908c9b7faf17f400f3cd4479e938408136708f58",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/908c9b7faf17f400f3cd4479e938408136708f58"
+    },
+    {
+      "path": "Banco Daycoval/logo-Daycoval- maior.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc947e6f6f25bfbaeb3cae30aca3096c0daf8c68",
+      "size": 2108,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/bc947e6f6f25bfbaeb3cae30aca3096c0daf8c68"
+    },
+    {
+      "path": "Banco Daycoval/logo-Daycoval-com-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8af214575b87948fe1718ad605de2f1a7b2b786c",
+      "size": 2214,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/8af214575b87948fe1718ad605de2f1a7b2b786c"
+    },
+    {
+      "path": "Banco Daycoval/logo-Daycoval.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e9abad19c4a2b2119e55de3147dc7f8088e83dc",
+      "size": 2074,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3e9abad19c4a2b2119e55de3147dc7f8088e83dc"
+    },
+    {
+      "path": "Banco Industrial do Brasil S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6a24cc1e1c98c098681faed7c5302a48ebc460b1",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/6a24cc1e1c98c098681faed7c5302a48ebc460b1"
+    },
+    {
+      "path": "Banco Industrial do Brasil S.A/BIB-logo-azul.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c7de82ed42fa43b1c3e8ef5d7193f8e672e1952",
+      "size": 16540,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/9c7de82ed42fa43b1c3e8ef5d7193f8e672e1952"
+    },
+    {
+      "path": "Banco Industrial do Brasil S.A/BIB-logo-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebdde269a9a90c1110563c244a6e3beaf5a529d9",
+      "size": 31490,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ebdde269a9a90c1110563c244a6e3beaf5a529d9"
+    },
+    {
+      "path": "Banco Industrial do Brasil S.A/BIB-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4369784f999a5026685469c3096bc56516505402",
+      "size": 16518,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/4369784f999a5026685469c3096bc56516505402"
+    },
+    {
+      "path": "Banco Inter S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d0a0d7ffa4ee31e333688140cff2e11997457c08",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/d0a0d7ffa4ee31e333688140cff2e11997457c08"
+    },
+    {
+      "path": "Banco Inter S.A/inter.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79f8ba48431f1050a2bc9d2a5d99988c67929d59",
+      "size": 2200,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/79f8ba48431f1050a2bc9d2a5d99988c67929d59"
+    },
+    {
+      "path": "Banco Mercantil do Brasil S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fb4b51f482e820bcd32674296969cd9490236e17",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/fb4b51f482e820bcd32674296969cd9490236e17"
+    },
+    {
+      "path": "Banco Mercantil do Brasil S.A/banco-mercantil-novo-azul.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79f08d9b2393ae8a3118f4ee0ea4b0ec8e7f3abb",
+      "size": 19792,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/79f08d9b2393ae8a3118f4ee0ea4b0ec8e7f3abb"
+    },
+    {
+      "path": "Banco Mercantil do Brasil S.A/banco-mercantil-novo-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa6e71db56841594137ba7c1853b0c5a3f1cc999",
+      "size": 10640,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/aa6e71db56841594137ba7c1853b0c5a3f1cc999"
+    },
+    {
+      "path": "Banco Mercantil do Brasil S.A/logo_mercantil-nome-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cb9322f27b93a8d161e4cf7c7861149fc7694b1",
+      "size": 11037,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/5cb9322f27b93a8d161e4cf7c7861149fc7694b1"
+    },
+    {
+      "path": "Banco Original S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "068b84cc7470766208d5b9bec0d13d7cd65c4069",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/068b84cc7470766208d5b9bec0d13d7cd65c4069"
+    },
+    {
+      "path": "Banco Original S.A/banco-original-logo-branco-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21d8d30ae2f81386466e248163b5dc73204cfd95",
+      "size": 10131,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/21d8d30ae2f81386466e248163b5dc73204cfd95"
+    },
+    {
+      "path": "Banco Original S.A/banco-original-logo-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "074a86862f35c9d4c2b758d4cf00317466b71c2a",
+      "size": 3144,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/074a86862f35c9d4c2b758d4cf00317466b71c2a"
+    },
+    {
+      "path": "Banco Original S.A/banco-original-logo-verde-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b86767747e6f603a59748f5d730eb32455850062",
+      "size": 10385,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b86767747e6f603a59748f5d730eb32455850062"
+    },
+    {
+      "path": "Banco Original S.A/banco-original-logo-verde.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1715928c9bdfa1292e97ed3c7bb93be33efb3f0",
+      "size": 3772,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a1715928c9bdfa1292e97ed3c7bb93be33efb3f0"
+    },
+    {
+      "path": "Banco Paulista",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d9aa7cdb0a8cb2962c2296287664ec43d27adb8e",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/d9aa7cdb0a8cb2962c2296287664ec43d27adb8e"
+    },
+    {
+      "path": "Banco Paulista/banco-paulista-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "706559b00daeeafbe65381dcd680105180110cb8",
+      "size": 5403,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/706559b00daeeafbe65381dcd680105180110cb8"
+    },
+    {
+      "path": "Banco Paulista/banco-paulista.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7677cb2b88fb08a720b253a0ff1a1bf5b3f39ba9",
+      "size": 5921,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7677cb2b88fb08a720b253a0ff1a1bf5b3f39ba9"
+    },
+    {
+      "path": "Banco Pine",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "60e5d39ff03ff1287cbae46bcc157623c67d800b",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/60e5d39ff03ff1287cbae46bcc157623c67d800b"
+    },
+    {
+      "path": "Banco Pine/banco-pine-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "770bae3ecc7905e8623bb6ec92d0a56b5ce56bba",
+      "size": 5528,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/770bae3ecc7905e8623bb6ec92d0a56b5ce56bba"
+    },
+    {
+      "path": "Banco Pine/banco-pine.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "788d06925f99ef01a2c63a6292bbe1517d774ce4",
+      "size": 2940,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/788d06925f99ef01a2c63a6292bbe1517d774ce4"
+    },
+    {
+      "path": "Banco Rendimento",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b915135c1a3e273b0a93232fa924ad42322b035c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/b915135c1a3e273b0a93232fa924ad42322b035c"
+    },
+    {
+      "path": "Banco Rendimento/banco rendimento logo antiga .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce79e9d0edce45455654e7c2e5d5bc74c4a28189",
+      "size": 2130,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ce79e9d0edce45455654e7c2e5d5bc74c4a28189"
+    },
+    {
+      "path": "Banco Rendimento/banco rendimento logo nova .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af96f5281e0fd7afde021c849508769e652c990f",
+      "size": 3463,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/af96f5281e0fd7afde021c849508769e652c990f"
+    },
+    {
+      "path": "Banco Safra S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ba65a1592be6d4367fb56baa2abd47815314a6ca",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/ba65a1592be6d4367fb56baa2abd47815314a6ca"
+    },
+    {
+      "path": "Banco Safra S.A/logo-safra-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b91dd002f6f2a2ece47c03c6099fd11fa7462b55",
+      "size": 27676,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b91dd002f6f2a2ece47c03c6099fd11fa7462b55"
+    },
+    {
+      "path": "Banco Safra S.A/logo-safra.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11873900d39f80b8bece48be3e5cd20ca0735fb3",
+      "size": 24066,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/11873900d39f80b8bece48be3e5cd20ca0735fb3"
+    },
+    {
+      "path": "Banco Santander Brasil S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "95d5543b463f12343572c863b80d184bcba4673f",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/95d5543b463f12343572c863b80d184bcba4673f"
+    },
+    {
+      "path": "Banco Santander Brasil S.A/banco-santander-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15340119da837fb0751bfc11549fb417eb4d09a3",
+      "size": 2225,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/15340119da837fb0751bfc11549fb417eb4d09a3"
+    },
+    {
+      "path": "Banco Santander Brasil S.A/santander-fundo-vermelho.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e514e9760844cfffc239bd5d8b5f735a235a67ad",
+      "size": 3179,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e514e9760844cfffc239bd5d8b5f735a235a67ad"
+    },
+    {
+      "path": "Banco Sofisa",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6bb720f22fa3495cff7f47add1afac9df9a2074a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/6bb720f22fa3495cff7f47add1afac9df9a2074a"
+    },
+    {
+      "path": "Banco Sofisa/logo-banco-sofisa-verde.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f84115b6f38975b6081f1f5da15cda99fb0df07",
+      "size": 2260,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/8f84115b6f38975b6081f1f5da15cda99fb0df07"
+    },
+    {
+      "path": "Banco Sofisa/logo-banco-sofisa.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f41457336fb1f99b8c3130c5a2d4f8e519f93959",
+      "size": 7661,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/f41457336fb1f99b8c3130c5a2d4f8e519f93959"
+    },
+    {
+      "path": "Banco Sofisa/logo-sofisa-direto.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a98d505e26b9946cdc82fb3fa84977e057544f9b",
+      "size": 10718,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a98d505e26b9946cdc82fb3fa84977e057544f9b"
+    },
+    {
+      "path": "Banco Sofisa/logo-sofisa.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3432513c59609187599c6a9a3147835a007e731",
+      "size": 2201,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c3432513c59609187599c6a9a3147835a007e731"
+    },
+    {
+      "path": "Banco Topazio",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "182d22a0e6b226390a1050eb0eb71870c7103621",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/182d22a0e6b226390a1050eb0eb71870c7103621"
+    },
+    {
+      "path": "Banco Topazio/logo-banco-topazio-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "34a3f11baefac28d1b3cce9c26a348c66a1e276e",
+      "size": 10599,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/34a3f11baefac28d1b3cce9c26a348c66a1e276e"
+    },
+    {
+      "path": "Banco Topazio/logo-banco-topazio.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2802c61583bcb4f01f4dab4bbc2ffee10efbdfa",
+      "size": 2188,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e2802c61583bcb4f01f4dab4bbc2ffee10efbdfa"
+    },
+    {
+      "path": "Banco Triângulo - Tribanco",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5ad09dd85d2ce289c80b6999c8e61257f48e4443",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/5ad09dd85d2ce289c80b6999c8e61257f48e4443"
+    },
+    {
+      "path": "Banco Triângulo - Tribanco/logotribanco-nome-slogan.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d7a467bf8dae445ee7899f19afb87746bf93519",
+      "size": 18943,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7d7a467bf8dae445ee7899f19afb87746bf93519"
+    },
+    {
+      "path": "Banco Triângulo - Tribanco/logotribanco-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "268a0737c3e47c0c8a61308fe6b2055f292fb419",
+      "size": 6064,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/268a0737c3e47c0c8a61308fe6b2055f292fb419"
+    },
+    {
+      "path": "Banco Triângulo - Tribanco/logotribanco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3969ba954e950d527af7269d6bc038186bc4d4b5",
+      "size": 3130,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3969ba954e950d527af7269d6bc038186bc4d4b5"
+    },
+    {
+      "path": "Banco Votorantim",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "baf20b7172d79586e24fa6c1868b53e3226e2004",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/baf20b7172d79586e24fa6c1868b53e3226e2004"
+    },
+    {
+      "path": "Banco Votorantim/banco-bv-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1086eb22da346215bd366abf5ea3e1c2d02bc59c",
+      "size": 90437,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1086eb22da346215bd366abf5ea3e1c2d02bc59c"
+    },
+    {
+      "path": "Banco da Amazônia S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "30b1ceb57f52779c254d2766bfcea9bc921f8edb",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/30b1ceb57f52779c254d2766bfcea9bc921f8edb"
+    },
+    {
+      "path": "Banco da Amazônia S.A/banco-da-amazonia.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19860300957b3c5302846d252c4296b6972f10da",
+      "size": 2209,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/19860300957b3c5302846d252c4296b6972f10da"
+    },
+    {
+      "path": "Banco do Brasil S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4474e79f6c65dc9790edee687180f111a8d3a6a1",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/4474e79f6c65dc9790edee687180f111a8d3a6a1"
+    },
+    {
+      "path": "Banco do Brasil S.A/banco-do-brasil-com-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6d068801c21f86c1620471af23fa900069db9e2",
+      "size": 1884,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d6d068801c21f86c1620471af23fa900069db9e2"
+    },
+    {
+      "path": "Banco do Brasil S.A/banco-do-brasil-sem-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a1b08300302eaa3a44f6442daef7c4b619586e1",
+      "size": 1719,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1a1b08300302eaa3a44f6442daef7c4b619586e1"
+    },
+    {
+      "path": "Banco do Estado do Espirito Santo",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e3a6b4b5fb6f9df25c61fa3ae55e31a33bcc52a9",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/e3a6b4b5fb6f9df25c61fa3ae55e31a33bcc52a9"
+    },
+    {
+      "path": "Banco do Estado do Espirito Santo/banestes-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "506bd803ebc8d73a9d2f7fca9d148d383f3fb9e8",
+      "size": 4126,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/506bd803ebc8d73a9d2f7fca9d148d383f3fb9e8"
+    },
+    {
+      "path": "Banco do Estado do Espirito Santo/banestes.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a996243b4b51b2846a1a7d456af10195dfb49d5",
+      "size": 2045,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3a996243b4b51b2846a1a7d456af10195dfb49d5"
+    },
+    {
+      "path": "Banco do Estado do Para",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "669ec402370102e9ec74f965a222465f429a0d40",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/669ec402370102e9ec74f965a222465f429a0d40"
+    },
+    {
+      "path": "Banco do Estado do Para/Logo_do_Banpará.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7baddb86037ffa7c3a917dafc0e42c7e84b8c52",
+      "size": 11710,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a7baddb86037ffa7c3a917dafc0e42c7e84b8c52"
+    },
+    {
+      "path": "Banco do Estado do Para/banpara-logo-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afeceb2de03b69292dda840c784934a4470d116a",
+      "size": 3185,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/afeceb2de03b69292dda840c784934a4470d116a"
+    },
+    {
+      "path": "Banco do Estado do Para/banpara-logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efe0f935c18ccf9597d2eaad52ccc3c7c2956735",
+      "size": 5428,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/efe0f935c18ccf9597d2eaad52ccc3c7c2956735"
+    },
+    {
+      "path": "Banco do Estado do Para/banpara-logo-sem-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5adc4d35ab6efb9b567e6052cb13e2b27b1a6b25",
+      "size": 3096,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/5adc4d35ab6efb9b567e6052cb13e2b27b1a6b25"
+    },
+    {
+      "path": "Banco do Estado do Sergipe",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7668756155abe5121c48ef9a7165ad2ce0bacc90",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/7668756155abe5121c48ef9a7165ad2ce0bacc90"
+    },
+    {
+      "path": "Banco do Estado do Sergipe/logo banese-nome-horizontal.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d948074a6a789ec5efa433a7465d4838fa6fddd",
+      "size": 12392,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/5d948074a6a789ec5efa433a7465d4838fa6fddd"
+    },
+    {
+      "path": "Banco do Estado do Sergipe/logo banese-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "707f95b65ffbbc31158815e141cc854703ccee92",
+      "size": 12428,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/707f95b65ffbbc31158815e141cc854703ccee92"
+    },
+    {
+      "path": "Banco do Estado do Sergipe/logo banese.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aff68e2b395f251ecc6791b48b6ab4e49be8fcee",
+      "size": 2087,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/aff68e2b395f251ecc6791b48b6ab4e49be8fcee"
+    },
+    {
+      "path": "Banco do Nordeste do Brasil S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c80516624f8e859431f1cb77bb3cfef23cf32890",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/c80516624f8e859431f1cb77bb3cfef23cf32890"
+    },
+    {
+      "path": "Banco do Nordeste do Brasil S.A/Logo_BNB.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "894a165bd8dcbdb227bd9f6a1fa1deda0fda08df",
+      "size": 2539,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/894a165bd8dcbdb227bd9f6a1fa1deda0fda08df"
+    },
+    {
+      "path": "Banco do Nordeste do Brasil S.A/Logo_BNB_nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bd93603dabf122fd9a16c3a75aa873de7f36d57",
+      "size": 9944,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3bd93603dabf122fd9a16c3a75aa873de7f36d57"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "93bdf17256351d2aba7499226c1a0d4740c50fae",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/93bdf17256351d2aba7499226c1a0d4740c50fae"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco btg pacutal",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3ced362dedb487d0f3f442cb4c60fb042ca8300c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/3ced362dedb487d0f3f442cb4c60fb042ca8300c"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco btg pacutal/btg-pactual-nome .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e54015db43a2b555e40d7b684b5e60548419416",
+      "size": 5888,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7e54015db43a2b555e40d7b684b5e60548419416"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco btg pacutal/btg-pactual.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aeb900944b3f2a494efe8ff63122bc8b7cb68a19",
+      "size": 3386,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/aeb900944b3f2a494efe8ff63122bc8b7cb68a19"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco rendimento",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "14faf638241ec4a489c172514bd53da0ef764f58",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/14faf638241ec4a489c172514bd53da0ef764f58"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco rendimento/banco rendimento logo antiga .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ed173c37ea8f64759d3c27c31dc6c566ab9b12b",
+      "size": 2166,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2ed173c37ea8f64759d3c27c31dc6c566ab9b12b"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco rendimento/banco rendimento logo nova .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cff0aba274211a67aa47da44885dce45fba22fd5",
+      "size": 3463,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/cff0aba274211a67aa47da44885dce45fba22fd5"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco safra s.a",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "49940f8c3355284f5ae6bfb90455aa9d1700ba9b",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/49940f8c3355284f5ae6bfb90455aa9d1700ba9b"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco safra s.a/logo-safra-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e3c5af4d84448740858e83d807fbbadad704c28",
+      "size": 27728,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7e3c5af4d84448740858e83d807fbbadad704c28"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/banco safra s.a/logo-safra.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d40ef7a0b476fdebac3f322d11eb9120170b0dc7",
+      "size": 24118,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d40ef7a0b476fdebac3f322d11eb9120170b0dc7"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/bb",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "17a2aff1be417f31ebc22b44d0b2393c61b6ffd5",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/17a2aff1be417f31ebc22b44d0b2393c61b6ffd5"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/bb/banco-do-brasil-com-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6d068801c21f86c1620471af23fa900069db9e2",
+      "size": 1884,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d6d068801c21f86c1620471af23fa900069db9e2"
+    },
+    {
+      "path": "Bancos Escuros (logos negativadas)/bb/banco-do-brasil-sem-fundo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b52d14b44ab5fe85b6556aee42947daaf5224d4",
+      "size": 1815,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3b52d14b44ab5fe85b6556aee42947daaf5224d4"
+    },
+    {
+      "path": "Bank of America",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "680d896c25412d865021b1b46a4ce01257e6f28f",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/680d896c25412d865021b1b46a4ce01257e6f28f"
+    },
+    {
+      "path": "Bank of America/bankofamerica-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a7b748c3c14b241a1fb49e6b5e866080eca76d6",
+      "size": 6788,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2a7b748c3c14b241a1fb49e6b5e866080eca76d6"
+    },
+    {
+      "path": "Banrisul",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a995d2c6ea6e47298ff1e5f758626340dcec9916",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/a995d2c6ea6e47298ff1e5f758626340dcec9916"
+    },
+    {
+      "path": "Banrisul/banrisul-logo-2023.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb5ca9e4a29fa9419690980c7578f76a88e5063c",
+      "size": 7178,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/eb5ca9e4a29fa9419690980c7578f76a88e5063c"
+    },
+    {
+      "path": "Banrisul/banrisul-logo-nome-2023.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e06ce430ee76f60be6a32772d0888ef740a6b32",
+      "size": 11259,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2e06ce430ee76f60be6a32772d0888ef740a6b32"
+    },
+    {
+      "path": "Bees Bank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "679e86db193747786d5e58fd2f9e80f8c5c890fd",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/679e86db193747786d5e58fd2f9e80f8c5c890fd"
+    },
+    {
+      "path": "Bees Bank/BEESBank_Horizontal.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ac6513dc2df400c0dedc3300e315662c4d1d7d0",
+      "size": 6961,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3ac6513dc2df400c0dedc3300e315662c4d1d7d0"
+    },
+    {
+      "path": "Bradesco S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5f1211836a226620fb6b671f3f3e54e2ecf2aa1b",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/5f1211836a226620fb6b671f3f3e54e2ecf2aa1b"
+    },
+    {
+      "path": "Bradesco S.A/bradesco com nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e6e7388b6b3af1ebd3b35c751e6075f49a052bd",
+      "size": 4702,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/9e6e7388b6b3af1ebd3b35c751e6075f49a052bd"
+    },
+    {
+      "path": "Bradesco S.A/bradesco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "004bb5ce320ab1ebc1ae4a46c8885d75b3642c07",
+      "size": 1890,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/004bb5ce320ab1ebc1ae4a46c8885d75b3642c07"
+    },
+    {
+      "path": "Caixa Econômica Federal",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7e8853f4f05b0174e1bf615ca1c4ea8478e71a32",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/7e8853f4f05b0174e1bf615ca1c4ea8478e71a32"
+    },
+    {
+      "path": "Caixa Econômica Federal/caixa-economica-federal-1.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ffe5cf0d6e76043e149e2cf976db251d6ba28be7",
+      "size": 1717,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ffe5cf0d6e76043e149e2cf976db251d6ba28be7"
+    },
+    {
+      "path": "Caixa Econômica Federal/caixa-economica-federal-X.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9a4d89bfbeb16490dc3717cab596441db81b0c2",
+      "size": 1717,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e9a4d89bfbeb16490dc3717cab596441db81b0c2"
+    },
+    {
+      "path": "Capitual",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "90a4fa99c0e0e26ca1f5f53747133a53067d1dc8",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/90a4fa99c0e0e26ca1f5f53747133a53067d1dc8"
+    },
+    {
+      "path": "Capitual/logo capitual.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fc8e14fe2d28b03f8da86e200751096803762ed",
+      "size": 4815,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0fc8e14fe2d28b03f8da86e200751096803762ed"
+    },
+    {
+      "path": "Capitual/logo-capitual-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73d8fbc67b43d44e22641c7da06159cd1aeae533",
+      "size": 9604,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/73d8fbc67b43d44e22641c7da06159cd1aeae533"
+    },
+    {
+      "path": "Conta Simples Soluções em Pagamentos",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b549c6468c6a37827fe5f18e7f15905804e5850c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/b549c6468c6a37827fe5f18e7f15905804e5850c"
+    },
+    {
+      "path": "Conta Simples Soluções em Pagamentos/conta-simples_logo-novo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c4fe55662a191412b6ac7c99fca9d69eb5ce2d6",
+      "size": 7277,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/8c4fe55662a191412b6ac7c99fca9d69eb5ce2d6"
+    },
+    {
+      "path": "Conta Simples Soluções em Pagamentos/conta-simples_logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "280882a1e326e53a912310b78cb15363e8d8fcbe",
+      "size": 2267,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/280882a1e326e53a912310b78cb15363e8d8fcbe"
+    },
+    {
+      "path": "Contbank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "28dd34756721bdaee62dbb2de0a4bd338fccf2f8",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/28dd34756721bdaee62dbb2de0a4bd338fccf2f8"
+    },
+    {
+      "path": "Contbank/logo-contbank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc3fa4717de165b520a868167122a9ec63f677eb",
+      "size": 804,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/bc3fa4717de165b520a868167122a9ec63f677eb"
+    },
+    {
+      "path": "Cora Sociedade Credito Direto S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "898647de86a48c26d5988390e70d2bb348560192",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/898647de86a48c26d5988390e70d2bb348560192"
+    },
+    {
+      "path": "Cora Sociedade Credito Direto S.A/icone-cora-com-fundo-2500px.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ec7524ee1a9edad599719cc4ea501e403e8a3a3",
+      "size": 6274,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6ec7524ee1a9edad599719cc4ea501e403e8a3a3"
+    },
+    {
+      "path": "Cora Sociedade Credito Direto S.A/icone-cora-com-fundo-pequeno.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a142d8a40112cb7670c0bcdb42a0a8fe42f50fe",
+      "size": 6405,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2a142d8a40112cb7670c0bcdb42a0a8fe42f50fe"
+    },
+    {
+      "path": "Cora Sociedade Credito Direto S.A/icone-cora-rosa-2500px.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "091c8d33d5a26db30ea4cfbc90ee297f24fe8053",
+      "size": 2152,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/091c8d33d5a26db30ea4cfbc90ee297f24fe8053"
+    },
+    {
+      "path": "Cora Sociedade Credito Direto S.A/icone-cora-rosa-pequeno.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2599b7c0a2b001a1e30cfc919a8e8ee2b15c9ed8",
+      "size": 1801,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2599b7c0a2b001a1e30cfc919a8e8ee2b15c9ed8"
+    },
+    {
+      "path": "Credisis",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "da07cfda6e3dc954ae1830ea36117a8cd03f8e2a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/da07cfda6e3dc954ae1830ea36117a8cd03f8e2a"
+    },
+    {
+      "path": "Credisis/credisis-nome-completo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8d2eec53be9b5ffc23232b272604d85671c101c",
+      "size": 3198,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c8d2eec53be9b5ffc23232b272604d85671c101c"
+    },
+    {
+      "path": "Credisis/credisis-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e15e9b273613e76c03cf76652a60feb08bef4aea",
+      "size": 2680,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e15e9b273613e76c03cf76652a60feb08bef4aea"
+    },
+    {
+      "path": "Credisis/credisis.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe09ec7901d585bfebc495e6b4a7fb96eb143942",
+      "size": 2176,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/fe09ec7901d585bfebc495e6b4a7fb96eb143942"
+    },
+    {
+      "path": "Cresol",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b2f58d0f8e9ce20125013d66c34fd20acc55b9e2",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/b2f58d0f8e9ce20125013d66c34fd20acc55b9e2"
+    },
+    {
+      "path": "Cresol/Icone-laranja-e-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b21a98f371c1ab15f5d7c2c5a0f239913672221",
+      "size": 2872,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6b21a98f371c1ab15f5d7c2c5a0f239913672221"
+    },
+    {
+      "path": "Cresol/Icone-original.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f8920d1909c2dfa75617dffcee48aeadae3f3d5",
+      "size": 2866,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7f8920d1909c2dfa75617dffcee48aeadae3f3d5"
+    },
+    {
+      "path": "Cresol/Logo-horizontal-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7a20bcb39118d5999e0ef3fb80be2bd01b52850",
+      "size": 6713,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a7a20bcb39118d5999e0ef3fb80be2bd01b52850"
+    },
+    {
+      "path": "Cresol/Logo-horizontal-laranja-e-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5dd4091f4001029ec3fb1af7ee460ba7709ccff1",
+      "size": 6690,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/5dd4091f4001029ec3fb1af7ee460ba7709ccff1"
+    },
+    {
+      "path": "Cresol/Logo-horizontal-original.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a1cb4b0c2d78f678d0f4a4425046db475b72071",
+      "size": 6719,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/8a1cb4b0c2d78f678d0f4a4425046db475b72071"
+    },
+    {
+      "path": "Cresol/Logo-logo-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca3c503b8ed5b5dc51baff5ba43b26e48be554b4",
+      "size": 2939,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ca3c503b8ed5b5dc51baff5ba43b26e48be554b4"
+    },
+    {
+      "path": "Cresol/Logo-vertical-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a490817c342911a33d297bc2e37c52cfbf45716c",
+      "size": 6806,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/a490817c342911a33d297bc2e37c52cfbf45716c"
+    },
+    {
+      "path": "Cresol/Logo-vertical-laranja-e-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "617f81d9509ba0ac8fa35e1658e55fba2ba80951",
+      "size": 6830,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/617f81d9509ba0ac8fa35e1658e55fba2ba80951"
+    },
+    {
+      "path": "Cresol/Logo-vertical-original.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b54acdf2802c0bc8d81b3a98b19652682238da22",
+      "size": 6844,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b54acdf2802c0bc8d81b3a98b19652682238da22"
+    },
+    {
+      "path": "DuePay",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2fc6e6816f468b93bff9ffaeee161806c30dc274",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/2fc6e6816f468b93bff9ffaeee161806c30dc274"
+    },
+    {
+      "path": "DuePay/Duepay.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65038b5448b1fa44d8c42204d14504a07a812ac7",
+      "size": 7007753,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/65038b5448b1fa44d8c42204d14504a07a812ac7"
+    },
+    {
+      "path": "Efí - Gerencianet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "20564c480cc988f1a3fb85878b5ba3102630ec42",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/20564c480cc988f1a3fb85878b5ba3102630ec42"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-branco-nome-bank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08a3f1407db889f7d9b9be62e276102da6d23c6c",
+      "size": 3609,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/08a3f1407db889f7d9b9be62e276102da6d23c6c"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-branco-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8f97cd94896acba3dbbe8b4f00e7302447b9b8d",
+      "size": 2392,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e8f97cd94896acba3dbbe8b4f00e7302447b9b8d"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c53307e6c0fac5e00cc5047021e317952a548160",
+      "size": 1679,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c53307e6c0fac5e00cc5047021e317952a548160"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-laranja-nome-bank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "190528b1cb635f9af35a9b8a3adea32ae481770f",
+      "size": 4537,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/190528b1cb635f9af35a9b8a3adea32ae481770f"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-laranja-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2387556af0d61f496dbf83cbf7e6fc8e0f5b67d",
+      "size": 3184,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b2387556af0d61f496dbf83cbf7e6fc8e0f5b67d"
+    },
+    {
+      "path": "Efí - Gerencianet/logo-efi-bank-laranja.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "642fe4e04fb32fcc986055719788439d036d9e02",
+      "size": 1618,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/642fe4e04fb32fcc986055719788439d036d9e02"
+    },
+    {
+      "path": "Grafeno",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "62b0768a85d0e64fdf7af1d6c53956c4dac8e2fa",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/62b0768a85d0e64fdf7af1d6c53956c4dac8e2fa"
+    },
+    {
+      "path": "Grafeno/grafeno.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c8a298a55fac87f00256a243ea741427b95ef00",
+      "size": 2562,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/9c8a298a55fac87f00256a243ea741427b95ef00"
+    },
+    {
+      "path": "Ifood Pago",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "97444a1c2d8955cd56b3e81867d371ab3e7d4026",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/97444a1c2d8955cd56b3e81867d371ab3e7d4026"
+    },
+    {
+      "path": "Ifood Pago/LOGO-IFOOD-PAGO-BRANCO.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8392f8a56f8688bf4fbc7741decc86e88a0a14f",
+      "size": 5347,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c8392f8a56f8688bf4fbc7741decc86e88a0a14f"
+    },
+    {
+      "path": "InfinitePay",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d2635a95ac9aeba0caf05fb632a27f778b4b6cdf",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/d2635a95ac9aeba0caf05fb632a27f778b4b6cdf"
+    },
+    {
+      "path": "InfinitePay/InfinitePay-Nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46ff3cb88ccfeb43bf968d8f8e9bc8637562b43f",
+      "size": 3830,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/46ff3cb88ccfeb43bf968d8f8e9bc8637562b43f"
+    },
+    {
+      "path": "InfinitePay/InfitePay.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0140c49afcc6aeed7eeda7faad3a2d48ec4be6e0",
+      "size": 1150,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0140c49afcc6aeed7eeda7faad3a2d48ec4be6e0"
+    },
+    {
+      "path": "Ip4y",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dc15bf27cbbf4c9774161957b05d56c962c3f760",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/dc15bf27cbbf4c9774161957b05d56c962c3f760"
+    },
+    {
+      "path": "Ip4y/Ip4y-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b24c7431de17932f60c34772803bb3e8981f0eb",
+      "size": 16213,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6b24c7431de17932f60c34772803bb3e8981f0eb"
+    },
+    {
+      "path": "Ip4y/conta-ip.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e11d62d4277c16572bdf6ed04d2735de4c8a0f8f",
+      "size": 2518,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e11d62d4277c16572bdf6ed04d2735de4c8a0f8f"
+    },
+    {
+      "path": "Ip4y/logo-blue.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb1bd9914a48cc234d9ad4736935dba941b98d0f",
+      "size": 1294,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/cb1bd9914a48cc234d9ad4736935dba941b98d0f"
+    },
+    {
+      "path": "Itaú Unibanco S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aeafd20214f4c9b5e6300a9d05bc090c30a0c8d5",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/aeafd20214f4c9b5e6300a9d05bc090c30a0c8d5"
+    },
+    {
+      "path": "Itaú Unibanco S.A/itau-2-laranja.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49c504cd0e8f25de8a7cb023379e395ad4a052a7",
+      "size": 2933,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/49c504cd0e8f25de8a7cb023379e395ad4a052a7"
+    },
+    {
+      "path": "Itaú Unibanco S.A/itau-fundo-azul.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a4314e97198bdb57530ceeee8cebfd13abb468b",
+      "size": 2882,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0a4314e97198bdb57530ceeee8cebfd13abb468b"
+    },
+    {
+      "path": "Itaú Unibanco S.A/itau-preto.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "747cf534d1645aa961d45d03a692e4d3b9f8fe2e",
+      "size": 2539,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/747cf534d1645aa961d45d03a692e4d3b9f8fe2e"
+    },
+    {
+      "path": "Itaú Unibanco S.A/itau.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70d09c5fa37558f31f3e193f3dcdd8c12f533350",
+      "size": 1609,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/70d09c5fa37558f31f3e193f3dcdd8c12f533350"
+    },
+    {
+      "path": "Itaú Unibanco S.A/logo-nova-letras-brancas.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb78a38a6be4919169642c6acfee37fa4cbac37c",
+      "size": 90590,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/eb78a38a6be4919169642c6acfee37fa4cbac37c"
+    },
+    {
+      "path": "Itaú Unibanco S.A/logo-nova-letras-transparentes.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c243fa80db7e5a72524f39a54baf95825fd64e91",
+      "size": 84600,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c243fa80db7e5a72524f39a54baf95825fd64e91"
+    },
+    {
+      "path": "Iugo",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "eeee0a302fd1044015a8fea2ac6fcfa943bf6edb",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/eeee0a302fd1044015a8fea2ac6fcfa943bf6edb"
+    },
+    {
+      "path": "Iugo/Iugo-NOME.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58f7bac3fe95086e9a4580a6c3161684acbe59e9",
+      "size": 3654,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/58f7bac3fe95086e9a4580a6c3161684acbe59e9"
+    },
+    {
+      "path": "Iugo/Iugo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02eeab8fff0866ae6200e63211915e8449a3cf7e",
+      "size": 1909,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/02eeab8fff0866ae6200e63211915e8449a3cf7e"
+    },
+    {
+      "path": "Lets Bank S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9596bec6069bb075de98648483d867cfe4b90f2a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/9596bec6069bb075de98648483d867cfe4b90f2a"
+    },
+    {
+      "path": "Lets Bank S.A/Logo Letsbank Negativo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d62b0f2d9ba45b1c831a3adb697d3826e941776a",
+      "size": 5160,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d62b0f2d9ba45b1c831a3adb697d3826e941776a"
+    },
+    {
+      "path": "Lets Bank S.A/Logo Letsbank- nome .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e16e5483a5a962cc3f6b9a088cff9dc7b775637",
+      "size": 5382,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/7e16e5483a5a962cc3f6b9a088cff9dc7b775637"
+    },
+    {
+      "path": "Lets Bank S.A/Logo Letsbank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fd190fab1ce913640de46064455866e81a8a8b0",
+      "size": 1976,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1fd190fab1ce913640de46064455866e81a8a8b0"
+    },
+    {
+      "path": "Linker",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1855a9d56eccce880e77c9d42a04702c785e8660",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/1855a9d56eccce880e77c9d42a04702c785e8660"
+    },
+    {
+      "path": "Linker/logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e6fcd4ab1d467046199814a10ac94b4f8c618f6",
+      "size": 1567,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0e6fcd4ab1d467046199814a10ac94b4f8c618f6"
+    },
+    {
+      "path": "Linker/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db5df5a5bda4a068a3320d48c73dcb02e0c0720e",
+      "size": 537,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/db5df5a5bda4a068a3320d48c73dcb02e0c0720e"
+    },
+    {
+      "path": "MUFG",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c6df4ead27aad11fa2f9e74cdf84145ca4a5963f",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/c6df4ead27aad11fa2f9e74cdf84145ca4a5963f"
+    },
+    {
+      "path": "MUFG/mufg-seeklogo-NOME.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99b78532aabcac4c7567a263547298c67ca8fed0",
+      "size": 2051,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/99b78532aabcac4c7567a263547298c67ca8fed0"
+    },
+    {
+      "path": "MUFG/mufg-seeklogo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72c67da422dea6e060851734f61b5632c111d1a0",
+      "size": 974,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/72c67da422dea6e060851734f61b5632c111d1a0"
+    },
+    {
+      "path": "MagaluPay",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e3e0389cd8e630d5b8ce8cb32b2e9b26ba3766f6",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/e3e0389cd8e630d5b8ce8cb32b2e9b26ba3766f6"
+    },
+    {
+      "path": "MagaluPay/logo-magalupay.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4fac24dd85385509a89a65853de3b16c9009332",
+      "size": 5265,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e4fac24dd85385509a89a65853de3b16c9009332"
+    },
+    {
+      "path": "MagaluPay/logo-magalupay_white.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "171ce9bd709dc5566c01160c4cd42274f7d45718",
+      "size": 5221,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/171ce9bd709dc5566c01160c4cd42274f7d45718"
+    },
+    {
+      "path": "Mercado Pago",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e5d1c12f746a49d5982b95311885f17cc5fa7983",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/e5d1c12f746a49d5982b95311885f17cc5fa7983"
+    },
+    {
+      "path": "Mercado Pago/mercado-pago-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c60090ab526c2ab22259eaa1c296a89f20c4f86c",
+      "size": 15121,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c60090ab526c2ab22259eaa1c296a89f20c4f86c"
+    },
+    {
+      "path": "Mercado Pago/mercado-pago.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc63d2204b30b1c154bf000c00c5557d76825353",
+      "size": 9223,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/fc63d2204b30b1c154bf000c00c5557d76825353"
+    },
+    {
+      "path": "ModoBank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f387458004daf418035db8902fb7fe136d8eed54",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/f387458004daf418035db8902fb7fe136d8eed54"
+    },
+    {
+      "path": "ModoBank/logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fa15933d2065911607204cf482c0e9104452945",
+      "size": 4020,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/5fa15933d2065911607204cf482c0e9104452945"
+    },
+    {
+      "path": "ModoBank/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df656dc38a325419f97d0fca7131231b19de5574",
+      "size": 816,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/df656dc38a325419f97d0fca7131231b19de5574"
+    },
+    {
+      "path": "Multiplo Bank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "17c907b2054ec7e6f7ef3c1fdd137934bb4751ac",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/17c907b2054ec7e6f7ef3c1fdd137934bb4751ac"
+    },
+    {
+      "path": "Multiplo Bank/logotipo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b8f89c35ff489334922c81a726b88e3b728b71a",
+      "size": 4361,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/8b8f89c35ff489334922c81a726b88e3b728b71a"
+    },
+    {
+      "path": "Multiplo Bank/logotipo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6227ea22eca947183d0c9aff408e8183671670fc",
+      "size": 1766,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6227ea22eca947183d0c9aff408e8183671670fc"
+    },
+    {
+      "path": "Neon",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e01607f6edd144da177d2f205e19f007be32a347",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/e01607f6edd144da177d2f205e19f007be32a347"
+    },
+    {
+      "path": "Neon/header-logo-neon.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22ad2294705c2ede1140fd340244bf21da003be7",
+      "size": 2602,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/22ad2294705c2ede1140fd340244bf21da003be7"
+    },
+    {
+      "path": "Nu Pagamentos S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "400fec8016d44404856d54752bcb5baa9ee7d6fc",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/400fec8016d44404856d54752bcb5baa9ee7d6fc"
+    },
+    {
+      "path": "Nu Pagamentos S.A/nubank-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f95c58ece3dc1f7182e7f591234b0c722461586",
+      "size": 2804,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3f95c58ece3dc1f7182e7f591234b0c722461586"
+    },
+    {
+      "path": "Nu Pagamentos S.A/nubank-logo-2021.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6613fcae7899ebe6dd2ea82aae7fe957650350ec",
+      "size": 6720,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6613fcae7899ebe6dd2ea82aae7fe957650350ec"
+    },
+    {
+      "path": "Nu Pagamentos S.A/nubank-logo-fundo-roxo2021.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56e051aa07f617d10ee67316c62ed52b8f7a4aa0",
+      "size": 6721,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/56e051aa07f617d10ee67316c62ed52b8f7a4aa0"
+    },
+    {
+      "path": "Omie.Cash",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ddb29117b35f33e484bfd3f4005d892841c6af0a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/ddb29117b35f33e484bfd3f4005d892841c6af0a"
+    },
+    {
+      "path": "Omie.Cash/omie-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad75ed7c621faefc433722f19f6bbdbf3f7958c5",
+      "size": 4315,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ad75ed7c621faefc433722f19f6bbdbf3f7958c5"
+    },
+    {
+      "path": "Omie.Cash/omie.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61550981ecf19406a13bbc3d0c229ead77ed6897",
+      "size": 1892,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/61550981ecf19406a13bbc3d0c229ead77ed6897"
+    },
+    {
+      "path": "Omni",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aec04ce1cefa8d4972af86c2dabde00265867d2b",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/aec04ce1cefa8d4972af86c2dabde00265867d2b"
+    },
+    {
+      "path": "Omni/logo-omni.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14e91c2e5f7af511fbbd28cee8d778bb512f2bc1",
+      "size": 7118,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/14e91c2e5f7af511fbbd28cee8d778bb512f2bc1"
+    },
+    {
+      "path": "PagSeguro Internet S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "549c68d823f9ba7560a7730ce32e6f9d74cc7336",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/549c68d823f9ba7560a7730ce32e6f9d74cc7336"
+    },
+    {
+      "path": "PagSeguro Internet S.A/logo-pagbank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dca718ec24c31647bf7ec0def8c0a1097deece1",
+      "size": 6513,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/1dca718ec24c31647bf7ec0def8c0a1097deece1"
+    },
+    {
+      "path": "PagSeguro Internet S.A/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1a6fe3768809dd3de59e679af6bcba6fcf9b6d7",
+      "size": 3237,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b1a6fe3768809dd3de59e679af6bcba6fcf9b6d7"
+    },
+    {
+      "path": "PagSeguro Internet S.A/pagseguro.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74ea3432c876608c5cf0dd560f8dc3880014278b",
+      "size": 8287,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/74ea3432c876608c5cf0dd560f8dc3880014278b"
+    },
+    {
+      "path": "PayCash",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "31121d16d6eeccbcf9f186d5ee58dbb0b265ae65",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/31121d16d6eeccbcf9f186d5ee58dbb0b265ae65"
+    },
+    {
+      "path": "PayCash/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71360e4ccafce92e2f67fd6db95c060317331993",
+      "size": 8005,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/71360e4ccafce92e2f67fd6db95c060317331993"
+    },
+    {
+      "path": "PicPay",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3d7b69e8f6ec0c8903f45a4d4c500cbdd7eee91c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/3d7b69e8f6ec0c8903f45a4d4c500cbdd7eee91c"
+    },
+    {
+      "path": "PicPay/Logo-PicPay -nome .svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d29edf1105e047e1b7e7cb509d599f14fd68222b",
+      "size": 1813,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d29edf1105e047e1b7e7cb509d599f14fd68222b"
+    },
+    {
+      "path": "PicPay/Logo-PicPay.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "364064379c204d24902f01fef4ddd8d396eca5f8",
+      "size": 697,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/364064379c204d24902f01fef4ddd8d396eca5f8"
+    },
+    {
+      "path": "PinBank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "57fa39712ebd0830bb8e2feefb799d3e3ae04752",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/57fa39712ebd0830bb8e2feefb799d3e3ae04752"
+    },
+    {
+      "path": "PinBank/pinBank.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1ea6a0acc0dfd5c85b5494e09361e5aec47e1e4",
+      "size": 2770,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b1ea6a0acc0dfd5c85b5494e09361e5aec47e1e4"
+    },
+    {
+      "path": "Quality Digital Bank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ce17485d76e9b895595fe02aaf7ade2279881e4d",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/ce17485d76e9b895595fe02aaf7ade2279881e4d"
+    },
+    {
+      "path": "Quality Digital Bank/quality-logo-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "980ecdea33a3a61868e9486507bbba80d1216d01",
+      "size": 10641,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/980ecdea33a3a61868e9486507bbba80d1216d01"
+    },
+    {
+      "path": "Quality Digital Bank/quality-logo-cinza.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00225f7036fdef724a2e7e03043a4ba2fb90b95e",
+      "size": 6248,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/00225f7036fdef724a2e7e03043a4ba2fb90b95e"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75e990c02131b4ed28671993f4514d04665f6379",
+      "size": 7486,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/75e990c02131b4ed28671993f4514d04665f6379"
+    },
+    {
+      "path": "RecargaPay",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3112e3283ec1e6533a447889d6a3cc7b121c4be0",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/3112e3283ec1e6533a447889d6a3cc7b121c4be0"
+    },
+    {
+      "path": "RecargaPay/RecargaPay-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7b72c0fa1d2d1e64919cfad8e19525f67faee82",
+      "size": 10532,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c7b72c0fa1d2d1e64919cfad8e19525f67faee82"
+    },
+    {
+      "path": "RecargaPay/RecargaPay.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3550383ffc032e534623dbc68876438e6fd20f63",
+      "size": 3027,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3550383ffc032e534623dbc68876438e6fd20f63"
+    },
+    {
+      "path": "Sicoob",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8b412af7326a2ffbecfc69173fc5f4df0d589b79",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/8b412af7326a2ffbecfc69173fc5f4df0d589b79"
+    },
+    {
+      "path": "Sicoob/sicoob-minimalista-com.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac2032541a661450dd9660d18c40b8d8a6836a3d",
+      "size": 2092,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ac2032541a661450dd9660d18c40b8d8a6836a3d"
+    },
+    {
+      "path": "Sicoob/sicoob-vector-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ffe41f36744bef5547e7b9ef223c6ef2993a3ab9",
+      "size": 3050,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ffe41f36744bef5547e7b9ef223c6ef2993a3ab9"
+    },
+    {
+      "path": "Sicredi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4492bcd5726dab4bf04f177c85ef448381e076c2",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/4492bcd5726dab4bf04f177c85ef448381e076c2"
+    },
+    {
+      "path": "Sicredi/logo-sicred-preto.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4858b511c0a9bbecca03ae4cd95cb93d0374c538",
+      "size": 5594,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/4858b511c0a9bbecca03ae4cd95cb93d0374c538"
+    },
+    {
+      "path": "Sicredi/logo-svg2.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d3c017695cb726d7aa968a87503df21e08a7a37",
+      "size": 4503,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/2d3c017695cb726d7aa968a87503df21e08a7a37"
+    },
+    {
+      "path": "Sisprime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "809703551fd51603169de4b80ebbb165f4bdfa75",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/809703551fd51603169de4b80ebbb165f4bdfa75"
+    },
+    {
+      "path": "Sisprime/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81d71516e9b502f1dc409ebcb63a1d6910c9de01",
+      "size": 5449,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/81d71516e9b502f1dc409ebcb63a1d6910c9de01"
+    },
+    {
+      "path": "Squid Soluções Financeiras",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f25cb9682e6ecba03cb02099ade3eefbbf651af9",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/f25cb9682e6ecba03cb02099ade3eefbbf651af9"
+    },
+    {
+      "path": "Squid Soluções Financeiras/logo-lettering-rosa.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bfdc680502b1dbbdbdde62ace37b4ff6c9dfc2c",
+      "size": 17892,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/3bfdc680502b1dbbdbdde62ace37b4ff6c9dfc2c"
+    },
+    {
+      "path": "Squid Soluções Financeiras/logo-lettering.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca0412ae50f2bb1c7514c732c29c54e52347d8d1",
+      "size": 17899,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/ca0412ae50f2bb1c7514c732c29c54e52347d8d1"
+    },
+    {
+      "path": "Squid Soluções Financeiras/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ef046206d93f73ef03dcae8eb07d9f0f3f5b9c7",
+      "size": 6429,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/4ef046206d93f73ef03dcae8eb07d9f0f3f5b9c7"
+    },
+    {
+      "path": "StarBank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "231810545c5327bef370445893b0e360b09ecd48",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/231810545c5327bef370445893b0e360b09ecd48"
+    },
+    {
+      "path": "StarBank/logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "086742eedebe5bb5fc564004aebe2857f8c7f99a",
+      "size": 7182,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/086742eedebe5bb5fc564004aebe2857f8c7f99a"
+    },
+    {
+      "path": "StarBank/logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "174be81c22c13103c2641dc1ceb1a05b144da051",
+      "size": 1058,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/174be81c22c13103c2641dc1ceb1a05b144da051"
+    },
+    {
+      "path": "Stone Pagamentos S.A",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c1b02eb675f3d237d574db7d5d37ea7e5e91affd",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/c1b02eb675f3d237d574db7d5d37ea7e5e91affd"
+    },
+    {
+      "path": "Stone Pagamentos S.A/stone-branco.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bf60ed5d0a753dbb14a9b8b93d8282c89152c8e",
+      "size": 5466,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0bf60ed5d0a753dbb14a9b8b93d8282c89152c8e"
+    },
+    {
+      "path": "Stone Pagamentos S.A/stone-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3f467d741f7b4d57356adcb2dfc20a69fa49167",
+      "size": 4609,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b3f467d741f7b4d57356adcb2dfc20a69fa49167"
+    },
+    {
+      "path": "Stone Pagamentos S.A/stone.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "713c62600504af89a4d5c802b808eaacb1882a1d",
+      "size": 5487,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/713c62600504af89a4d5c802b808eaacb1882a1d"
+    },
+    {
+      "path": "Sulcredi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "020f1057d112846c6f702ef2f389c0f26472745c",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/020f1057d112846c6f702ef2f389c0f26472745c"
+    },
+    {
+      "path": "Sulcredi/Logo-30anos.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e26ca6408efda03ca8d09bb7fd94760e89d775dd",
+      "size": 30904,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/e26ca6408efda03ca8d09bb7fd94760e89d775dd"
+    },
+    {
+      "path": "Sulcredi/Logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20c6799333ae6d9fcda108c53857c07da165d174",
+      "size": 8578,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/20c6799333ae6d9fcda108c53857c07da165d174"
+    },
+    {
+      "path": "Sulcredi/marca.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0c8a990765947b474c913dc35a3e1e76aef4d0a",
+      "size": 5021,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/f0c8a990765947b474c913dc35a3e1e76aef4d0a"
+    },
+    {
+      "path": "Transfera",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "eab0160e929c20eb4befa3e84e6fac73a4f7137f",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/eab0160e929c20eb4befa3e84e6fac73a4f7137f"
+    },
+    {
+      "path": "Transfera/transfeera-logo-verde-nova-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c259a898f04af926c67e65832766be368b02df93",
+      "size": 11119,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/c259a898f04af926c67e65832766be368b02df93"
+    },
+    {
+      "path": "Transfera/transfeera-logo-verde-nova.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ae586e1429d26a81eb1c73f12089e024749f6e1",
+      "size": 2761,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6ae586e1429d26a81eb1c73f12089e024749f6e1"
+    },
+    {
+      "path": "Unicred",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "00f7aa9590112383d29f896782ca655f8ed04bfb",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/00f7aa9590112383d29f896782ca655f8ed04bfb"
+    },
+    {
+      "path": "Unicred/unicred-centralizada.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a39409c2eb72f29d4e76cbb1f468c7d780d9745",
+      "size": 3594,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0a39409c2eb72f29d4e76cbb1f468c7d780d9745"
+    },
+    {
+      "path": "Unicred/verde.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d0fbab050bd57aec897d8b4fac5dfd7fec946c7",
+      "size": 3806,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/6d0fbab050bd57aec897d8b4fac5dfd7fec946c7"
+    },
+    {
+      "path": "Uniprime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6e062b59a2b6543f7aec791bdd3b20f6c747433a",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/6e062b59a2b6543f7aec791bdd3b20f6c747433a"
+    },
+    {
+      "path": "Uniprime/uniprime.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03334ec97ecee419a187323016b6c157c026234d",
+      "size": 32075,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/03334ec97ecee419a187323016b6c157c026234d"
+    },
+    {
+      "path": "XP Investimentos",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "95655a3a8a2237dbd4ac4b515bddf577dbea47de",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/95655a3a8a2237dbd4ac4b515bddf577dbea47de"
+    },
+    {
+      "path": "XP Investimentos/xp-investimentos-logo-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b29a5e81ba4c82e8b39ff8239576ce0f87c6607",
+      "size": 8743,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/0b29a5e81ba4c82e8b39ff8239576ce0f87c6607"
+    },
+    {
+      "path": "XP Investimentos/xp-investimentos-logo.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d51ffee59dc5f0a12304dbfbce0c64db7ce09301",
+      "size": 2603,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/d51ffee59dc5f0a12304dbfbce0c64db7ce09301"
+    },
+    {
+      "path": "Zemo Bank",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cc20b99ba18481b9f9db37b572c9d8b5a7a360a8",
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/trees/cc20b99ba18481b9f9db37b572c9d8b5a7a360a8"
+    },
+    {
+      "path": "Zemo Bank/logowhite-nome.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc9e8e470a0066091ed1deaa39a66bd06be03388",
+      "size": 4064,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/bc9e8e470a0066091ed1deaa39a66bd06be03388"
+    },
+    {
+      "path": "Zemo Bank/logowhite.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b17dfd2a5525f23b6f9f1bd33f642f4348ced37f",
+      "size": 639,
+      "url": "https://api.github.com/repos/Tgentil/Bancos-em-SVG/git/blobs/b17dfd2a5525f23b6f9f1bd33f642f4348ced37f"
+    }
+  ],
+  "truncated": false
+}

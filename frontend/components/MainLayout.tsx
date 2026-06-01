@@ -15,71 +15,38 @@ export default function MainLayout({ children }: MainLayoutProps) {
       style={{
         margin: 0,
         padding: 0,
-        background: isDark
-          ? "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
-          : "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)",
+        // Base lisa igual à landing: bg-gray-50 (claro) / slate-950 (escuro).
+        background: isDark ? "#020617" : "#f9fafb",
         WebkitOverflowScrolling: "touch",
         scrollBehavior: "smooth",
       }}
     >
-      {/* Animated Background Elements - Responsivo */}
+      {/* Mesh ambiente da marca (navy + verde) — coerente com a landing.
+          Glows estáticos: só fazem fade-in no mount, sem animação perpétua
+          (o `float infinite` repintava áreas blur-3xl gigantes a cada frame). */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Large gradient orbs - Responsivo */}
+        {/* Glow verde (canto superior direito) */}
         <div
-          className={`absolute -top-10 sm:-top-20 -right-10 sm:-right-20 w-48 h-48 sm:w-96 sm:h-96 bg-gradient-to-br from-emerald-500/20 to-green-400/10 rounded-full blur-xl transition-all duration-[4000ms] ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
+          className={`absolute -top-32 sm:-top-40 -right-16 sm:-right-[10%] w-[420px] h-[420px] sm:w-[640px] sm:h-[640px] rounded-full blur-3xl transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.10),transparent_62%)] ${
+            mounted ? "opacity-100" : "opacity-0"
           }`}
-          style={{
-            animation: mounted ? "float 12s ease-in-out infinite" : "none",
-          }}
         />
+        {/* Glow navy (canto inferior esquerdo) */}
         <div
-          className={`absolute -bottom-16 sm:-bottom-32 -left-16 sm:-left-32 w-40 h-40 sm:w-80 sm:h-80 bg-gradient-to-tr from-blue-600/20 to-indigo-500/10 rounded-full blur-xl transition-all duration-[4000ms] delay-1000 ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
+          className={`absolute -bottom-28 sm:-bottom-32 -left-16 sm:-left-[10%] w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full blur-3xl transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,rgba(0,51,102,0.10),transparent_60%)] dark:bg-[radial-gradient(circle_at_center,rgba(0,102,153,0.18),transparent_60%)] ${
+            mounted ? "opacity-100" : "opacity-0"
           }`}
-          style={{
-            animation: mounted
-              ? "float 10s ease-in-out infinite reverse"
-              : "none",
-          }}
         />
+        {/* Glow verde suave (centro) */}
         <div
-          className={`absolute top-1/2 left-1/4 w-32 h-32 sm:w-64 sm:h-64 bg-gradient-to-bl from-emerald-400/15 to-teal-500/5 rounded-full blur-2xl transition-all duration-[4000ms] delay-2000 ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-50"
-          }`}
-          style={{
-            animation: mounted ? "float 8s ease-in-out infinite" : "none",
-          }}
-        />
-
-        {/* Grid pattern overlay - Responsivo */}
-        <div
-          className={`absolute inset-0 transition-all duration-500 ${
-            isDark
-              ? "bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:40px_40px]"
-              : "bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:40px_40px]"
+          className={`absolute top-1/2 left-1/4 w-[260px] h-[260px] sm:w-[420px] sm:h-[420px] rounded-full blur-3xl transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.08),transparent_65%)] dark:bg-[radial-gradient(circle_at_center,rgba(0,204,102,0.06),transparent_65%)] ${
+            mounted ? "opacity-100" : "opacity-0"
           }`}
         />
       </div>
 
       {/* Content - com z-index que não interfere com dropdowns */}
       <div className="relative z-0 min-h-screen w-full">{children}</div>
-
-      {/* Floating animation styles */}
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          33% {
-            transform: translateY(-20px) rotate(1deg);
-          }
-          66% {
-            transform: translateY(-10px) rotate(-1deg);
-          }
-        }
-      `}</style>
     </div>
   );
 }

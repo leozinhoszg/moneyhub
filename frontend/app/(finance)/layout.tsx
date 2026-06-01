@@ -4,10 +4,11 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import MobileNavbar from "@/components/MobileNavbar";
 import MainLayout from "@/components/MainLayout";
+import SplashScreen from "@/components/SplashScreen";
 import NotificationPanel, {
   Notification,
 } from "@/components/NotificationPanel";
-import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   CardManagerProvider,
   useCardManager,
@@ -178,16 +179,7 @@ function FinanceLayoutContent({ children }: { children: React.ReactNode }) {
   const isDashboard = pathname === "/dashboard";
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center p-4">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Carregando...
-          </p>
-        </div>
-      </div>
-    );
+    return <SplashScreen message="Autenticando…" />;
   }
 
   return (
@@ -216,7 +208,7 @@ function FinanceLayoutContent({ children }: { children: React.ReactNode }) {
         className="w-full min-h-screen relative z-0 px-2 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6"
         style={{
           fontFamily: "Open Sans, sans-serif",
-          paddingTop: "calc(4rem + env(safe-area-inset-top))", // Considerando altura da navbar + safe area
+          paddingTop: "calc(4.75rem + env(safe-area-inset-top))", // navbar flutuante + folga + safe area
           paddingBottom: "env(safe-area-inset-bottom)",
           paddingLeft: "max(0.5rem, env(safe-area-inset-left))",
           paddingRight: "max(0.5rem, env(safe-area-inset-right))",
@@ -233,11 +225,11 @@ export default function FinanceLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // AuthProvider já é fornecido pelo root layout (app/layout.tsx); aqui só
+  // adicionamos o CardManagerProvider para não duplicar a inicialização de auth.
   return (
-    <AuthProvider>
-      <CardManagerProvider>
-        <FinanceLayoutContent>{children}</FinanceLayoutContent>
-      </CardManagerProvider>
-    </AuthProvider>
+    <CardManagerProvider>
+      <FinanceLayoutContent>{children}</FinanceLayoutContent>
+    </CardManagerProvider>
   );
 }

@@ -68,3 +68,7 @@ uploads/
 *.md
 !/README.md
 
+
+# Clone do repo de logos de bancos (fonte dos SVGs em frontend/public/banks/).
+# Regerar com: frontend/scripts/download-bank-logos.ps1
+/Bancos-em-SVG/

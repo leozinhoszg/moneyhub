@@ -1,6 +1,5 @@
 "use client";
 
-import { useTheme } from "@/contexts/ThemeContext";
 import {
   X,
   Bell,
@@ -8,7 +7,11 @@ import {
   AlertTriangle,
   TrendingDown,
   CheckCheck,
+  type LucideIcon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { fontHeading, fontBody, fontMono } from "@/lib/motion";
+import { glassSurface, chipTone } from "@/components/finance/glass";
 
 export interface Notification {
   id: string;
@@ -38,18 +41,15 @@ function getRelativeTime(dateStr: string): string {
   return date.toLocaleDateString("pt-BR");
 }
 
-function getNotificationIcon(tipo: Notification["tipo"]) {
-  switch (tipo) {
-    case "vencimento":
-      return <Calendar className="w-5 h-5 text-amber-500" />;
-    case "limite_orcamento":
-      return <AlertTriangle className="w-5 h-5 text-orange-500" />;
-    case "saldo_negativo":
-      return <TrendingDown className="w-5 h-5 text-red-500" />;
-    default:
-      return <Bell className="w-5 h-5 text-blue-500" />;
-  }
-}
+// Ícone + tom da marca por tipo (mesmos chips do dashboard)
+const TYPE_META: Record<
+  Notification["tipo"],
+  { icon: LucideIcon; tone: "warning" | "danger" }
+> = {
+  vencimento: { icon: Calendar, tone: "warning" },
+  limite_orcamento: { icon: AlertTriangle, tone: "warning" },
+  saldo_negativo: { icon: TrendingDown, tone: "danger" },
+};
 
 export default function NotificationPanel({
   isOpen,
@@ -57,198 +57,155 @@ export default function NotificationPanel({
   notifications,
   onMarkAllRead,
 }: NotificationPanelProps) {
-  const { isDark } = useTheme();
-
   const unreadCount = notifications.filter((n) => !n.lida).length;
 
   return (
     <>
-      {/* Backdrop overlay */}
+      {/* Backdrop (dim leve, sem blur) */}
       <div
-        className={`fixed inset-0 z-[59] bg-black/30 transition-opacity duration-300 ${
+        className={cn(
+          "fixed inset-0 z-[59] bg-black/20 transition-opacity duration-300",
           isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        )}
         onClick={onClose}
+        aria-hidden
       />
 
-      {/* Slide-in panel */}
+      {/* Painel — mesmo fundo do dashboard (gray-50 / slate-950) */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 sm:w-96 z-[60] transform transition-transform duration-300 ease-in-out ${
+        className={cn(
+          "fixed right-0 top-0 z-[60] flex h-full w-[88%] max-w-md flex-col border-l border-gray-200/70 bg-gray-50 shadow-[0_20px_60px_-20px_rgba(0,51,102,0.4)] transition-transform duration-300 ease-in-out dark:border-slate-800 dark:bg-slate-950",
           isOpen ? "translate-x-0" : "translate-x-full"
-        } ${
-          isDark
-            ? "bg-slate-800 border-l border-slate-700/50"
-            : "bg-white border-l border-slate-200/50"
-        } shadow-2xl flex flex-col`}
+        )}
+        role="dialog"
+        aria-label="Notificações"
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-between px-4 py-4 border-b ${
-            isDark ? "border-slate-700/50" : "border-slate-200"
-          }`}
+          className="flex items-center justify-between gap-3 border-b border-gray-200/60 px-5 py-4 dark:border-slate-800"
           style={{ paddingTop: "calc(1rem + env(safe-area-inset-top))" }}
         >
-          <div className="flex items-center space-x-2">
-            <Bell
-              className={`w-5 h-5 ${
-                isDark ? "text-emerald-400" : "text-emerald-600"
-              }`}
-            />
-            <h2
-              className={`text-lg font-semibold ${
-                isDark ? "text-white" : "text-gray-900"
-              }`}
-              style={{
-                fontFamily: "var(--font-primary, Montserrat, sans-serif)",
-              }}
-            >
-              Notificacoes
-            </h2>
-            {unreadCount > 0 && (
-              <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-5 min-w-[1.25rem] px-1 flex items-center justify-center">
-                {unreadCount}
-              </span>
-            )}
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[color:var(--color-secondary)]/12 text-[color:var(--color-secondary-dark)] dark:bg-[color:var(--color-secondary)]/15 dark:text-[color:var(--color-secondary-light)]">
+              <Bell size={18} strokeWidth={2} />
+            </span>
+            <div className="min-w-0">
+              <h2
+                className="text-[16px] font-semibold text-[color:var(--color-primary)] dark:text-slate-100"
+                style={{ fontFamily: fontHeading }}
+              >
+                Notificações
+              </h2>
+              <p
+                className="truncate text-[12px] text-gray-500 dark:text-slate-400"
+                style={{ fontFamily: fontBody }}
+              >
+                {unreadCount > 0
+                  ? `${unreadCount} não lida${unreadCount > 1 ? "s" : ""}`
+                  : "Você está em dia"}
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex shrink-0 items-center gap-1.5">
             {unreadCount > 0 && (
               <button
                 onClick={onMarkAllRead}
-                className={`flex items-center space-x-1 text-xs px-2 py-1 rounded-lg transition-all duration-200 ${
-                  isDark
-                    ? "text-emerald-400 hover:bg-slate-700/50"
-                    : "text-emerald-600 hover:bg-emerald-50"
-                }`}
+                className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] font-medium text-[color:var(--color-secondary-dark)] transition-colors hover:bg-[color:var(--color-secondary)]/10 dark:text-[color:var(--color-secondary-light)] dark:hover:bg-[color:var(--color-secondary)]/15"
                 title="Marcar todas como lidas"
               >
-                <CheckCheck className="w-4 h-4" />
+                <CheckCheck size={15} strokeWidth={2.2} />
                 <span className="hidden sm:inline">Marcar lidas</span>
               </button>
             )}
             <button
               onClick={onClose}
-              className={`p-1.5 rounded-lg transition-all duration-200 ${
-                isDark
-                  ? "text-slate-400 hover:text-white hover:bg-slate-700/50"
-                  : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
-              }`}
+              aria-label="Fechar"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
             >
-              <X className="w-5 h-5" />
+              <X size={18} strokeWidth={2} />
             </button>
           </div>
         </div>
 
-        {/* Notification list */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Lista */}
+        <div className="flex-1 overflow-y-auto px-4 py-4">
           {notifications.length === 0 ? (
-            /* Empty state */
-            <div className="flex flex-col items-center justify-center h-full px-6">
-              <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
-                  isDark ? "bg-slate-700/50" : "bg-gray-100"
-                }`}
-              >
-                <Bell
-                  className={`w-8 h-8 ${
-                    isDark ? "text-slate-500" : "text-gray-400"
-                  }`}
-                />
-              </div>
+            <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+              <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[color:var(--color-primary)]/[0.07] text-[color:var(--color-primary)] dark:bg-white/5 dark:text-slate-300">
+                <Bell size={28} strokeWidth={1.8} />
+              </span>
               <p
-                className={`text-base font-medium ${
-                  isDark ? "text-slate-400" : "text-gray-500"
-                }`}
-                style={{
-                  fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
-                }}
+                className="text-[15px] font-semibold text-gray-800 dark:text-slate-100"
+                style={{ fontFamily: fontHeading }}
               >
-                Nenhuma notificacao
+                Nenhuma notificação
               </p>
               <p
-                className={`text-sm mt-1 ${
-                  isDark ? "text-slate-500" : "text-gray-400"
-                }`}
-                style={{
-                  fontFamily: "var(--font-secondary, Open Sans, sans-serif)",
-                }}
+                className="mt-1 text-[13px] text-gray-500 dark:text-slate-400"
+                style={{ fontFamily: fontBody }}
               >
-                Voce esta em dia com tudo!
+                Você está em dia com tudo!
               </p>
             </div>
           ) : (
-            <div className="py-2">
-              {notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`px-4 py-3 flex items-start space-x-3 transition-all duration-200 ${
-                    isDark
-                      ? notification.lida
-                        ? "hover:bg-slate-700/30"
-                        : "bg-slate-700/20 hover:bg-slate-700/40"
-                      : notification.lida
-                      ? "hover:bg-gray-50"
-                      : "bg-emerald-50/50 hover:bg-emerald-50"
-                  }`}
-                >
-                  {/* Icon */}
+            <div className="space-y-2.5">
+              {notifications.map((n) => {
+                const meta = TYPE_META[n.tipo];
+                const Icon = meta?.icon ?? Bell;
+                const tone = meta?.tone ?? "primary";
+                return (
                   <div
-                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                      isDark ? "bg-slate-700/50" : "bg-gray-100"
-                    }`}
+                    key={n.id}
+                    className={cn(
+                      "flex items-start gap-3 rounded-2xl p-3",
+                      glassSurface,
+                      !n.lida && "ring-[color:var(--color-secondary)]/45"
+                    )}
                   >
-                    {getNotificationIcon(notification.tipo)}
-                  </div>
+                    <span
+                      className={cn(
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+                        chipTone[tone]
+                      )}
+                    >
+                      <Icon size={18} strokeWidth={2} />
+                    </span>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className={`text-sm leading-tight ${
-                        notification.lida
-                          ? isDark
-                            ? "text-slate-400"
-                            : "text-gray-600"
-                          : isDark
-                          ? "text-white font-semibold"
-                          : "text-gray-900 font-semibold"
-                      }`}
-                      style={{
-                        fontFamily:
-                          "var(--font-secondary, Open Sans, sans-serif)",
-                      }}
-                    >
-                      {notification.titulo}
-                    </p>
-                    <p
-                      className={`text-xs mt-0.5 leading-snug ${
-                        isDark ? "text-slate-400" : "text-gray-500"
-                      }`}
-                      style={{
-                        fontFamily:
-                          "var(--font-secondary, Open Sans, sans-serif)",
-                      }}
-                    >
-                      {notification.mensagem}
-                    </p>
-                    <p
-                      className={`text-xs mt-1 ${
-                        isDark ? "text-slate-500" : "text-gray-400"
-                      }`}
-                    >
-                      {getRelativeTime(notification.data)}
-                    </p>
-                  </div>
-
-                  {/* Unread indicator */}
-                  {!notification.lida && (
-                    <div className="flex-shrink-0 mt-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm" />
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={cn(
+                          "text-[13.5px] leading-snug",
+                          n.lida
+                            ? "text-gray-600 dark:text-slate-400"
+                            : "font-semibold text-gray-800 dark:text-slate-100"
+                        )}
+                        style={{ fontFamily: fontBody }}
+                      >
+                        {n.titulo}
+                      </p>
+                      <p
+                        className="mt-0.5 text-[12px] leading-snug text-gray-500 dark:text-slate-400"
+                        style={{ fontFamily: fontBody }}
+                      >
+                        {n.mensagem}
+                      </p>
+                      <p
+                        className="mt-1.5 text-[10px] uppercase tracking-[0.12em] text-gray-400 dark:text-slate-500"
+                        style={{ fontFamily: fontMono }}
+                      >
+                        {getRelativeTime(n.data)}
+                      </p>
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    {!n.lida && (
+                      <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[color:var(--color-secondary)] shadow-[0_0_8px_rgba(0,204,102,0.6)]" />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

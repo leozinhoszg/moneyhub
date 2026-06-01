@@ -6,6 +6,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { Pencil, Trash2 } from "lucide-react";
+import { BankLogo } from "@/components/finance/BankLogo";
 
 type Account = {
   id: number;
@@ -87,8 +88,10 @@ export default function AccountsPage() {
   // Carregar bancos
   const loadBanks = async () => {
     try {
+      // limit alto: ha ~324 bancos e o default da API (300) cortaria alguns
+      // do fim do alfabeto (inclusive bancos com logo), sumindo do seletor.
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/banks`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/banks?limit=500`,
         { credentials: "include" }
       );
       if (res.ok) {
@@ -120,6 +123,10 @@ export default function AccountsPage() {
 
     return matchesName || matchesCode || matchesItau;
   });
+
+  // A conta guarda so o nome do banco (nome_banco); este indice recupera o
+  // registro do banco (logotipo, COD) a partir do nome para exibir o logo.
+  const bankByName = new Map(banks.map((b) => [b.LongName, b]));
 
   // Abrir seletor de banco (primeiro passo)
   const openBankSelector = () => {
@@ -443,15 +450,24 @@ export default function AccountsPage() {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                        style={{
-                          backgroundColor:
-                            account.cor || `hsl(${index * 137.5}, 70%, 50%)`,
-                        }}
-                      >
-                        {account.nome_banco.charAt(0).toUpperCase()}
-                      </div>
+                      {bankByName.get(account.nome_banco)?.logotipo ? (
+                        <BankLogo
+                          logotipo={bankByName.get(account.nome_banco)?.logotipo}
+                          nome={bankByName.get(account.nome_banco)?.LongName}
+                          cod={bankByName.get(account.nome_banco)?.COD}
+                          size={40}
+                        />
+                      ) : (
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                          style={{
+                            backgroundColor:
+                              account.cor || `hsl(${index * 137.5}, 70%, 50%)`,
+                          }}
+                        >
+                          {account.nome_banco.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                       <div>
                         <span
                           className={`font-medium block ${
@@ -668,9 +684,12 @@ export default function AccountsPage() {
                         : "hover:bg-slate-50 text-slate-800"
                     }`}
                   >
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs sm:text-sm">
-                      {bank.COD || bank.LongName?.charAt(0) || "?"}
-                    </div>
+                    <BankLogo
+                      logotipo={bank.logotipo}
+                      nome={bank.LongName}
+                      cod={bank.COD}
+                      size={40}
+                    />
                     <div className="flex flex-col items-start">
                       <span
                         className="font-medium text-sm sm:text-base"
@@ -809,12 +828,12 @@ export default function AccountsPage() {
                       : "bg-slate-50 border-slate-300"
                   }`}
                 >
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                    {formData.nome_banco
-                      ? banks.find((b) => b.LongName === formData.nome_banco)
-                          ?.COD || formData.nome_banco.charAt(0)
-                      : "?"}
-                  </div>
+                  <BankLogo
+                    logotipo={bankByName.get(formData.nome_banco)?.logotipo}
+                    nome={formData.nome_banco || null}
+                    cod={bankByName.get(formData.nome_banco)?.COD}
+                    size={40}
+                  />
                   <span
                     className={`font-medium ${
                       isDark ? "text-white" : "text-slate-900"
