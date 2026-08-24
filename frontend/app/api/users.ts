@@ -30,7 +30,7 @@ interface ChangePasswordData {
 
 interface ProfileImageResponse {
   foto_perfil: string;
-  avatar_url: string;
+  avatar_url?: string;
   message: string;
 }
 

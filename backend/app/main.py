@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from datetime import datetime
 import platform
@@ -21,6 +22,7 @@ from app.api.routes.reports import router as reports_router
 from app.api.routes.uploads import router as uploads_router
 from app.api.routes.invoices import router as invoices_router
 from app.services.scheduler import start_scheduler, stop_scheduler
+from app.utils.file_upload import UPLOAD_DIR
 from app.db.session import engine
 from app.db import base  # noqa: F401
 
@@ -44,6 +46,9 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+
+# Fotos de perfil processadas localmente no MVP.
+app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 # Middleware de sessão (necessário para OAuth)
 app.add_middleware(

@@ -8,10 +8,10 @@ import React, {
   ReactNode,
 } from "react";
 import {
-  getCurrentUser,
   checkAuthStatus,
   logout as apiLogout,
 } from "@/app/api/auth";
+import { getUserProfile } from "@/app/api/users";
 
 interface User {
   id: number;
@@ -23,9 +23,11 @@ interface User {
   email_verificado: boolean;
   data_cadastro: string;
   ultimo_login?: string;
-  is_active: boolean;
+  is_active?: boolean;
   has_password?: boolean;
   has_google?: boolean;
+  foto_perfil?: string;
+  avatar_url?: string;
 }
 
 interface AuthContextType {
@@ -58,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const refreshUser = async () => {
     try {
       setIsLoading(true);
-      const userData = await getCurrentUser();
+      const userData = await getUserProfile();
       setUser(userData);
     } catch (error) {
       console.error("Error fetching user data:", error);

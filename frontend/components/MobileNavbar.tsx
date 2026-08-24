@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import Logo from "./Logo";
 import LanguageSelector from "./LanguageSelector";
 import { fontBody, SPRING } from "@/lib/motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface User {
   id: number;
@@ -38,9 +39,11 @@ interface User {
   email_verificado: boolean;
   data_cadastro: string;
   ultimo_login?: string;
-  is_active: boolean;
+  is_active?: boolean;
   has_password?: boolean;
   has_google?: boolean;
+  foto_perfil?: string;
+  avatar_url?: string;
 }
 
 type MobileNavbarProps = {
@@ -56,6 +59,41 @@ type MobileNavbarProps = {
 // Botão de ação circular "ghost" (notificações, tema, cards).
 const ghostBtn =
   "relative flex h-9 w-9 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100 hover:text-[color:var(--color-secondary)] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-[color:var(--color-secondary-light)]";
+
+function UserAvatar({
+  user,
+  size = "nav",
+}: {
+  user: User | null;
+  size?: "nav" | "menu";
+}) {
+  const avatarUrl = user?.avatar_url;
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [avatarUrl]);
+
+  return (
+    <Avatar
+      className={`${size === "menu" ? "h-11 w-11" : "h-9 w-9"} border border-white/30 bg-[color:var(--color-secondary)] shadow-[0_6px_16px_-8px_rgba(0,204,102,0.7)] dark:border-white/15`}
+    >
+      {avatarUrl && !imageFailed ? (
+        <AvatarImage
+          src={avatarUrl}
+          alt={user ? `Foto de ${user.nome} ${user.sobrenome}` : "Foto do usuário"}
+          className="object-cover"
+          referrerPolicy="no-referrer"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <AvatarFallback className="bg-[color:var(--color-secondary)] text-white">
+          <User size={size === "menu" ? 22 : 16} strokeWidth={2.2} />
+        </AvatarFallback>
+      )}
+    </Avatar>
+  );
+}
 
 export default function MobileNavbar({
   isActive,
@@ -173,7 +211,11 @@ export default function MobileNavbar({
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
-            <Logo size="sm" href="/dashboard" />
+            <Logo
+              size="sm"
+              href="/dashboard"
+              className="[&_img]:h-7 [&_img]:w-7"
+            />
           </div>
 
           {/* Centro: links (desktop) */}
@@ -267,9 +309,7 @@ export default function MobileNavbar({
                 className="flex items-center gap-1.5 rounded-full p-0.5 pr-1.5 transition-colors hover:bg-gray-100 dark:hover:bg-slate-800"
                 aria-label="Menu do usuário"
               >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-secondary)] text-white shadow-[0_6px_16px_-8px_rgba(0,204,102,0.7)]">
-                  <User size={16} strokeWidth={2.2} />
-                </span>
+                <UserAvatar user={user} />
                 <ChevronDown
                   size={15}
                   className={`hidden text-gray-500 transition-transform duration-200 dark:text-slate-400 sm:block ${
@@ -285,9 +325,7 @@ export default function MobileNavbar({
                 >
                   {/* Cabeçalho do usuário */}
                   <div className="flex items-center gap-3 border-b border-gray-200/60 p-4 dark:border-slate-800">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--color-secondary)] text-white">
-                      <User size={22} strokeWidth={2.2} />
-                    </span>
+                    <UserAvatar user={user} size="menu" />
                     <div className="min-w-0">
                       <h3 className="truncate text-[14px] font-semibold text-[color:var(--color-primary)] dark:text-white">
                         {user ? `${user.nome} ${user.sobrenome}` : "Usuário"}

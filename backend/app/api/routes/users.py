@@ -363,15 +363,17 @@ async def upload_profile_image(
 ):
     """Upload de foto de perfil"""
     try:
-        # Deletar foto anterior se existir
-        if current_user.foto_perfil:
-            await delete_profile_image(current_user.foto_perfil)
+        previous_image_path = current_user.foto_perfil
         
         # Salvar nova foto
         image_path = await save_profile_image(file, current_user.id)
         
         # Atualizar usuário no banco
         updated_user = update_user_profile_image(db, current_user, image_path)
+
+        # Só remover a foto anterior depois que a nova estiver persistida.
+        if previous_image_path and previous_image_path != image_path:
+            await delete_profile_image(previous_image_path)
         
         # Gerar URL completa
         base_url = str(request.base_url)

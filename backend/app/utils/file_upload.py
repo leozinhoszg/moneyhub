@@ -11,12 +11,13 @@ from pathlib import Path
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
 PROFILE_IMAGE_SIZE = (300, 300)  # Tamanho padrão para fotos de perfil
-UPLOAD_DIR = Path("uploads")
+BACKEND_DIR = Path(__file__).resolve().parents[2]
+UPLOAD_DIR = BACKEND_DIR / "uploads"
 PROFILE_DIR = UPLOAD_DIR / "profile"
 
 # Criar diretórios se não existirem
-UPLOAD_DIR.mkdir(exist_ok=True)
-PROFILE_DIR.mkdir(exist_ok=True)
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+PROFILE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def validate_image_file(file: UploadFile) -> None:
@@ -42,9 +43,9 @@ def validate_image_file(file: UploadFile) -> None:
 
 def generate_unique_filename(original_filename: str) -> str:
     """Gera um nome único para o arquivo"""
-    file_ext = Path(original_filename).suffix.lower()
     unique_id = str(uuid.uuid4())
-    return f"{unique_id}{file_ext}"
+    # O processamento normaliza todas as imagens para JPEG.
+    return f"{unique_id}.jpg"
 
 
 async def resize_image(image_path: Path, size: Tuple[int, int]) -> None:
